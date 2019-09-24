@@ -284,7 +284,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-24T15:31:27+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-24T17:37:27+08:00">
                 2019-09-24
               </time>
             
@@ -401,7 +401,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://swlfigo.github.io/2019/09/24/RACCommand/">
+    <link itemprop="mainEntityOfPage" href="https://swlfigo.github.io/2019/09/24/Hackintosh-i5-9400f-Tuf-B360M/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Sylar">
@@ -420,7 +420,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/09/24/RACCommand/" itemprop="url">RACCommand粗解</a></h1>
+                <a class="post-title-link" href="/2019/09/24/Hackintosh-i5-9400f-Tuf-B360M/" itemprop="url">i5-9400f + ASUS TUF B360M Plus Gaming S 黑苹果之路</a></h1>
         
 
         <div class="post-meta">
@@ -432,7 +432,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-24T15:31:27+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-24T17:37:27+08:00">
                 2019-09-24
               </time>
             
@@ -455,19 +455,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS/" itemprop="url" rel="index">
-                    <span itemprop="name">iOS</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS/ReactiveCocoa/" itemprop="url" rel="index">
-                    <span itemprop="name">ReactiveCocoa</span>
+                  <a href="/categories/Hackintosh/" itemprop="url" rel="index">
+                    <span itemprop="name">Hackintosh</span>
                   </a>
                 </span>
 
@@ -505,28 +494,112 @@
       
         
           
-            <h3 id="迷之RACCommand"><a href="#迷之RACCommand" class="headerlink" title="迷之RACCommand"></a>迷之RACCommand</h3><p>RACCommand 最常用于两个地方，监听按钮点击，网络请求<br>说实在就是一个执行方法的Block</p>
-<h4 id="1-按钮点击，使用-RAC-有两种方式"><a href="#1-按钮点击，使用-RAC-有两种方式" class="headerlink" title="1 按钮点击，使用 RAC 有两种方式"></a>1 按钮点击，使用 RAC 有两种方式</h4><ul>
-<li>UIControl+RACSignalSupport</li>
-</ul>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//返回一个Signal</span></span><br><span class="line"></span><br><span class="line">- (RACSignal *)rac_signalForControlEvents:(<span class="built_in">UIControlEvents</span>)controlEvents;</span><br></pre></td></tr></table></figure>
+            <p>最近工作需要组了一台黑苹果,配置如下:</p>
+<h2 id="电脑配置"><a href="#电脑配置" class="headerlink" title="电脑配置"></a>电脑配置</h2><table>
+<thead>
+<tr>
+<th>规格</th>
+<th>详细信息</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CPU</td>
+<td>英特尔i5 9400F</td>
+</tr>
+<tr>
+<td>主板</td>
+<td>ASUS TUF B360M-PLUS GAMING S  (带S是某东特供版)</td>
+</tr>
+<tr>
+<td>显卡</td>
+<td>蓝宝石（Sapphire） RX590 8G D5 海外版 OC</td>
+</tr>
+<tr>
+<td>内存</td>
+<td>金士顿(Kingston) DDR4 2666 16GB 台式机内存 骇客神条 Fury雷电系列 (有需要就*2,后面补也不迟)</td>
+</tr>
+<tr>
+<td>主硬盘</td>
+<td>英特尔（Intel） 760P SSD NVMe 250G</td>
+</tr>
+<tr>
+<td>次硬盘</td>
+<td>Micron英睿达(Crucial) 500G SSD固态硬盘 SATA3.0接口 MX500系列</td>
+</tr>
+<tr>
+<td>电源</td>
+<td>航嘉 600w 直出</td>
+</tr>
+<tr>
+<td></td>
+<td>——- 以下不是必备 ——-</td>
+</tr>
+<tr>
+<td>散热</td>
+<td>九州风神（DEEPCOOL）CPU散热器 240 一体水冷台式机组装游</td>
+</tr>
+</tbody>
+</table>
+<h2 id="哪些不能在Clover正常工作"><a href="#哪些不能在Clover正常工作" class="headerlink" title="哪些不能在Clover正常工作"></a>哪些不能在Clover正常工作</h2><p>由于没有购置 蓝牙无线网卡 (例如免驱的 <code>BCM943602CS</code>  ) ,所以无法测试蓝牙与airdrop是否正常工作,理论上打上驱动是没问题的</p>
+<h2 id="哪些能在Clover正常工作"><a href="#哪些能在Clover正常工作" class="headerlink" title="哪些能在Clover正常工作"></a>哪些能在Clover正常工作</h2><p>暂时用了这么久都能正常工作使用</p>
 <ul>
-<li>UIButton+RACCommandSupport</li>
-</ul>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//定义一个属性(类似Block)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@property</span>(<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) RACCommand *rac_command;</span><br></pre></td></tr></table></figure>
-<h4 id="2-使用SignalForControlEvents来触发"><a href="#2-使用SignalForControlEvents来触发" class="headerlink" title="2. 使用SignalForControlEvents来触发"></a>2. 使用SignalForControlEvents来触发</h4><p>(方法只要点击就触发,等于addTarget)</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> <span class="comment">// 按钮是否可点击</span></span><br><span class="line">RAC(<span class="keyword">self</span>.commandBtn, enabled) = validSignal;</span><br><span class="line"></span><br><span class="line">[[[<span class="keyword">self</span>.commandBtn rac_signalForControlEvents:<span class="built_in">UIControlEventTouchUpInside</span>] </span><br><span class="line"></span><br><span class="line"> <span class="comment">// flattenMap 生成新的信号，在信号中可以处理点击事件，并发送结果</span></span><br><span class="line"> <span class="comment">//flattenMap map 用于把源信号内容映射成新的内容。</span></span><br><span class="line"> </span><br><span class="line">   flattenMap:^RACStream *(<span class="keyword">id</span> value) &#123;</span><br><span class="line">       <span class="keyword">return</span> [<span class="keyword">self</span> btnClickSignal];</span><br><span class="line">   &#125;] subscribeNext:^(<span class="keyword">id</span> x) &#123;</span><br><span class="line">       <span class="built_in">NSLog</span>(<span class="string">@"====%@"</span>, x); <span class="comment">// ====按钮点击了</span></span><br><span class="line">   &#125;];</span><br><span class="line">   </span><br><span class="line">- (RACSignal *)btnClickSignal &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> [RACSignal createSignal:^RACDisposable *(<span class="keyword">id</span>&lt;RACSubscriber&gt; subscriber) &#123;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         *   这里可以进行处理按钮点击后的事件，并把想要的结果传递出去</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        [subscriber sendNext:<span class="string">@"按钮点击了"</span>];</span><br><span class="line">        </span><br><span class="line">        [subscriber sendCompleted];</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nil</span>;</span><br><span class="line">    &#125;];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>上述就是根据 UIControl 的分类信息，进行处理按钮点击事件的第一种方式。但是有一个问题<ul>
-<li>只有手动点击了按钮，并且是 UIControlEventTouchUpInside 的事件状态下才会执行 block 中的代码。</li>
-<li>如果需要主动触发事件呢，而在老代码中，可以手动调用 [self btnClick] ，所以就必须使用第二种方式， RACCommand </li>
-</ul>
+<li><p>[x] 正常上网 (由于公司使用的是 USB 外置网卡<code>EP-AC1606 （8812AU) 需要安装驱动!</code>, 自己测试过 使用网线也是能上网的,所以驱动正常！)</p>
+</li>
+<li><p>[x] 能休眠,能唤醒,唤醒后无异样(如花屏,断网等)</p>
+</li>
+<li><p>[x] 声卡能播放声音(并不是使用万能声卡驱动)</p>
+</li>
+<li><p>[x] 能正常关机重启</p>
+</li>
+<li><p>[x] 能屏幕保护(有点低要求啊….)</p>
+</li>
+<li><p>[x] DP口,HDMI口能用</p>
+</li>
+<li><p>[ ] 双屏输出(未测试,待后续更新)</p>
+</li>
+<li><p>[x] USB口都能用</p>
 </li>
 </ul>
-<h4 id="3-RACCommand"><a href="#3-RACCommand" class="headerlink" title="3. RACCommand"></a>3. RACCommand</h4><ul>
-<li>初始化 <code>rac_command</code></li>
-</ul>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 初始化 command， enabled 表示按钮可否点击</span></span><br><span class="line">RACCommand *command = [[RACCommand alloc] initWithEnabled:validSignal signalBlock:^RACSignal *(<span class="keyword">id</span> input) &#123;</span><br><span class="line">                                                 </span><br><span class="line">   <span class="keyword">return</span> [<span class="keyword">self</span> btnClickSignal];</span><br><span class="line">                                                 </span><br><span class="line">&#125;];</span><br><span class="line"></span><br><span class="line"><span class="keyword">self</span>.commandBtn.rac_command = command;</span><br></pre></td></tr></table></figure>
+<h2 id="硬件参数参考"><a href="#硬件参数参考" class="headerlink" title="硬件参数参考"></a>硬件参数参考</h2><p>这一部分介绍下买的硬件具体样子与参数,因为同一个东西也会翻车哦 (例如 RX580 2048SP 是无法免驱的…)</p>
+<p>以下介绍图片 无 打广告行为</p>
+<p><strong>CPU:</strong></p>
+<p>CPU来说只要不是买 <code>AMD</code> 就行了(没黑成分..毕竟白苹果没有用过AMD啊…不是不能上,又要折腾一番何必呢…)</p>
+<p>另外就是注意买的CPU支持你的板子BIOS与针脚，比如你买的CPU很新，板子虽然支持这一代CPU，但是需要刷BIOS才认得出这种CPU，就不要搞了,BIOS 版本太新也会坑(后面会说一下我遇到的折腾的坑),上一下我的 <code>CPU</code>图吧</p>
+<p><img src="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-09-24-063843.png" alt></p>
+<p><img src="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-09-24-064657.jpg" alt></p>
+<p>(<strong>注意:</strong>  9400f 不带显卡,9400f 不带显卡,9400f 不带显卡 重要事情说3次)</p>
+<p><strong>板子</strong></p>
+<p>板子也是很重要.不好的板子真的很多坑..这次选的 <code>asus-tuf b360m</code> 不知道是板子问题还是驱动问题，装起来各种翻车,后面安装部分会详细说</p>
+<p>如果要找参考，就参考这个下面这个链接，老外黑苹果论坛总结的板子上黑苹果成功案例:</p>
+<p><a href="https://www.tonymacx86.com/buyersguide/building-a-customac-hackintosh-the-ultimate-buyers-guide/" target="_blank" rel="noopener">我是传送门</a></p>
+<p>纵观现实很多案例，还是技嘉板子上比较稳，少点意外..(虽然我家是 <code>华硕 Z270-AR + i7-7700</code>)</p>
+<p>另外个人建议还是上 Z 板子,扩展性很好!!!多接口真的好爽哦~</p>
+<p>另外下图是我在 某东 上购买的华硕板子</p>
+<p><img src="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-09-24-064625.jpg" alt></p>
+<p><img src="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-09-24-064540.jpg" alt></p>
+<p>说下我选板子时候经验</p>
+<p>首先我会看这个块板子，声卡与网卡型号,例如这块板子可以在华硕官网看到参数</p>
+<p><a href="https://www.asus.com.cn/Motherboards/TUF-B360M-PLUS-GAMING-S/specifications/" target="_blank" rel="noopener">我是传送门</a></p>
+<p><img src="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-09-24-065048.png" alt></p>
+<p>注意到这张板子配置的是 <code>Intel 1219V</code> 与 <code>ALC887</code> 的网卡与声卡,剩下的可以 Google下是否存在这个型号的驱动</p>
+<p>声卡可以在 <code>GayHub</code> 上查到   <a href="https://github.com/acidanthera/AppleALC/tree/master/Resources" target="_blank" rel="noopener">我是传送门</a></p>
+<p>比如 <code>ALC887</code> 可以看到存在，点进去可以查看 <code>layout-id</code></p>
+<p><img src="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-09-24-065455.png" alt></p>
+<p>如图,  <code>layout-id</code> 存在多个，只能在 <code>Clover</code> config.plist 一个个试了,试到满意音质为止,我这块板子13觉得不错~</p>
+<p><img src="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-09-24-065655.png" alt></p>
+<p><strong>显卡:</strong></p>
+<p>显卡也是能不能上黑苹果的重要因素之一,由于不想折腾，我直接买了没核显的CPU，再另外配一张免驱的显卡上，免驱显卡列表可以看这里:</p>
+<p><a href="https://blog.daliansky.net/Mojave-Hardware-Support-List.html" target="_blank" rel="noopener">我是传送门</a></p>
+<p>注意的还是那句,比如同一个型号的显卡也不能上</p>
+<p>例如 RX580 oc, 与 RX580 2048sp…  rx580 2048sp是不能免驱的！！！！！！！！！</p>
+<p>例如 讯景的 R580 ,还要另外刷Bios (这个听别人说的没试过,还是别碰讯景了…)</p>
+<p>显卡的话还是认准 <code>蓝宝石</code> 和 <code>迪兰</code> 吧</p>
+<p><strong>重要事情说三次:</strong></p>
+<p><strong>N卡要打驱动，最高只支持到 10.13.6 , 不支持10.14+(除了免驱的非常旧的N卡)</strong></p>
+<p><strong>N卡要打驱动，最高只支持到 10.13.6 , 不支持10.14+(除了免驱的非常旧的N卡)</strong></p>
+<p><strong>N卡要打驱动，最高只支持到 10.13.6 , 不支持10.14+(除了免驱的非常旧的N卡)</strong></p>
+<p>不要再问 我的20xx , 10xx能不能上了!!</p>
 
           
         
@@ -575,7 +648,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://swlfigo.github.io/2019/09/24/RegularExpressionLearn/">
+    <link itemprop="mainEntityOfPage" href="https://swlfigo.github.io/2019/09/24/CocoapodStaticAndDynamicFrameworkStudy/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Sylar">
@@ -594,7 +667,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/09/24/RegularExpressionLearn/" itemprop="url">正则表达学习</a></h1>
+                <a class="post-title-link" href="/2019/09/24/CocoapodStaticAndDynamicFrameworkStudy/" itemprop="url">Cocoapod中静态库与动态库</a></h1>
         
 
         <div class="post-meta">
@@ -606,7 +679,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-24T15:31:27+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-24T17:37:27+08:00">
                 2019-09-24
               </time>
             
@@ -667,179 +740,30 @@
 
       
         
-          <h2 id="正则表达学习"><a href="#正则表达学习" class="headerlink" title="正则表达学习"></a>正则表达学习</h2><h3 id="在线正则表达式测试地址-lt-点我"><a href="#在线正则表达式测试地址-lt-点我" class="headerlink" title="在线正则表达式测试地址 &lt;- 点我"></a><a href="http://tool.chinaz.com/regex/" target="_blank" rel="noopener">在线正则表达式测试地址</a> &lt;- 点我</h3><h5 id="Sample1"><a href="#Sample1" class="headerlink" title="Sample1:"></a>Sample1:</h5><blockquote>
-<p>找出以 <code>lefe</code> 或 <code>lefe_x</code> 单词开头，以 <code>wsy</code> 结尾的字符串。比如：<code>lefe name is wsy</code> 是合法的，而 <code>lef name is wsy</code> 是非法的。</p>
+          <p>最近在做一个需求时候，对 <code>Cocoapod</code> 有了一次新的理解，故做下笔记记录一下知识点.</p>
+<blockquote>
+<p>CocoaPods 是开发 OS X 和 iOS 应用程序的一个第三方库的依赖管理工具。利用 CocoaPods，可以定义自己的依赖关系 (称作 <code>pods</code>)，并且随着时间的变化，以及在整个开发环境中对第三方库的版本管理非常方便。</p>
+<p>CocoaPods 背后的理念主要体现在两个方面。首先，在工程中引入第三方代码会涉及到许多内容。在配置 build phases 和 linker flags 过程中，会引起许多人为因素的错误。CocoaPods 简化了这一切，它能够自动配置编译选项。</p>
 </blockquote>
-<p>正则表达式为：<code>(^(?:lefe|lefe_x)\b.{0,}wsy$)</code></p>
-<p>1.<code>^</code>表示从字符串的开始位置匹配，<code>^(?:lefe|lefe_x)</code> 表示以 <code>lefe</code> 或者 <code>lefe_x</code> 开头；</p>
-<ol start="2">
-<li><code>|</code> 表示或，比如 A | B | C ，表示 A，B 和 C 中任意一个；</li>
-<li><code>()</code> 表示一个组，<code>(?:)</code> 表示不捕获这个分组；</li>
-<li><code>\b</code> 表示匹配一个单词的边界，在这里只能匹配 <code>lefe</code> 和 <code>lefe_x</code>;<br>5.匹配字符串的开头和结尾后，基本上完成了题目的要求，但是字符串<code>lefe</code>（lefe_x）和<code>wsy</code>之间可以是任意字符，<code>.</code> 表示匹配任意字符（不包含换行符），<code>{0,}</code>表示匹配0个或多个字符，则<code>.{0,}</code> 表示匹配0个或多个任意字符（不包含换行符）；<br>6.<code>$</code>表示从字符串的结尾处开始匹配，<code>wsy$</code> 则表示以 <code>wsy</code> 结尾；</li>
-</ol>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/09/24/RegularExpressionLearn/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://swlfigo.github.io/2019/09/24/ScrollViewNestTableViewAndCollectionView/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sylar">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-07-25-032947.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Nevermore">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/09/24/ScrollViewNestTableViewAndCollectionView/" itemprop="url">ScrollView、TableView、CollectionView 联动一种实现思路</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-24T15:31:27+08:00">
-                2019-09-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS/" itemprop="url" rel="index">
-                    <span itemprop="name">iOS</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="ScrollView、TableView、CollectionView-联动一种实现思路"><a href="#ScrollView、TableView、CollectionView-联动一种实现思路" class="headerlink" title="ScrollView、TableView、CollectionView 联动一种实现思路"></a>ScrollView、TableView、CollectionView 联动一种实现思路</h1><p><strong>首先看看效果:</strong></p>
+<p>以上是 <code>Cocoapod</code> 的一些介绍,所以可以理解成使用第三方库的工具</p>
+<p><code>iOS</code>中的<code>cocoapods</code>, 像 <code>node</code>中的 <code>npm+grunt</code>. <code>Android</code> 的 <code>gradle</code> </p>
+<p>以下代码是普通的项目中 <code>cocopod</code> 配置写法:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#公共Pod仓库的索引,通过这个仓库里面的索引找到所有第三方库的github地址</span><br><span class="line">source &apos;https://github.com/CocoaPods/Specs.git&apos;</span><br><span class="line"></span><br><span class="line">platform :ios, &apos;8.0&apos;</span><br><span class="line"></span><br><span class="line">target &apos;项目Target名字&apos; do</span><br><span class="line">    pod &apos;MJExtension&apos;</span><br><span class="line">		# blablabla 一些第三方库依赖</span><br><span class="line"></span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<p>通过在项目根目录下生成 <code>Podfile</code> 并运行 <code>pod install</code> 能为项目自动引入第三方依赖，方便快捷.</p>
+<blockquote>
+<p>再大的项目最初都是从 Xcode 提供的一个非常简单的工程模板慢慢演化来的。在项目的演化过程中，为了实现新的功能，不断有新的类被创建，新的代码被添加。不过除了自己添加代码，我们也经常会直接把第三方的开源代码导入到项目中，从而避免重复造轮子，节约开发时间。</p>
+</blockquote>
+<p>所以使用 Cocoapods 的好处有如下几个:</p>
 <ol>
-<li>带悬停View头部的类型,可以上下拉刷新</li>
+<li>避免直接导入文件的原始方式，方便后续代码升级</li>
+<li>简化、自动化集成流程，避免不必要的配置</li>
+<li>自动处理库的依赖关系</li>
+<li>简化开发者发布代码流程</li>
 </ol>
-<p><img src="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-03-22-075824.gif" alt="scrollViewHoldHeader"></p>
-<p>2.不带悬停View头部的类型,可以上下拉刷新</p>
-<p>(PS.图床上传GIF有问题，经常出现卡死问题,直接运行DEMO比较直观)</p>
-<p>→ <a href="https://github.com/swlfigo/ScrollViewNestTableViewAndCollectionView" target="_blank" rel="noopener">Demo地址</a></p>
-<h1 id="联动思路实现"><a href="#联动思路实现" class="headerlink" title="联动思路实现"></a>联动思路实现</h1><h2 id="核心思路"><a href="#核心思路" class="headerlink" title="核心思路"></a>核心思路</h2><h3 id="大部分处理方案"><a href="#大部分处理方案" class="headerlink" title="大部分处理方案"></a>大部分处理方案</h3><p>由于联动是在最底部的 <code>ScrollView</code> 上面添加一个 <code>TableVIew</code> 或者 <code>CollectionView</code> 之类的, 最大难点就是 <code>手势</code>处理 . 嵌套 <code>ScrollView</code>之后,需要一个条件来控制某个具体时刻那个 <code>ScrollView</code> 响应滑动事件。</p>
-<p>通常，我们会在 <code>ScrollView</code> 代理方法里面 </p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)scrollViewDidScroll:(<span class="built_in">UIScrollView</span> *)scrollView &#123;</span><br><span class="line"></span><br><span class="line"><span class="comment">//blablabla 逻辑</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>例如，我们会实现这样一个逻辑，最底部有一个 <code>mainScrollView</code> ， <code>mainScrollView</code> 上有一个 <code>SubScrollView</code>, 这样就类似一个双 <code>ScrollView</code>嵌套场景了</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//写个伪代码</span></span><br><span class="line"><span class="keyword">if</span> (scrollView.contentOffset.y &gt; maxOffsetY)&#123;</span><br><span class="line">    mainScrollView.isScrollEnabled = <span class="literal">false</span>;</span><br><span class="line">    subScrollView.isScrollEnabled = <span class="literal">true</span>;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="comment">// 当 subScrollView 滑动到顶部时，停止响应，mainScrollView 开始响应</span></span><br><span class="line">    <span class="keyword">if</span> scrollView.contentOffset.y &lt; <span class="number">0</span>&#123;</span><br><span class="line">        subScrollView.isScrollEnabled = <span class="literal">false</span>;</span><br><span class="line">        mainScrollView.isScrollEnabled = ture;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>代理方法里面 <code>scrollViewDidScroll</code> 中进行判断，当 <code>mainScrollView</code> 划出了 <code>maxOffsetY</code> ，停止响应滚动，继续滑动时候，就是 <code>subScrollView</code> 响应滚动了</p>
-<p>但是，在实际操作上有个很大问题，使用者并不是总能滑动到 <code>maxOffsetY</code> 地方，停下手，进行下一次滑动，如果滑动大于 <code>maxOffsetY</code> 地方， <code>mainScrollView</code> 就会滚动到 <code>maxOffsetY</code> 之后，停止响应，是因为这是一次手势， <code>subScrollView</code> 也不会响应，使用者就有中断感觉，需要第二次滑动才能继续滚动</p>
+<p>以上就是简单的对 <code>Cocoapod</code> 使用入门,下面就开始动态库与静态库研究</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/09/24/ScrollViewNestTableViewAndCollectionView/#more" rel="contents">
+            <a class="btn" href="/2019/09/24/CocoapodStaticAndDynamicFrameworkStudy/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -890,7 +814,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://swlfigo.github.io/2019/09/24/Thailand/">
+    <link itemprop="mainEntityOfPage" href="https://swlfigo.github.io/2019/09/24/DynamicRouter/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Sylar">
@@ -909,7 +833,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/09/24/Thailand/" itemprop="url">Thailand Trip</a></h1>
+                <a class="post-title-link" href="/2019/09/24/DynamicRouter/" itemprop="url">动态路由</a></h1>
         
 
         <div class="post-meta">
@@ -921,206 +845,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-24T15:31:27+08:00">
-                2019-09-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Note/" itemprop="url" rel="index">
-                    <span itemprop="name">Note</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="Thailand"><a href="#Thailand" class="headerlink" title="Thailand"></a>Thailand</h1><h2 id="Loacation-普吉岛-芭东海滩"><a href="#Loacation-普吉岛-芭东海滩" class="headerlink" title="Loacation : 普吉岛 - 芭东海滩"></a>Loacation : 普吉岛 - 芭东海滩</h2><h2 id="时间"><a href="#时间" class="headerlink" title="时间:"></a>时间:</h2><p><img src="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-03-22-080818.jpg" alt></p>
-<p> <strong>提早 2 小时到达机场</strong></p>
-<h3 id="广州-曼谷"><a href="#广州-曼谷" class="headerlink" title="广州 - 曼谷"></a>广州 - 曼谷</h3><h4 id="出发时间-2018-06-13-02-45-北京时间-T1"><a href="#出发时间-2018-06-13-02-45-北京时间-T1" class="headerlink" title="出发时间 2018-06-13 02:45(北京时间) T1"></a>出发时间 2018-06-13 02:45(北京时间) T1</h4><table>
-<thead>
-<tr>
-<th>出发</th>
-<th>航班号</th>
-<th>起飞</th>
-<th>到达</th>
-<th>航站楼</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>广州(CAN)-曼谷(DMK)  (白云机场-廊曼机场)</td>
-<td>SL901</td>
-<td>2018-06-13 02:45</td>
-<td>2018-06-13 04:20</td>
-<td>T1</td>
-</tr>
-</tbody>
-</table>
-<p>地铁站: 机场南站</p>
-<h4 id="到达时间-04-20-泰国时间-—-北京时间-05-20"><a href="#到达时间-04-20-泰国时间-—-北京时间-05-20" class="headerlink" title="到达时间 04:20 (泰国时间)  — (北京时间) 05:20"></a>到达时间 04:20 (泰国时间)  — (北京时间) 05:20</h4><p>全程1699公里 时长2小时35分</p>
-<h3 id="曼谷廊曼-普吉岛"><a href="#曼谷廊曼-普吉岛" class="headerlink" title="曼谷廊曼 - 普吉岛"></a>曼谷廊曼 - 普吉岛</h3><p><img src="http://porayk3q7.bkt.clouddn.com/15276682130525.jpg" alt></p>
-<h4 id="出发时间-2018-06-13-06-15-泰国时间-—-北京时间-07-15"><a href="#出发时间-2018-06-13-06-15-泰国时间-—-北京时间-07-15" class="headerlink" title="出发时间 2018-06-13 06:15 (泰国时间) — (北京时间) 07:15"></a>出发时间 2018-06-13 06:15 (泰国时间) — (北京时间) 07:15</h4><table>
-<thead>
-<tr>
-<th>出发</th>
-<th>航班号</th>
-<th>起飞</th>
-<th>到达</th>
-<th>航站楼</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>曼谷(DMK)-普吉岛(HKT) (廊曼机场-普吉机场)</td>
-<td>SL754</td>
-<td>2018-06-13 06:15</td>
-<td>2018-06-13 07:40</td>
-</tr>
-</tbody>
-</table>
-<h4 id="到达时间-07-40-泰国时间-—-北京时间-08-40"><a href="#到达时间-07-40-泰国时间-—-北京时间-08-40" class="headerlink" title="到达时间 07:40 (泰国时间)  — (北京时间) 08:40"></a>到达时间 07:40 (泰国时间)  — (北京时间) 08:40</h4><p>全程689公里 时长1小时25分</p>
-<h4 id="接送"><a href="#接送" class="headerlink" title="接送"></a>接送</h4><p><img src="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-03-22-080854.jpg" alt></p>
-<p><strong>国际航班</strong><br><img src="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-03-22-080913.jpg" alt></p>
-<p><strong>国内航班</strong><br><img src="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-03-22-080930.jpg" alt></p>
-<p><img src="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-03-22-080946.jpg" alt></p>
-<p><img src="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-03-22-081001.jpg" alt></p>
-<p><img src="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-03-22-081019.jpg" alt></p>
-<p><img src="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-03-22-081034.jpg" alt></p>
-<p><strong>【国内航站楼】到达的客人，懒猫的工作人员在国内出口的1号门外等待猫王陛下，您找到后出示确认函给工作人员看，工作人员与您核对后将在20分钟左右安排司机过来接猫王陛下，</strong></p>
-<p>【国际航站楼】到达的客人请您在一楼取完行李后，走出4号门，懒猫工作人员会在那边举“懒猫旅行”标识的牌等猫王陛下，</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/09/24/Thailand/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://swlfigo.github.io/2019/09/24/TodayExtentionTrain/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sylar">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-07-25-032947.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Nevermore">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/09/24/TodayExtentionTrain/" itemprop="url">iOS Extentsion 入门实战</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-24T15:31:27+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-24T17:37:27+08:00">
                 2019-09-24
               </time>
             
@@ -1181,14 +906,26 @@
 
       
         
-          <p>最近需求是App接入 <code>Today Extentsion</code> 组件，因为之前没做过这方面，都是摸着石头过河.以下文章都是基于摸索中遇到问题和一些总结，如果有什么不对，请指教一下~</p>
-<h1 id="1-App-Extensions简介"><a href="#1-App-Extensions简介" class="headerlink" title="1. App Extensions简介"></a>1. App Extensions简介</h1><h2 id="1-1-什么是App-Extensions"><a href="#1-1-什么是App-Extensions" class="headerlink" title="1.1 什么是App Extensions"></a>1.1 什么是App Extensions</h2><p>从 iOS 8 开始，苹果引入了全新的 App Extension。它是一种扩展，很类似于一些大型软件的插件机制。App Extension 事实上并不是你应用的插件，而是系统的插件，其生命周期是由系统来管理的，所以如果你想做什么坏事还是行不通的…但是 App Extension 分发的载体是应用，也就是说如果你只是单纯想做一个今日面板插件，也需要有个主程序，你的主程序可以什么都不做，也可以提供一些基本的设置和数据。iOS的Extension包括以下:</p>
-<p><img src="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190409160751.png" alt></p>
-<p><img src="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190409160833.png" alt></p>
-<p>文章用到的是 <code>Today Extension</code>,用于 iPhone 的今日插件</p>
+          <h4 id="什么是移动端路由层："><a href="#什么是移动端路由层：" class="headerlink" title="什么是移动端路由层："></a>什么是移动端路由层：</h4><p>路由层的概念在服务端是指url请求的分层解析，将一个请求分发到对应的应用处理程序。移动端的路由层指的是将诸如App内页面访问、H5与App访问的访问请求和App间的访问请求，进行分发处理的逻辑层。</p>
+<h4 id="移动端路由层需要解决的问题："><a href="#移动端路由层需要解决的问题：" class="headerlink" title="移动端路由层需要解决的问题："></a>移动端路由层需要解决的问题：</h4><ol>
+<li>对外部提供远程访问的功能，实现跨应用调用响应，包括H5应用调用、其他App应用调用、系统访问调用等</li>
+<li>原生页面、模块、组件等定义，统称为资源(Resource)，在跨应用调用和路由层在不同端实现的业务表现需要一致的前提下，需要对资源进行定义，在路由提供内部请求分发的时候则可以提供不依赖对外进行资源定义的功能</li>
+<li>外部调用如何使用统一标示(Uniform)进行表示资源</li>
+<li>如何在移动端统一定义访问请求的过程，从而达成移动端与web端的统一性</li>
+<li>如何更好的兼容iOS、Android的系统访问机制、App链接协议、web端路由机制与前端开发规范等</li>
+<li>如何兼容各平台(Android、iOS)App页面导航机制</li>
+<li>如何解决安全访问问题</li>
+<li>移动端在客户端进行动态配置</li>
+</ol>
+<h5 id="动态路由试手"><a href="#动态路由试手" class="headerlink" title="动态路由试手"></a>动态路由试手</h5><p>参考了项目中同事写的动态路由模块，发现写的不错，故模仿了一个写。项目中，我们使用动态路由器，实现模块间Controller的跳转传值，做到 <code>解耦</code> 作用</p>
+<p>不用于以前的 </p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#import xxxx</span></span><br></pre></td></tr></table></figure>
+<p>模块， 然后 </p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">xxx = [[xxxviewcontroller alloc]init];</span><br><span class="line">[<span class="keyword">self</span>.navigationcontroller push xxx...];</span><br></pre></td></tr></table></figure>
+<p>使用动态路由器，只需要在项目中plist注册好对应的模块和id，直接可以push过去，而且还能传参</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/09/24/TodayExtentionTrain/#more" rel="contents">
+            <a class="btn" href="/2019/09/24/DynamicRouter/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1239,7 +976,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://swlfigo.github.io/2019/09/24/YYCacheLearn/">
+    <link itemprop="mainEntityOfPage" href="https://swlfigo.github.io/2019/09/24/FunctionProgrameThinking/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Sylar">
@@ -1258,7 +995,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/09/24/YYCacheLearn/" itemprop="url">YYCache阅读学习</a></h1>
+                <a class="post-title-link" href="/2019/09/24/FunctionProgrameThinking/" itemprop="url">链式编程思想-函数式变成思想计算器</a></h1>
         
 
         <div class="post-meta">
@@ -1270,7 +1007,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-24T15:31:27+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-24T17:37:27+08:00">
                 2019-09-24
               </time>
             
@@ -1331,30 +1068,203 @@
 
       
         
-          <h1 id="YYCache-阅读学习"><a href="#YYCache-阅读学习" class="headerlink" title="YYCache 阅读学习"></a>YYCache 阅读学习</h1><p><a href="https://github.com/ibireme/YYCache" target="_blank" rel="noopener">官网</a> 介绍如下：</p>
-<p>高性能 iOS 缓存框架。<a href="https://github.com/ibireme/YYKit" target="_blank" rel="noopener">YYKit</a> 组件之一。</p>
-<h2 id="性能-摘自官网"><a href="#性能-摘自官网" class="headerlink" title="性能:(摘自官网)"></a>性能:(摘自官网)</h2><p>iPhone 6 上，内存缓存每秒响应次数 (越高越好): </p>
-<p><img src="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-03-22-081847.jpg" alt="test15169495589776"></p>
-<p>iPhone 6 上，磁盘缓存每秒响应次数 (越高越好): </p>
-<p><img src="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-03-22-081859.jpg" alt="test15169495840565"></p>
-<h2 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h2><ul>
-<li>LRU: 缓存支持 LRU (least-recently-used) 淘汰算法。</li>
-<li>缓存控制: 支持多种缓存控制方法：总数量、总大小、存活时间、空闲空间。</li>
-<li>兼容性: API 基本和 NSCache 保持一致, 所有方法都是线程安全的。</li>
-<li>内存缓存<ul>
-<li>对象释放控制: 对象的释放(release) 可以配置为同步或异步进行，可以配置在主线程或后台线程进行。</li>
-<li>自动清空: 当收到内存警告或 App 进入后台时，缓存可以配置为自动清空。</li>
-</ul>
+          <h3 id="编程思想"><a href="#编程思想" class="headerlink" title="编程思想"></a>编程思想</h3><p>先简单介绍下目前已知的编程思想。</p>
+<p> <code>面向过程</code>：处理事情以过程为核心，一步一步的实现。</p>
+<p> <code>面向对象</code>：万物皆对象</p>
+<p> <code>链式编程思想</code>：是将多个操作（多行代码）通过点号(.)链接在一起成为一句代码,使代码可读性好。a(1).b(2).c(3)</p>
+<ul>
+<li><p><code>链式编程特点</code> : 方法的返回值是block,block必须有返回值（本身对象），block参数（需要操作的值）</p>
 </li>
-<li>磁盘缓存<ul>
-<li>可定制性: 磁盘缓存支持自定义的归档解档方法，以支持那些没有实现 NSCoding 协议的对象。</li>
-<li>存储类型控制: 磁盘缓存支持对每个对象的存储类型 (SQLite/文件) 进行自动或手动控制，以获得更高的存取性能。</li>
+<li><p><code>代表</code> : Masonry</p>
+</li>
 </ul>
+<p><code>响应式编程思想</code> : 不需要考虑调用顺序，只需要知道考虑结果，类似于蝴蝶效应，产生一个事件，会影响很多东西，这些事件像流一样的传播出去，然后影响结果，借用面向对象的一句话，万物皆是流。</p>
+<ul>
+<li><code>代表</code> :KVO</li>
+</ul>
+<p><code>函数式编程思想</code> 是把操作尽量写成一系列嵌套的函数或者方法调用</p>
+<ul>
+<li><p><code>函数式编程特点</code> : 每个方法必须有返回值（本身对象）,把函数或者Block当做参数,block参数（需要操作的值）block返回值（操作结果）</p>
+</li>
+<li><p><code>代表</code> : ReactiveCocoa</p>
+</li>
+</ul>
+<p>-<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/09/24/FunctionProgrameThinking/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </p></div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://swlfigo.github.io/2019/09/24/GCDLearn/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sylar">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-07-25-032947.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nevermore">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/24/GCDLearn/" itemprop="url">GCD学习</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-24T17:37:27+08:00">
+                2019-09-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h3 id="重新复习GCD"><a href="#重新复习GCD" class="headerlink" title="重新复习GCD"></a>重新复习GCD</h3><p>–</p>
+<p>对GCD重新复习一次，加深了解</p>
+<h1 id="多线程概念"><a href="#多线程概念" class="headerlink" title="多线程概念"></a>多线程概念</h1><h4 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h4><ul>
+<li>正在进行中的程序被称为进程，负责程序运行的内存分配</li>
+<li>每一个进程都有自己独立的虚拟内存空间</li>
+</ul>
+<h4 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h4><ul>
+<li>线程是进程中一个独立的执行路径(控制单元)</li>
+<li>一个进程中至少包含一条线程，即主线程</li>
+<li>可以将耗时的执行路径(如：网络请求)放在其他线程中执行</li>
+</ul>
+<h1 id="细说GCD（Grand-Central-Dispatch）"><a href="#细说GCD（Grand-Central-Dispatch）" class="headerlink" title="细说GCD（Grand Central Dispatch）"></a>细说GCD（Grand Central Dispatch）</h1><h3 id="GCD（Grand-Central-Dispatch）-介绍"><a href="#GCD（Grand-Central-Dispatch）-介绍" class="headerlink" title="GCD（Grand Central Dispatch） 介绍"></a>GCD（Grand Central Dispatch） 介绍</h3><p>GCD属于系统级的线程管理，在Dispatch queue中执行需要执行的任务性能非常的高。GCD这块已经开源，地址 <a href="http://libdispatch.macosforge.org" target="_blank" rel="noopener">http://libdispatch.macosforge.org</a> .GCD中的FIFO队列称为dispatch queue，用来保证先进来的任务先得到执行。</p>
+<ul>
+<li>GCD 能通过推迟昂贵计算任务并在后台运行它们来改善你的应用的响应性能。</li>
+<li>GCD 提供一个易于使用的并发模型而不仅仅只是锁和线程，以帮助我们避开并发陷阱。</li>
+<li>GCD 具有在常见模式（例如单例）上用更高性能的原语优化你的代码的潜在能力。</li>
+</ul>
+<h3 id="GCD概要"><a href="#GCD概要" class="headerlink" title="GCD概要"></a>GCD概要</h3><ul>
+<li><p>和operation queue一样都是基于队列的并发编程API，他们通过集中管理大家协同使用的线程池。</p>
+</li>
+<li><p>公开的5个不同队列：运行在主线程中的main queue，3个不同优先级的后台队列（High Priority Queue，Default Priority Queue，Low Priority Queue），以及一个优先级更低的后台队列Background Priority Queue（用于I/O）</p>
+</li>
+<li><p>可创建自定义队列：串行或并列队列。自定义一般放在Default Priority Queue和Main Queue里。</p>
+</li>
+<li><p>操作是在多线程上还是单线程主要是看队列的类型和执行方法，并行队列异步执行才能在多线程，并行队列同步执行就只会在这个并行队列在队列中被分配的那个线程执行。</p>
 </li>
 </ul>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/09/24/YYCacheLearn/#more" rel="contents">
+            <a class="btn" href="/2019/09/24/GCDLearn/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1405,7 +1315,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://swlfigo.github.io/2019/09/24/YYModelLearn/">
+    <link itemprop="mainEntityOfPage" href="https://swlfigo.github.io/2019/09/24/Hello Metal/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Sylar">
@@ -1424,7 +1334,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/09/24/YYModelLearn/" itemprop="url">YYModel阅读学习</a></h1>
+                <a class="post-title-link" href="/2019/09/24/Hello Metal/" itemprop="url">Hello Metal</a></h1>
         
 
         <div class="post-meta">
@@ -1436,7 +1346,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-24T15:31:27+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-24T17:37:27+08:00">
                 2019-09-24
               </time>
             
@@ -1459,8 +1369,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS/" itemprop="url" rel="index">
-                    <span itemprop="name">iOS</span>
+                  <a href="/categories/Metal/" itemprop="url" rel="index">
+                    <span itemprop="name">Metal</span>
                   </a>
                 </span>
 
@@ -1497,18 +1407,12 @@
 
       
         
-          <h1 id="YYModel-阅读学习"><a href="#YYModel-阅读学习" class="headerlink" title="YYModel 阅读学习"></a>YYModel 阅读学习</h1><p><a href="https://github.com/ibireme/YYModel" target="_blank" rel="noopener">YYModel</a> 是 <a href="https://github.com/ibireme/YYKit" target="_blank" rel="noopener">YYKit</a> 中其中一个部件，作用于Model对象转换.<br>YYModel有比大多数同类框架，有着很好的性能优势（下图为作者在github的贴图）<br>文中大部分为摘抄原文，然后加上自己的理解注释.</p>
-<p><img src="http://okslxr2o0.bkt.clouddn.com/15154810380412.jpg" alt></p>
-<h3 id="YYModel-使用"><a href="#YYModel-使用" class="headerlink" title="YYModel 使用"></a>YYModel 使用</h3><p>YYModel的使用相对于JSOMModel更佳简单，不需要类去继承JSONModel.</p>
-<p>如果有这样一组json数据：</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line"><span class="attr">"number"</span>:<span class="string">"13612345678"</span>, </span><br><span class="line"><span class="attr">"name"</span>:<span class="string">"Germany"</span>,</span><br><span class="line"> <span class="attr">"age"</span>: <span class="number">49</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>那我们会去建立相应的Object对象</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">TestObject</span> : <span class="title">NSObject</span></span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span> *name;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span> *number;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">assign</span>) <span class="built_in">NSInteger</span> age;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
-<p>调用 </p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 从 JSON 转为 Model:</span></span><br><span class="line">TestObject *testObject = [TestObject yy_modelWithJSON:json];</span><br><span class="line"></span><br><span class="line"><span class="comment">//从 Model 转为 JSON:</span></span><br><span class="line"><span class="built_in">NSDictionary</span> *json = [testObject yy_modelToJSONObject];</span><br></pre></td></tr></table></figure>
+          <h2 id="Metal-简介"><a href="#Metal-简介" class="headerlink" title="Metal 简介"></a>Metal 简介</h2><p>Metal和OpenGL ES相似，它也是一个底层API，负责和3D绘图硬件交互。它们之间的不同在于，Metal不是跨平台的。与之相反的，它设计的在苹果硬件上运行得极其高效，与OpenGL ES相比，它提供了更快的速度和更低的开销。</p>
+<p><br></p>
+<p><font color="red">注意: </font> <em>Metal应用不能跑在iOS模拟器上，它们需要一个设备，设备上装载着苹果A7芯片或者更新的芯片。所以要学习这篇教程，你需要一台这样的设备(iPhone 5S,iPad Air,iPad mini2)来完成代码的测试。</em><br><br><br>Metal是一个底层3D绘图API，和OpenGL类似，但是它的开销更低。它是一个GPU上一个简单的封装，所以能够完成几乎所有事情，像在屏幕上渲染一个精灵（sprite）或者是一个3D模型。但你要编写完成这些事情的所有代码。这样麻烦的代价是，你拥有了GPU的力量和控制。没那么底层的游戏框架，像Sprite Kit、Scene Kit或者Unity都是在底层3D绘图API（像是Metal或是OpenGL ES）的基础上构建的。它们提供大部分你需要在游戏中编写的底层封装代码，比如在屏幕上渲染一个精灵(sprite)或者一个3D模型。</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/09/24/YYModelLearn/#more" rel="contents">
+            <a class="btn" href="/2019/09/24/Hello Metal/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1559,7 +1463,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://swlfigo.github.io/2019/09/24/hello-world/">
+    <link itemprop="mainEntityOfPage" href="https://swlfigo.github.io/2019/09/24/HexoBuilt/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Sylar">
@@ -1578,7 +1482,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/09/24/hello-world/" itemprop="url">Hello World</a></h1>
+                <a class="post-title-link" href="/2019/09/24/HexoBuilt/" itemprop="url">Hexo 折腾</a></h1>
         
 
         <div class="post-meta">
@@ -1590,7 +1494,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-24T15:31:27+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-24T17:37:27+08:00">
                 2019-09-24
               </time>
             
@@ -1652,15 +1556,29 @@
       
         
           
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+            <h2 id="首先你要有一个GithubPage"><a href="#首先你要有一个GithubPage" class="headerlink" title="首先你要有一个GithubPage"></a>首先你要有一个GithubPage</h2><p>具体如何新建一个代码仓..请自行百度..过于简单不做讨论</p>
+<h2 id="Hexo简介"><a href="#Hexo简介" class="headerlink" title="Hexo简介"></a>Hexo简介</h2><p>Hexo 是一个轻量的静态博客框架。通过Hexo可以快速生成一个静态博客框架,仅需要几条命令就可以完成,相当方便。<br>而架设Hexo的环境更简单了 不需要lnmp/lamp这些繁琐复杂的环境 仅仅需要一个简单的http服务器即可使用 或者使用互联网上免费的页面托管服务</p>
+<p>官网-&gt;                   <a href="https://hexo.io" target="_blank" rel="noopener">Hexo传送门</a></p>
+<h2 id="Hexo-安装前准备（Mac环境下）"><a href="#Hexo-安装前准备（Mac环境下）" class="headerlink" title="Hexo 安装前准备（Mac环境下）"></a>Hexo 安装前准备（Mac环境下）</h2><ol>
+<li>需要Node.js(如果安装了最好先卸载了再重新装)</li>
+<li>需要Git    (Mac环境自备了)</li>
+<li>GitHub SSH Key -&gt;  自行百度 -&gt; 用于更新博客（更可理解为git commit）</li>
+</ol>
+<h2 id="Setp-1"><a href="#Setp-1" class="headerlink" title="Setp 1."></a>Setp 1.</h2><ol>
+<li>node 是通过brew来安装的，所以第一步先安装brew</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;</span><br></pre></td></tr></table></figure>
+<p> brew安装完后就通过它来安装node</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#查看brew 是否安装成功</span><br><span class="line">brew -v </span><br><span class="line"></span><br><span class="line">#安装node</span><br><span class="line">brew install node</span><br></pre></td></tr></table></figure>
+<p>等待安装完成，测试是否安装成功</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//查看版本</span><br><span class="line">node -v</span><br><span class="line"></span><br><span class="line">npm -v</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>安装 Hexo</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
+<h2 id="Step-2"><a href="#Step-2" class="headerlink" title="Step 2."></a>Step 2.</h2><p>安装完Hexo后，新建一个存放Blog的文件夹<br>cd进去文件加里面</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo init</span><br></pre></td></tr></table></figure>
+<p>//可初始化一个空Hexo项目<br>//配置看官网<br>//命令看官网</p>
 
           
         
@@ -1709,7 +1627,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://swlfigo.github.io/2019/09/24/iOS7SoundsTips/">
+    <link itemprop="mainEntityOfPage" href="https://swlfigo.github.io/2019/09/24/Multipeer connectivity Framework/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Sylar">
@@ -1728,7 +1646,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/09/24/iOS7SoundsTips/" itemprop="url">iOS7 以上监听音量键Tips</a></h1>
+                <a class="post-title-link" href="/2019/09/24/Multipeer connectivity Framework/" itemprop="url">MultipeerConnectivity框架，近场通信的基本使用</a></h1>
         
 
         <div class="post-meta">
@@ -1740,7 +1658,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-24T15:31:27+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-24T17:37:27+08:00">
                 2019-09-24
               </time>
             
@@ -1801,15 +1719,166 @@
 
       
         
-          <h2 id="iOS7-以上监听音量键Tips"><a href="#iOS7-以上监听音量键Tips" class="headerlink" title="iOS7 以上监听音量键Tips"></a>iOS7 以上监听音量键Tips</h2><p>iOS7已经废弃 MPMusicPlayerController 这个类与方法 (还是能使用,但对于以后代码迭代，最好替换掉 ) , 如果需要控制系统音量，需要使用 MPVolumeView</p>
-<p>以下是一些使用监听音量变化的Tips</p>
-<p>需求：音量键拍照  &amp;&amp;  拍照无声黑科技</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//代码来看，MPVolumeView 是一个 UIView 的子类</span></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">MPVolumeView</span> : <span class="title">UIView</span> &lt;<span class="title">NSCoding</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>设计思路:</p>
-<p>镜头模块需要监测音量键，音量变化触发拍照功能，为此可以设置一个单例来监测</p>
+          <h6 id="Multipeer-connectivity是一个使附近设备通过Wi-Fi网络、P2P-Wi-Fi以及蓝牙个人局域网进行通信的框架。互相链接的节点可以安全地传递信息、流或是其他文件资源，而不用通过网络服务。此框架是在iOS7以后推出，旨在替代GameKit下的GKPeerPickerController通信。通过此框架我们可以直接连接同一网络下的设备，让其直接进行类似微信，qq那样的即时通讯效果。"><a href="#Multipeer-connectivity是一个使附近设备通过Wi-Fi网络、P2P-Wi-Fi以及蓝牙个人局域网进行通信的框架。互相链接的节点可以安全地传递信息、流或是其他文件资源，而不用通过网络服务。此框架是在iOS7以后推出，旨在替代GameKit下的GKPeerPickerController通信。通过此框架我们可以直接连接同一网络下的设备，让其直接进行类似微信，qq那样的即时通讯效果。" class="headerlink" title="Multipeer connectivity是一个使附近设备通过Wi-Fi网络、P2P Wi-Fi以及蓝牙个人局域网进行通信的框架。互相链接的节点可以安全地传递信息、流或是其他文件资源，而不用通过网络服务。此框架是在iOS7以后推出，旨在替代GameKit下的GKPeerPickerController通信。通过此框架我们可以直接连接同一网络下的设备，让其直接进行类似微信，qq那样的即时通讯效果。"></a><strong>Multipeer connectivity</strong>是一个使附近设备通过Wi-Fi网络、P2P Wi-Fi以及蓝牙个人局域网进行通信的框架。互相链接的节点可以安全地传递信息、流或是其他文件资源，而不用通过网络服务。此框架是在iOS7以后推出，旨在替代GameKit下的GKPeerPickerController通信。通过此框架我们可以直接连接同一网络下的设备，让其直接进行类似微信，qq那样的即时通讯效果。</h6><h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>其中通讯的原理，是利用节点来进行广播服务（标示符），其他节点可以通过服务（标示符）发现广播。并对此节点进行连接。在项目中可以将广播和发现放在一起实现，这样既可以发现并连接到其他节点，同时也可以被其他节点所搜索链接。服务的命名规则为由ASCII字母、数字和“-”组成的短文本串，最多15个字符。通常，一个服务的名字应该由应用程序的名字开始，后边跟“-”和一个独特的描述符号</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/09/24/iOS7SoundsTips/#more" rel="contents">
+            <a class="btn" href="/2019/09/24/Multipeer connectivity Framework/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://swlfigo.github.io/2019/09/24/PodResourceUsage/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sylar">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-07-25-032947.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nevermore">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/24/PodResourceUsage/" itemprop="url">Pod私有库素材管理</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-24T17:37:27+08:00">
+                2019-09-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>​    首先说说场景,由于以前项目是基于小组件化功能开发最后再拼合起来。某一些模块内需要用到一些UI素材，做法就是在 <code>.podspec</code>中的 <code>resource_bundle</code>中添加素材的路径,执行 <code>pod install</code>后添加到pod里面</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">s.resource_bundles = &#123;</span><br><span class="line">    #素材路径</span><br><span class="line">    #采用的是keyValue形式</span><br><span class="line">   &apos;Bundle名字&apos; =&gt; [&apos;路径/Resource/Asset/**/**.png&apos;]</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>如上，<code>pod install</code>时候就会在路径文件夹下，导入所有<code>.png</code>素材到工程里面.</p>
+<p>这是网上普遍做法，且 <code>cocoapod</code> 的 <code>.podspec</code> 文件中也是默认这样导进去素材的.这样导进素材有什么问题呢?</p>
+<p><img src="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190402105433.png" alt></p>
+<p><code>install</code>完，素材只是简单的copy到了项目bundle里面(<strong>PS:素材文件夹命名也不正规</strong>)。会有以下问题:</p>
+<ol>
+<li>管理起来麻烦</li>
+<li>如果图片资源放到 <code>.xcasset</code> 里面 <code>Xcode</code> 会帮我们自动优化、可以使用 Slicing 等，但是放在 <code>bundle</code>里面并不会压缩素材等，等项目大了，包越来越大</li>
+</ol>
+<p>所以，调研了网上做法，踩了坑之后决定写一篇文章记录下做法，这也是 <strong>包瘦身</strong> 一个方法.由于从0记录了整个过程，我会从创建私有库开始写起，如果你已经有了私有库，直接可以跳去第二步看起</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/09/24/PodResourceUsage/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
