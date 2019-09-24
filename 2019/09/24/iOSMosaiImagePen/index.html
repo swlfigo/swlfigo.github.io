@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="iOS,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="iOS马赛克图片画笔一种实现思路先看下效果:  功能: 能实现马赛克画笔功能,并提供多种马赛克图案层叠测试 实现了重做，撤销功能 实现了对原图做处理功能，并不是失真保存图案 优化了处理时 CPU 占用太高问题  从DrawRect说起在我们平时开发中,难免会遇到画笔，画线问题。第一个想到的是使用 drawRect 方法实现功能。 但是drawRect方法会存在较大的内存问题。 举个栗子:我们需要实">
+<meta name="keywords" content="iOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS马赛克图片画笔一种实现思路">
+<meta property="og:url" content="https://swlfigo.github.io/2019/09/24/iOSMosaiImagePen/index.html">
+<meta property="og:site_name" content="Nevermore">
+<meta property="og:description" content="iOS马赛克图片画笔一种实现思路先看下效果:  功能: 能实现马赛克画笔功能,并提供多种马赛克图案层叠测试 实现了重做，撤销功能 实现了对原图做处理功能，并不是失真保存图案 优化了处理时 CPU 占用太高问题  从DrawRect说起在我们平时开发中,难免会遇到画笔，画线问题。第一个想到的是使用 drawRect 方法实现功能。 但是drawRect方法会存在较大的内存问题。 举个栗子:我们需要实">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-03-22-080513.gif">
+<meta property="og:image" content="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-03-22-080537.png">
+<meta property="og:image" content="http://okslxr2o0.bkt.clouddn.com/15227381812817.jpg">
+<meta property="og:updated_time" content="2019-09-24T07:31:27.135Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS马赛克图片画笔一种实现思路">
+<meta name="twitter:description" content="iOS马赛克图片画笔一种实现思路先看下效果:  功能: 能实现马赛克画笔功能,并提供多种马赛克图案层叠测试 实现了重做，撤销功能 实现了对原图做处理功能，并不是失真保存图案 优化了处理时 CPU 占用太高问题  从DrawRect说起在我们平时开发中,难免会遇到画笔，画线问题。第一个想到的是使用 drawRect 方法实现功能。 但是drawRect方法会存在较大的内存问题。 举个栗子:我们需要实">
+<meta name="twitter:image" content="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-03-22-080513.gif">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"always","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://swlfigo.github.io/2019/09/24/iOSMosaiImagePen/">
+
+
+
+
+
+  <title>iOS马赛克图片画笔一种实现思路 | Nevermore</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nevermore</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://swlfigo.github.io/2019/09/24/iOSMosaiImagePen/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sylar">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-07-25-032947.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nevermore">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">iOS马赛克图片画笔一种实现思路</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-24T07:31:27+00:00">
+                2019-09-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="iOS马赛克图片画笔一种实现思路"><a href="#iOS马赛克图片画笔一种实现思路" class="headerlink" title="iOS马赛克图片画笔一种实现思路"></a>iOS马赛克图片画笔一种实现思路</h1><p>先看下效果:</p>
+<p><img src="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-03-22-080513.gif" alt="GIF"></p>
+<h2 id="功能"><a href="#功能" class="headerlink" title="功能:"></a>功能:</h2><ul>
+<li>能实现马赛克画笔功能,并提供多种马赛克图案层叠测试</li>
+<li>实现了重做，撤销功能</li>
+<li>实现了对原图做处理功能，并不是失真保存图案</li>
+<li>优化了处理时 CPU 占用太高问题</li>
+</ul>
+<h2 id="从DrawRect说起"><a href="#从DrawRect说起" class="headerlink" title="从DrawRect说起"></a>从DrawRect说起</h2><p>在我们平时开发中,难免会遇到画笔，画线问题。第一个想到的是使用 <code>drawRect</code> 方法实现功能。 但是<code>drawRect</code>方法会存在较大的内存问题。</p>
+<p><strong>举个栗子:</strong><br>我们需要实现一个画板功能,我们会这样做:</p>
+<ol>
+<li>新建一个画布</li>
+<li>在 <code>touchBegan</code>方法 或者 添加手势方法中 , 保存获得的路径点 , 生成路径</li>
+<li>调用 <code>[setNeedDisplay]</code> , 在 <code>-(void)drawRect</code> 方法里面, 绘制出来.</li>
+</ol>
+<p> 在大量操作之后，内存、CPU 就会出现明显问题。</p>
+<p> 那么为什么会有这个问题呢?</p>
+ <a id="more"></a>
+<h3 id="DrawRect调用场景"><a href="#DrawRect调用场景" class="headerlink" title="DrawRect调用场景"></a>DrawRect调用场景</h3><p> <code>drawRect</code>方法在<code>UIView</code>的使用上起着十分关键的作用。视图第一次显示的时候会调用。这个是由系统自动调用的，主要是在 <code>UIViewController</code>中<code>loadView</code>和<code>viewDidLoad</code>方法调用之后；</p>
+<p>如果在<code>UIView</code>初始化时没有设置<code>rect</code>大小，将直接导致<code>drawRect</code>不被自动调用；</p>
+<p>该方法在调用<code>sizeThatFits</code>后被调用,所以可以先调用<code>sizeToFit</code>计算出<code>size</code>,然后系统自动调用<code>drawRect:</code>方法；</p>
+<p>通过设置<code>contentMode</code>属性值为<code>UIViewContentModeRedraw</code>,那么将在每次设置或更改<code>frame</code>的时候自动调用<code>drawRect:</code>;</p>
+<p>直接调用<code>setNeedsDisplay</code>，或者<code>setNeedsDisplayInRect:</code>触发<code>drawRect:</code>，但是有个前提条件是<code>rect</code>不能为0;</p>
+<h3 id="DrawRect-内存问题"><a href="#DrawRect-内存问题" class="headerlink" title="DrawRect 内存问题"></a>DrawRect 内存问题</h3><p>在iOS系统中所有显示的视图都是从基类<code>UIView</code>继承而来的，同时<code>UIView</code>负责接收用户交互。但是实际上你所看到的视图内容，包括图形等，都是由UIView的一个实例图层属性来绘制和渲染的，那就是<code>CALayer</code>。</p>
+<p><code>CALayer</code>类的概念与<code>UIView</code>非常类似，它也具有<strong>树形的层级关系</strong>，并且可以包含图片文本、背景色等。它与<code>UIView</code>最大的不同在于它不能响应用户交互，可以说它根本就不知道<strong>响应链</strong>的存在，它的API虽然提供了“某点是否在图层范围内的方法”，但是它并不具有响应的能力。</p>
+<p>在每一个<code>UIView</code>实例当中，都有一个默认的支持图层，<code>UIView</code>负责创建并且管理这个图层。实际上这个<code>CALayer</code>图层才是真正用来在屏幕上显示的，<code>UIView</code>仅仅是对它的一层封装，实现了<code>CALayer</code>的<code>delegate</code>，提供了处理事件交互的具体功能，还有动画底层方法的高级API。</p>
+<p>可以说<code>CALayer</code>是UIView的内部实现细节。</p>
+<p><code>CALayer</code>其实也只是iOS当中一个普通的类，它也并不能直接渲染到屏幕上，因为屏幕上你所看到的东西，其实都是一张张图片。而为什么我们能看到CALayer的内容呢，是因为CALayer内部有一个contents属性。contents默认可以传一个id类型的对象，但是只有你传CGImage的时候，它才能够正常显示在屏幕上。所以最终我们的图形渲染落点落在contents身上如图。</p>
+<p><img src="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-03-22-080537.png" alt></p>
+<blockquote>
+<p>-drawRect: 方法没有默认的实现，因为对UIView来说，寄宿图并不是必须的，它不在意那到底是单调的颜色还是有一个图片的实例。如果UIView检测到-drawRect: 方法被调用了，它就会为视图分配一个寄宿图，这个寄宿图的像素尺寸等于视图大小乘以 contentsScale的值。<br>如果你不需要寄宿图，那就不要创建这个方法了，这会造成CPU资源和内存的浪费，这也是为什么苹果建议：如果没有自定义绘制的任务就不要在子类中写一个空的-drawRect:方法。</p>
+</blockquote>
+<p><code>contents</code>也被称为寄宿图，除了给它赋值<code>CGImage</code>之外，我们也可以直接对它进行绘制，绘制的方法正是这次问题的关键，通过继承<code>UIView</code>并实现-<code>drawRect:</code>方法即可自定义绘制。<code>-drawRect:</code> 方法没有默认的实现，因为对<code>UIView</code>来说，寄宿图并不是必须的，<code>UIView</code>不关心绘制的内容。如果<code>UIView</code>检测到<code>-drawRect:</code>方法被调用了，它就会为视图分配一个寄宿图，这个寄宿图的像素尺寸等于视图大小乘以contentsScale(这个属性与屏幕分辨率有关，</p>
+<p>回到上面 <code>画板</code> 栗子中,因为重写了<code>-drawRect:</code>方法，<code>-drawRect :</code>方法就会自动调用。生成一张寄宿图后，方法里面的代码利用<code>Core Graphics</code>去绘制n条黑色的线，然后内容就会缓存起来，等待下次你调用<code>-setNeedsDisplay</code>时再进行更新。</p>
+<p>画板视图的<code>-drawRect:</code>方法的背后实际上都是底层的<code>CALayer</code>进行了重绘和<strong>保存中间产生的图片</strong>，<code>CALayer</code>的<code>delegate</code>属性默认实现了<code>CALayerDelegate</code>协议，当它需要内容信息的时候会调用协议中的方法来拿。当画板视图重绘时，因为它的支持图层<code>CALayer</code>的代理就是画板视图本身，所以支持图层会请求画板视图给它一个寄宿图来显示，它此刻会调用：</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)displayLayer:(<span class="built_in">CALayer</span> *)layer;</span><br></pre></td></tr></table></figure>
+<p>如果画板视图实现了这个方法，就可以拿到<code>layer</code>来直接设置<code>contents</code>寄宿图，如果这个方法没有实现，支持图层CALayer会尝试调用：</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)drawLayer:(<span class="built_in">CALayer</span> *)layer inContext:(<span class="built_in">CGContextRef</span>)ctx;</span><br></pre></td></tr></table></figure>
+<p>这个方法调用之前，<code>CALayer</code>创建了一个合适尺寸的空寄宿图（尺寸由bounds和contentsScale决定）和一个<code>Core Graphics</code>的绘制上下文环境，为绘制寄宿图做准备，它作为<code>ctx</code>参数传入。在这一步生成的<strong>空寄宿图</strong>内存是相当巨大的，它就是本次内存问题的关键，一旦你实现了<code>CALayerDelegate</code>协议中的<code>-drawLayer:inContext:</code>方法或者<code>UIView</code>中的<code>-drawRect:</code>方法（其实就是前者的包装方法），图层就创建了一个绘制上下文，这个上下文需要的内存可从这个公式得出：图层宽<em>图层高</em>4字节，宽高的单位均为像素。</p>
+<p>图层每次重绘的时候都需要重新抹掉内存然后重新分配。它就是我们画板程序内存暴增的真正原因。</p>
+<p>最合理的办法处理类似于画板这样画线条的需求直接用专有图层<code>CAShapeLayer</code></p>
+<h2 id="CAShapeLayer"><a href="#CAShapeLayer" class="headerlink" title="CAShapeLayer"></a>CAShapeLayer</h2><p><code>drawRect</code>：属于<code>CoreGraphics</code>框架，占用CPU，性能消耗大，不建议重写<br><code>CAShapeLayer</code>：属于<code>CoreAnimation</code>框架，通过GPU来渲染图形，节省性能。动画渲染直接提交给手机GPU，不消耗内存<br>这两者各有各的用途，而不是说有了<code>CAShapeLayer</code>就不需要<code>drawRect</code>。</p>
+<p><strong>drawRect只是一个方法而已，是UIView的方法，重写此方法可以完成我们的绘制图形功能。</strong></p>
+<p><code>CAShapeLayer</code>是一个通过矢量图形而不是<code>bitmap</code>来绘制的图层子类。用<code>CGPath</code>来定义想要绘制的图形，<code>CAShapeLayer</code>会自动渲染。它可以完美替代我们的直接使用<code>Core Graphics</code>绘制<code>layer</code>，对比之下使用CAShapeLayer有以下优点：</p>
+<ul>
+<li>渲染快速。CAShapeLayer使用了硬件加速，绘制同一图形会比用Core Graphics快很多。</li>
+<li>高效使用内存。一个CAShapeLayer不需要像普通CALayer一样创建一个寄宿图形，所以无论有多大，都不会占用太多的内存。</li>
+<li>不会被图层边界剪裁掉。</li>
+<li>不会出现像素化。</li>
+</ul>
+<h2 id="CAShapeLayer-与-Mask"><a href="#CAShapeLayer-与-Mask" class="headerlink" title="CAShapeLayer 与 Mask"></a>CAShapeLayer 与 Mask</h2><p>我们知道，如果你想要显示一个图层的内容，需要将其加到图层的层级上</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- [<span class="built_in">CALayer</span> addSublayer:]</span><br></pre></td></tr></table></figure>
+<p>当你需要将一个CALayer的内容变成圆角的时候，你可以通过设置cornerRadius来很方便的实现，但是如果你想要一个CALayer的内容被剪裁成任意形状应该如何是好呢？</p>
+<p>如果你使用过Photoshop，这个问题你肯定知道可以创建一个图层蒙版来实现。而在CoreAnimation中，框架同样为我们提供了这样的功能，CALayer拥有一个属性叫做mask，作为这个CALayer对象的蒙版，mask本身也是一个CALayer，比如：</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">CALayer</span> * layer = [<span class="built_in">CALayer</span> layer];</span><br><span class="line"><span class="built_in">CALayer</span> * maskLayer = [<span class="built_in">CALayer</span> layer];</span><br><span class="line">layer.mask = maskLayer;</span><br></pre></td></tr></table></figure>
+<p>这样的话，maskLayer就成为了layer的蒙版，maskLayer类似于一个子图层，相对于父图层（即拥有该属性的图层，在这里就是layer）布局，但是它却不是一个普通的子图层。maskLayer并不会直接绘制在父图层之上，它只是定义了父图层的“可视部分”。</p>
+<p>想象maskLayer是一张纸，盖在了layer上，那么layer能显示出来的内容，就是maskLayer“不是透明的部分”的内容。mask属性就像是一个饼干切割机，mask图层实心的部分会被保留下来，其他的（透明的部分）则会被抛弃。</p>
+<p><img src="http://okslxr2o0.bkt.clouddn.com/15227381812817.jpg" alt></p>
+<h2 id="马赛克画笔思路"><a href="#马赛克画笔思路" class="headerlink" title="马赛克画笔思路"></a>马赛克画笔思路</h2><p>总结了上面 <code>-drawRect</code> 的不足与 <code>CAShapeLayer</code> 的优点，马赛克画笔思路也有了，选在再实时显示时候，使用 <code>CAShapeLayer</code> 与 <code>mask</code> 蒙版的结合，达到马赛克画笔功能，再每一笔画完时候，使用 <code>-drawRect</code> 生成一张原图片大小的画布，在上面抠出马赛克画笔的路径，然后将马赛克图案与原图融合，达到马赛克效果。</p>
+<p><strong>Q:为什么要生成原图?</strong></p>
+<ol>
+<li>因为当前实时显示的马赛克效果，是原图按比例缩小到屏幕尺寸显示出来的，实际上，如果需要对原图处理，需要将移动路径点重新乘上缩小的比例，那么实时显示的点才是对应原图上的点</li>
+<li>生成的图，并不是通过layer渲染的失真缩小图</li>
+</ol>
+<p><strong><em>重点:</em></strong> 当选择 A 马赛克图案作为画笔纹理时候，其实就是将马赛克图案作为一个 <code>layer</code> 寄宿图加载出来，通过<code>mask</code>蒙版遮住路径以外的位置，那么看到的是，路径所显示马赛克底图的路径了。每次画笔画完，都会保存一张每一笔处理完马赛克与原图的融合图，下次替换马赛克图案时候，如上面初始化方法，将上一笔生层融合图作为原图，新马赛克图案再作为<code>layer</code>，绘制新的马赛克。</p>
+<h4 id="Reference"><a href="#Reference" class="headerlink" title="Reference:"></a>Reference:</h4><ol>
+<li><a href="https://123sunxiaolin.github.io/2017/03/26/[UIVIew]%E8%B0%88%E8%B0%88%E5%AF%B9drawRect%E7%9A%84%E7%90%86%E8%A7%A3/" target="_blank" rel="noopener">谈谈对drawRect的理解</a></li>
+<li><a href="http://bihongbo.com/2016/01/03/memoryGhostdrawRect/" target="_blank" rel="noopener">内存恶鬼drawRect</a></li>
+<li><a href="https://zsisme.gitbooks.io/ios-/content/chapter2/custom-drawing.html" target="_blank" rel="noopener">Custom Drawing</a></li>
+<li><a href="https://blog.csdn.net/u013282174/article/details/52188660" target="_blank" rel="noopener">iOS CoreAnimation专题——技巧篇（三）Layer Masking - 图层蒙版</a></li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/24/iOSPerformanceReadNote/" rel="next" title="高性能iOS应用开发">
+                <i class="fa fa-chevron-left"></i> 高性能iOS应用开发
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/24/iOS7SoundsTips/" rel="prev" title="iOS7 以上监听音量键Tips">
+                iOS7 以上监听音量键Tips <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-07-25-032947.jpg" alt="Sylar">
+          <p class="site-author-name" itemprop="name">Sylar</p>
+           
+              <p class="site-description motion-element" itemprop="description">一个不会iOS的搬砖工</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/swlfigo || github" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/swlfigo/Study/wiki || paper-plane" target="_blank" title="更多学习笔记">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                    
+                      更多学习笔记
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#iOS马赛克图片画笔一种实现思路"><span class="nav-number">1.</span> <span class="nav-text">iOS马赛克图片画笔一种实现思路</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#功能"><span class="nav-number">1.1.</span> <span class="nav-text">功能:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#从DrawRect说起"><span class="nav-number">1.2.</span> <span class="nav-text">从DrawRect说起</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#DrawRect调用场景"><span class="nav-number">1.2.1.</span> <span class="nav-text">DrawRect调用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DrawRect-内存问题"><span class="nav-number">1.2.2.</span> <span class="nav-text">DrawRect 内存问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CAShapeLayer"><span class="nav-number">1.3.</span> <span class="nav-text">CAShapeLayer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CAShapeLayer-与-Mask"><span class="nav-number">1.4.</span> <span class="nav-text">CAShapeLayer 与 Mask</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#马赛克画笔思路"><span class="nav-number">1.5.</span> <span class="nav-text">马赛克画笔思路</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Reference"><span class="nav-number">1.5.0.1.</span> <span class="nav-text">Reference:</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sylar</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

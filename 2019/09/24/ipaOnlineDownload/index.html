@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="iOS,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="ipa 在线下载安装方法（itms-services）最近在学习 iOS 逆向这方面知识，逆向完成后，生成一个ipa包，然后再通过 某P助手 安装到手机上.如果想分享给别人使用还要通过真机编译更加麻烦.(当然手机在证书的绑定机子列表里面,并不是免签名越狱机子那种)然后想起了 蒲公英 与 fir 平台，(代码分发),就好奇它的实现方法,刚好手机购买了 JSBox App，一个非常赞的App，通过自己">
+<meta name="keywords" content="iOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ipa 在线下载安装方法（itms-services）">
+<meta property="og:url" content="https://swlfigo.github.io/2019/09/24/ipaOnlineDownload/index.html">
+<meta property="og:site_name" content="Nevermore">
+<meta property="og:description" content="ipa 在线下载安装方法（itms-services）最近在学习 iOS 逆向这方面知识，逆向完成后，生成一个ipa包，然后再通过 某P助手 安装到手机上.如果想分享给别人使用还要通过真机编译更加麻烦.(当然手机在证书的绑定机子列表里面,并不是免签名越狱机子那种)然后想起了 蒲公英 与 fir 平台，(代码分发),就好奇它的实现方法,刚好手机购买了 JSBox App，一个非常赞的App，通过自己">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-03-22-080718.jpg">
+<meta property="og:updated_time" content="2019-09-24T07:31:27.135Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ipa 在线下载安装方法（itms-services）">
+<meta name="twitter:description" content="ipa 在线下载安装方法（itms-services）最近在学习 iOS 逆向这方面知识，逆向完成后，生成一个ipa包，然后再通过 某P助手 安装到手机上.如果想分享给别人使用还要通过真机编译更加麻烦.(当然手机在证书的绑定机子列表里面,并不是免签名越狱机子那种)然后想起了 蒲公英 与 fir 平台，(代码分发),就好奇它的实现方法,刚好手机购买了 JSBox App，一个非常赞的App，通过自己">
+<meta name="twitter:image" content="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-03-22-080718.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"always","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://swlfigo.github.io/2019/09/24/ipaOnlineDownload/">
+
+
+
+
+
+  <title>ipa 在线下载安装方法（itms-services） | Nevermore</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nevermore</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://swlfigo.github.io/2019/09/24/ipaOnlineDownload/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sylar">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-07-25-032947.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nevermore">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">ipa 在线下载安装方法（itms-services）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-24T07:31:27+00:00">
+                2019-09-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="ipa-在线下载安装方法（itms-services）"><a href="#ipa-在线下载安装方法（itms-services）" class="headerlink" title="ipa 在线下载安装方法（itms-services）"></a>ipa 在线下载安装方法（itms-services）</h1><p>最近在学习 <strong>iOS</strong> 逆向这方面知识，逆向完成后，生成一个ipa包，然后再通过 某P助手 安装到手机上.如果想分享给别人使用还要通过真机编译更加麻烦.(当然手机在证书的绑定机子列表里面,并不是免签名越狱机子那种)<br>然后想起了 <strong>蒲公英</strong> 与 <strong>fir</strong> 平台，(代码分发),就好奇它的实现方法,刚好手机购买了 <strong>JSBox</strong> App，一个非常赞的App，通过自己写脚本可以实现一堆功能。  上面有一个脚本可以本机下载 <strong>iCloud</strong> 上的 ipa 进行安装，就研究脚本原理.</p>
+<h1 id="itms-services"><a href="#itms-services" class="headerlink" title="itms-services"></a>itms-services</h1><p>脚本中主要用到的是这个苹果协议 <strong>itms-services</strong> </p>
+<blockquote>
+<p>itms-services 协议常用于 iOS 企业应用的无线部署，这可在不使用 iTunes 的情况下将内部软件发布或者分享给用户。</p>
+</blockquote>
+<h1 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h1><h3 id="html部署"><a href="#html部署" class="headerlink" title="html部署"></a>html部署</h3><p>实现在线下载ipa方法其实很简单.首先需要一个网页，<strong>safari</strong> 浏览器访问然后点击链接下载，如同 <code>蒲公英</code> 与 <code>fir</code> 平台做法. 那么 ，链接 a 标签里面应该写什么呢?</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"itms-services://?action=download-manifest&amp;url=https://****/***.plist"</span>&gt;</span> xxx <span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><code>url=</code> 后面plist的链接要求一定是https的，而且必须是公网ssl，自签名及免费的https不可用。<br>此处推荐 <code>码云</code> , <code>Github</code> 等自带 <code>https</code> 平台，plist只需上传托管，通过 Raw 形式查看即可获得 plist 的地址,以<code>码云</code> 代码托管平台为例,</p>
+<p><img src="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-03-22-080718.jpg" alt></p>
+<p>点击后即可在浏览器获得地址，然后替换掉 html 标签里面数据 </p>
+<h3 id="plist-文件"><a href="#plist-文件" class="headerlink" title="plist 文件"></a>plist 文件</h3><p>plist文件如何写呢？如下:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span><br><span class="line">&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;</span><br><span class="line">&lt;plist version="1.0"&gt;</span><br><span class="line">&lt;dict&gt;</span><br><span class="line">	&lt;key&gt;items&lt;/key&gt;</span><br><span class="line">	&lt;array&gt;</span><br><span class="line">		&lt;dict&gt;</span><br><span class="line">			&lt;key&gt;assets&lt;/key&gt;</span><br><span class="line">			&lt;array&gt;</span><br><span class="line">				&lt;dict&gt;</span><br><span class="line">					&lt;key&gt;kind&lt;/key&gt;</span><br><span class="line">					&lt;string&gt;software-package&lt;/string&gt;</span><br><span class="line">					&lt;key&gt;url&lt;/key&gt;</span><br><span class="line">					&lt;string&gt;http://此处为ipa地址,可以使用http或https&lt;/string&gt;</span><br><span class="line">				&lt;/dict&gt;</span><br><span class="line">			&lt;/array&gt;</span><br><span class="line">			&lt;key&gt;metadata&lt;/key&gt;</span><br><span class="line">			&lt;dict&gt;</span><br><span class="line">				&lt;key&gt;bundle-identifier&lt;/key&gt;</span><br><span class="line">				&lt;string&gt;*&lt;/string&gt;</span><br><span class="line">				&lt;key&gt;bundle-version&lt;/key&gt;</span><br><span class="line">				&lt;string&gt;1.0&lt;/string&gt;</span><br><span class="line">				&lt;key&gt;kind&lt;/key&gt;</span><br><span class="line">				&lt;string&gt;software&lt;/string&gt;</span><br><span class="line">				&lt;key&gt;title&lt;/key&gt;</span><br><span class="line">				&lt;string&gt;App名字，可随意，网页点击下载时候弹框标识&lt;/string&gt;</span><br><span class="line">			&lt;/dict&gt;</span><br><span class="line">		&lt;/dict&gt;</span><br><span class="line">	&lt;/array&gt;</span><br><span class="line">&lt;/dict&gt;</span><br><span class="line">&lt;/plist&gt;</span><br></pre></td></tr></table></figure>
+<p>那么简单的 ipa在线下载就完成了</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/24/2018ReadingList/" rel="next" title="2018阅读清单">
+                <i class="fa fa-chevron-left"></i> 2018阅读清单
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/24/iOSVolumeViewTips/" rel="prev" title="iOS音量控制界面控制Tips">
+                iOS音量控制界面控制Tips <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-07-25-032947.jpg" alt="Sylar">
+          <p class="site-author-name" itemprop="name">Sylar</p>
+           
+              <p class="site-description motion-element" itemprop="description">一个不会iOS的搬砖工</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/swlfigo || github" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/swlfigo/Study/wiki || paper-plane" target="_blank" title="更多学习笔记">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                    
+                      更多学习笔记
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ipa-在线下载安装方法（itms-services）"><span class="nav-number">1.</span> <span class="nav-text">ipa 在线下载安装方法（itms-services）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#itms-services"><span class="nav-number">2.</span> <span class="nav-text">itms-services</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#流程"><span class="nav-number">3.</span> <span class="nav-text">流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#html部署"><span class="nav-number">3.0.1.</span> <span class="nav-text">html部署</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#plist-文件"><span class="nav-number">3.0.2.</span> <span class="nav-text">plist 文件</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sylar</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

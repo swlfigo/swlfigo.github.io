@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="iOS,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="最近读《高性能iOS应用开发》一书，重新了解了下iOS中内存模型与一些开发中注意事项，并摘抄书中知识点做了下笔记，另外原来不了解方面知识也做了相关资料搜索作笔记补充。（如有错误欢迎指正）  一. 开始1. 移动应用的性能1.1 定义性能性能是非常模糊的术语,高性能有着多重的含义和丰富的解释方式。（需要测量和监控的）性能指标是其中的 一个关注点，（实际上收集数据的）测量是另一个关注点。 1.2 性能">
+<meta name="keywords" content="iOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="高性能iOS应用开发">
+<meta property="og:url" content="https://swlfigo.github.io/2019/09/24/iOSPerformanceReadNote/index.html">
+<meta property="og:site_name" content="Nevermore">
+<meta property="og:description" content="最近读《高性能iOS应用开发》一书，重新了解了下iOS中内存模型与一些开发中注意事项，并摘抄书中知识点做了下笔记，另外原来不了解方面知识也做了相关资料搜索作笔记补充。（如有错误欢迎指正）  一. 开始1. 移动应用的性能1.1 定义性能性能是非常模糊的术语,高性能有着多重的含义和丰富的解释方式。（需要测量和监控的）性能指标是其中的 一个关注点，（实际上收集数据的）测量是另一个关注点。 1.2 性能">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-03-22-080557.jpg">
+<meta property="og:image" content="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-03-22-080626.jpg">
+<meta property="og:image" content="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-03-22-080643.jpg">
+<meta property="og:image" content="https://swlfigo.github.io/2019/09/24/iOSPerformanceReadNote/media/15371688148453.jpg">
+<meta property="og:image" content="https://swlfigo.github.io/2019/09/24/iOSPerformanceReadNote/media/15371694923367.jpg">
+<meta property="og:updated_time" content="2019-09-24T07:31:27.135Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="高性能iOS应用开发">
+<meta name="twitter:description" content="最近读《高性能iOS应用开发》一书，重新了解了下iOS中内存模型与一些开发中注意事项，并摘抄书中知识点做了下笔记，另外原来不了解方面知识也做了相关资料搜索作笔记补充。（如有错误欢迎指正）  一. 开始1. 移动应用的性能1.1 定义性能性能是非常模糊的术语,高性能有着多重的含义和丰富的解释方式。（需要测量和监控的）性能指标是其中的 一个关注点，（实际上收集数据的）测量是另一个关注点。 1.2 性能">
+<meta name="twitter:image" content="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-03-22-080557.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"always","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://swlfigo.github.io/2019/09/24/iOSPerformanceReadNote/">
+
+
+
+
+
+  <title>高性能iOS应用开发 | Nevermore</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nevermore</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://swlfigo.github.io/2019/09/24/iOSPerformanceReadNote/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sylar">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-07-25-032947.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nevermore">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">高性能iOS应用开发</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-24T07:31:27+00:00">
+                2019-09-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近读《高性能iOS应用开发》一书，重新了解了下iOS中内存模型与一些开发中注意事项，并摘抄书中知识点做了下笔记，另外原来不了解方面知识也做了相关资料搜索作笔记补充。<strong>（如有错误欢迎指正）</strong></p>
+<p><img src="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-03-22-080557.jpg" alt></p>
+<h1 id="一-开始"><a href="#一-开始" class="headerlink" title="一. 开始"></a>一. 开始</h1><h2 id="1-移动应用的性能"><a href="#1-移动应用的性能" class="headerlink" title="1. 移动应用的性能"></a>1. 移动应用的性能</h2><h2 id="1-1-定义性能"><a href="#1-1-定义性能" class="headerlink" title="1.1 定义性能"></a>1.1 定义性能</h2><p>性能是非常模糊的术语,高性能有着多重的含义和丰富的解释方式。（需要测量和监控的）性能指标是其中的 一个关注点，（实际上收集数据的）测量是另一个关注点。</p>
+<h2 id="1-2-性能指标"><a href="#1-2-性能指标" class="headerlink" title="1.2 性能指标"></a>1.2 性能指标</h2><p>性能指标是面向用户的各种属性。每个属性可能是一个或多个可测量工程参数的一个要素。</p>
+<h3 id="1-2-1-内存"><a href="#1-2-1-内存" class="headerlink" title="1.2.1 内存"></a>1.2.1 内存</h3><p>内存涉及运行应用所需的 RAM 最小值，以及应用消耗的内存平均值和峰值。最小内存值 会严重限制硬件，而更高的内存平均值和峰值意味着更多的后台应用会被强制关闭。<br>同时还要确保没有泄漏内存。随时间流逝而持续增长的内存消耗意味着，应用很可能会因 为内存不足的异常而崩溃。</p>
+<h3 id="1-2-2-电量消耗"><a href="#1-2-2-电量消耗" class="headerlink" title="1.2.2 电量消耗"></a>1.2.2 电量消耗</h3><p>电量消耗不仅仅与计算 CPU 周期有关，还包括高效地使用硬件。除了要实现电量消耗最小化，还要确保不会影响用户体验。</p>
+<h3 id="1-2-3-初始化时间"><a href="#1-2-3-初始化时间" class="headerlink" title="1.2.3 初始化时间"></a>1.2.3 初始化时间</h3><p>应用在启动时应执行刚好够用的任务以完成初始化，从而满足用户的使用需求。执行这些 任务消耗的时间就是应用的初始化时间。 刚好够用是一个开放式用语——<strong>正确的平衡点取 决于应用的需要。</strong></p>
+<h3 id="1-2-4-执行速度"><a href="#1-2-4-执行速度" class="headerlink" title="1.2.4 执行速度"></a>1.2.4 执行速度</h3><p>一旦启动应用，用户总是希望它可以尽可能快地工作。一切必要的处理都应该在尽可能短 的时间内完成。</p>
+<h3 id="1-2-5-响应速度"><a href="#1-2-5-响应速度" class="headerlink" title="1.2.5 响应速度"></a>1.2.5 响应速度</h3><p>每个应用都应该快速地响应用户交互。在应用中所做的一切优化和权衡最终都应该体现在 响应速度上。</p>
+<h3 id="1-2-6-本地存储"><a href="#1-2-6-本地存储" class="headerlink" title="1.2.6 本地存储"></a>1.2.6 本地存储</h3><p>针对任何在服务器上存储数据或通过外部来源刷新数据的应用，开发人员应该对本地存储 的使用有所规划，以便应用具备离线浏览的能力。<strong>如果你的应用使用了本地存储，那么请提供一个清除数据的选项。</strong></p>
+<h3 id="1-2-7-互操作性"><a href="#1-2-7-互操作性" class="headerlink" title="1.2.7 互操作性"></a>1.2.7 互操作性</h3><p>用户可能会使用多个应用来完成某个任务，这就需要这些应用直接提供互操作的能力。</p>
+<h3 id="1-2-8-网络环境"><a href="#1-2-8-网络环境" class="headerlink" title="1.2.8 网络环境"></a>1.2.8 网络环境</h3><p>移动设备会在不同网络环境下使用。为了确保能够提供最好的用户体验，你的应用应当适 应各种网络条件：</p>
+<ul>
+<li><p>高带宽稳定网络</p>
+</li>
+<li><p>低带宽稳定网络</p>
+</li>
+<li><p>高带宽不稳定网络</p>
+</li>
+<li><p>低带宽不稳定网络</p>
+</li>
+<li><p>无网络</p>
+</li>
+</ul>
+<h3 id="1-2-9-安全"><a href="#1-2-9-安全" class="headerlink" title="1.2.9 安全"></a>1.2.9 安全</h3><p>安全对移动应用来说是最重要的，因为敏感信息可能会在应用间共享。因此，对所有通信 以及本地数据和共享数据进行加密就显得尤为重要了。<br>实现安全需要更多的计算、内存和存储，但这与最大化运行速度、最小化内存和存储使用 的目标相冲突。</p>
+ <a id="more"></a>
+<h1 id="二-核心优化"><a href="#二-核心优化" class="headerlink" title="二. 核心优化"></a>二. 核心优化</h1><p>该部分讨论的优化包括以下方面:</p>
+<ul>
+<li><p>内存管理</p>
+</li>
+<li><p>能耗</p>
+</li>
+<li><p>并发编程</p>
+</li>
+</ul>
+<h2 id="2-内存管理"><a href="#2-内存管理" class="headerlink" title="2. 内存管理"></a>2. 内存管理</h2><p>与（基于垃圾回收的）Java 运行时不同， Objective-C 和 Swift 的 iOS 运行时使用引用计数。 使用引用计数的负面影响在于，如果开发人员不够小心，那么可能会出现重复的内存释放 和循环引用的情况。</p>
+<h3 id="2-1-内存消耗"><a href="#2-1-内存消耗" class="headerlink" title="2.1 内存消耗"></a>2.1 内存消耗</h3><p>内存消耗指的是应用消耗的RAM。</p>
+<p>iOS 的虚拟内存模型并不包含交换内存，与桌面应用不同，这意味着磁盘不会被用来分页 内存。最终的结果是应用只能使用有限的 RAM。 这些 RAM 的使用者不仅包括在前台运行 的应用，还包括操作系统服务，甚至还包括其他应用所执行的后台任务。</p>
+<p>应用中的<strong>内存消耗分为两部分</strong>：<strong>栈大小</strong>和<strong>堆大小</strong>。</p>
+<h4 id="2-1-1-栈大小"><a href="#2-1-1-栈大小" class="headerlink" title="2.1.1 栈大小"></a>2.1.1 栈大小</h4><p>应用中新创建的每个线程都有专用的栈空间， 该空间由保留的内存和初始提交的内存组成。线程的最大栈空间很小，这就决定了以下的限制。</p>
+<ul>
+<li>可被递归调用的最大方法数</li>
+</ul>
+<p>每个方法都有其自己的栈帧，并会消耗整体的栈空间。如果你调 用 main ，那么 main 将调用 method1 ，而 method1 又将调用 method2 ， 这就存在三个栈帧了，且每个栈帧都会消耗一定字节的内存。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">main() &#123; </span><br><span class="line">    method1(); </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">method1() &#123; </span><br><span class="line">    method2(); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-03-22-080626.jpg" alt></p>
+<ul>
+<li>一个方法中最多可以使用的变量个数</li>
+</ul>
+<p>所有的变量都会载入方法的栈帧中，并消耗一定的栈空间。</p>
+<ul>
+<li>视图层级中可以嵌入的最大视图深度</li>
+</ul>
+<p>渲染复合视图将在整个视图层级树中递归地调用 <code>layoutSubViews</code> 和 <code>drawRect</code> 方法。如果层级过深，可能会导致栈溢出。</p>
+<h4 id="2-1-2-堆大小"><a href="#2-1-2-堆大小" class="headerlink" title="2.1.2 堆大小"></a>2.1.2 堆大小</h4><p>每个进程的所有线程共享同一个堆。使用 NSString 、载入图片、创建或使用 JSON/XML 数据、使用视图等都会消耗大量的堆 内存。<br>与通过类创建的对象相关的所有数据都存放在堆中。类可能包含属性或值类型的实例变量（iVars）， 如 int 、 char 或 struct 。但因为对象是在堆内创建的，所以它们只消耗堆内存。<br>当对象被创建并被赋值时，数据可能会从栈复制到堆。类似地， 当值仅在方法内部使用 时，它们也可能会被从堆复制到栈。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">@interface AClass  </span><br><span class="line">@property (nonatomic, assign) NSInteger anInteger; </span><br><span class="line">@property (nonatomic, copy) NSString *aString;</span><br><span class="line">@end </span><br><span class="line"></span><br><span class="line">//一些其他的类 </span><br><span class="line">-(AClass *) createAClassWithInteger:(NSInteger)i string:(NSString *)s &#123; </span><br><span class="line">    AClass *result = [AClass new]; </span><br><span class="line">    result.anInteger = i; </span><br><span class="line">    result.aString = s;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">-(void) someMethod:(NSArray *)items &#123; </span><br><span class="line">    NSInteger total = 0; </span><br><span class="line">    NSMutableString *finalValue = [NSMutableString string];</span><br><span class="line">    for(AClass *obj in items) &#123; </span><br><span class="line">        total += obj.anInteger; </span><br><span class="line">        [finalValue appendString:obj.aString]; </span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如下总结:</p>
+<ul>
+<li><strong>i 的值在栈上</strong>。但赋值给属性时，它必须被<strong>复制到堆</strong>中，因为那是存储 result 的地方。</li>
+<li>虽然 NSString * 通过引用传递，但这个属性被标记为 copy 。这意味着它的值必须被复 制或克隆，这取决于 [-NSCopying copyWithZone:] 方法的实现。</li>
+<li>使用 anInteger 时，它的值必须先<strong>复制到栈</strong>然后才能进行进一步的处理。在本示例中，它的值加到 total。</li>
+</ul>
+<h3 id="2-2-内存管理模型"><a href="#2-2-内存管理模型" class="headerlink" title="2.2 内存管理模型"></a>2.2 内存管理模型</h3><p>内存管理模型基于持有关系的概念。如果一个对象正处于被持有状态，那它占用的内存就 不能被回收。</p>
+<p>一旦与某个对象相关的任务全部完成，那么就是放弃了持有关系。这一过程没有转移持有 关系，而是分别增加或减少了持有者的数量。当持有者的数量降为零时，对象会被释放。</p>
+<p>这种持有关系计数通常被正式称为<strong>引用计数</strong>。</p>
+<p><strong>eg.1</strong> 如:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">NSString *message = @&quot;Objective-C is a verbose yet awesome language&quot;;</span><br><span class="line">NSString *messageRetained = [message retain]; </span><br><span class="line">[messageRetained release]; </span><br><span class="line">[message release]; </span><br><span class="line">NSLog(@&quot;Value of message: %@&quot;, message);</span><br></pre></td></tr></table></figure>
+<ol>
+<li>创建对象、message 建立了持有关系，引用计数为 1。</li>
+<li>messageRetained 建立了持有关系，引用计数增加为 2。</li>
+<li>messageRetained 放弃了持有关系，引用计数降为 1。</li>
+<li>message 放弃了持有关系，引用计数降为 0。</li>
+<li>严格来讲，此时 message 的值是未定义的。你仍然能像之前那样得到相同的值，因为它 对应的内存还没有被回收或重置</li>
+</ol>
+<p><strong>eg.2</strong> 方法中的<strong>引用计数</strong>:</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">//一个Person类的部分 </span></span><br><span class="line"><span class="comment">//注:此 NSString 创建方法相当不科学，可能作者为了例子这样写，我会在小结处再做进一步解释</span></span><br><span class="line"></span><br><span class="line">-(<span class="built_in">NSString</span> *) address &#123;</span><br><span class="line">    <span class="built_in">NSString</span> *result = [[<span class="built_in">NSString</span> alloc] initWithFormat:<span class="string">@"%@\n%@\n%@, %@"</span>, <span class="keyword">self</span>.line1, <span class="keyword">self</span>.line2, <span class="keyword">self</span>.city, <span class="keyword">self</span>.state];</span><br><span class="line">    <span class="keyword">return</span> result; </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">-(<span class="keyword">void</span>) showPerson:(Person *) p &#123; </span><br><span class="line">    <span class="built_in">NSString</span> *paddress = [p address];</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"Person's Address: %@"</span>, paddress);</span><br><span class="line">    [paddress release];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>首次创建对象，result 指向内存的引用计数为 1。 </li>
+<li>通过 paddress （指向 result ）指向的内存的引用计数仍然是 1。 showPerson: 方法通过 address 按钮创建了对象，是对象的持有者。对象不应该被再次持有（ retain )。 </li>
+<li>放弃持有关系；引用计数降为 0。</li>
+</ol>
+<h3 id="2-3-自动释放对象"><a href="#2-3-自动释放对象" class="headerlink" title="2.3 自动释放对象"></a>2.3 自动释放对象</h3><p>自动释放对象让你能够放弃对一个对象的持有关系，但延后对它的销毁。当在方法中创建 一个对象并需要将其返回时，自动释放就显得非常有用。自动释放可以帮助在 MRC 中管 理对象的生命周期。</p>
+<p>在上面例子中，没什么能表示 address 方法持有了返回的字符串。因此，方法的调用者 showPerson: 也不应该释放返回的字符串，这可能会导致发生内存泄漏。加入 [paddress release] 这行代码的目的是为了指明这种情况。</p>
+<p>以下是两种可能的解决方案。</p>
+<ul>
+<li><p>不要使用 alloc 或相关的方法。</p>
+</li>
+<li><p>对返回的对象使用延时释放。</p>
+</li>
+</ul>
+<p>修改代码如下:</p>
+<p><strong>eg.3</strong> 不要使用 alloc 或相关的方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">-(NSString *) address &#123;</span><br><span class="line">    NSString *result = [NSString stringWithFormat:@&quot;%@\n%@\n%@, %@&quot;, self.line1, self.line2, self.city, self.state]; </span><br><span class="line">    return result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">-(void) showPerson:(Person *) p &#123; </span><br><span class="line">    NSString *paddress = [p address];</span><br><span class="line">    NSLog(@&quot;Person&apos;s Address: %@&quot;, paddress);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>不要使用 alloc 方法。 </li>
+<li>由于 showPerson: 方法没有创建实体对象，因此不要在 showPerson: 方法中使用 release 方法。</li>
+</ol>
+<p>但是，当使用第三方类库或者某个类有多个用于创建对象的方法 时，到底是哪个方法保持了持有关系并不明确。所以引入了 <code>autorelease</code></p>
+<p><strong>eg.4</strong>  autorelease</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">-(NSString *) address &#123; </span><br><span class="line">    NSString *result = [[[NSString alloc] initWithFormat:@&quot;%@\n%@\n%@, %@&quot;, self.line1, self.line2, self.city, self.state] autorelease]; </span><br><span class="line">    return result; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li><p>持有的对象（在上述示例中是 NSString ）是 alloc 方法返回的。</p>
+</li>
+<li><p>确保没有内存泄漏，你必须在失去引用之前放弃持有关系。</p>
+</li>
+<li><p>但是，如果使用了 release ,那么对象的释放将发生在返回之前，因而方法将返回一个 无效的引用。</p>
+</li>
+<li><p>autorelease 表明你想要放弃持有关系，同时允许方法的调用者在对象被释放之前使用对象。</p>
+</li>
+</ol>
+<p><strong>结论如下:</strong></p>
+<blockquote>
+<p>当创建一个对象并将其从非 alloc 方法返回时，应使用 autorelease。 这样可以确保对象将被释放，并尽量在调用方法执行完成时立即释放。</p>
+</blockquote>
+<h3 id="2-4-自动释放池块-autoreleasepool"><a href="#2-4-自动释放池块-autoreleasepool" class="headerlink" title="2.4 自动释放池块 (@autoreleasepool)"></a>2.4 自动释放池块 (@autoreleasepool)</h3><p>自动释放池块是允许你放弃对一个对象的持有关系、但可避免它立即被回收的一个工具。它还能确保在块内创建的对象会在块完成时被回收。本地的块可以用来尽早地释放其中的对象，从而使内存用量保持在较低的水平。</p>
+<p><code>main.m</code> 文件中的 <code>@autoreleasepool</code> 代码段</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//main.m</span><br><span class="line">int main(int argc, char * argv[]) &#123; </span><br><span class="line">    @autoreleasepool &#123; </span><br><span class="line">        return UIApplicationMain(argc, argv, nil, NSStringFromClass([HPAppDelegate class])); </span><br><span class="line">&#125;</span><br><span class="line">//end</span><br></pre></td></tr></table></figure>
+<p>那么，块中收到过 <code>autorelease</code> 消息的所有对象都会在 <code>autoreleasepool</code> 块结束时收到 release 消息</p>
+<p>(<strong>注 : 根据一些网上一些文章解析, Autorelease对象是在当前的runloop迭代结束时释放的，而它能够释放的原因是系统在每个runloop迭代中都加入了自动释放池Push和Pop</strong> )</p>
+<p>但在一些特定情况下，可能想创建自己的 <code>autoreleasepool</code> 块</p>
+<ul>
+<li>当你有一个创建了很多临时对象的循环时</li>
+</ul>
+<p>在循环中使用 autoreleasepool 块可以为每个迭代释放内存。虽然迭代前后最终的内存 使用相同，但你的应用的最大内存需求可以大大降低。</p>
+<p><strong>eg.1</strong> 错误的 <code>autoreleasepool</code> 示范代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">    //错误代码示范</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    @autoreleasepool &#123;</span><br><span class="line">        NSUInteger *userCount = userDatabase.userCount;</span><br><span class="line">        for(NSUInteger *i = 0; i &lt; userCount; i++)&#123; </span><br><span class="line">            Person *p = [userDatabase userAtIndex:i];</span><br><span class="line">            NSString *fname = p.fname; </span><br><span class="line">            if(fname == nil) &#123; </span><br><span class="line">                fname = [self askUserForFirstName]; </span><br><span class="line">             &#125;</span><br><span class="line">            NSString *lname = p.lname; </span><br><span class="line">            if(lname == nil) &#123; </span><br><span class="line">                lname = [self askUserForLastName]; </span><br><span class="line">            &#125;</span><br><span class="line">            //...</span><br><span class="line">            [userDatabase updateUser:p];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>eg.2</strong> 正确 <code>autoreleasepool</code> 示范:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    @autoreleasepool &#123;</span><br><span class="line">        NSUInteger *userCount = userDatabase.userCount;</span><br><span class="line">        for(NSUInteger *i = 0; i &lt; userCount; i++)&#123; </span><br><span class="line">        @autoreleasepool &#123;</span><br><span class="line">                Person *p = [userDatabase userAtIndex:i];</span><br><span class="line">                NSString *fname = p.fname; </span><br><span class="line">                if(fname == nil) &#123; </span><br><span class="line">                    fname = [self askUserForFirstName]; </span><br><span class="line">                 &#125;</span><br><span class="line">                NSString *lname = p.lname; </span><br><span class="line">                if(lname == nil) &#123; </span><br><span class="line">                    lname = [self askUserForLastName]; </span><br><span class="line">                &#125;</span><br><span class="line">                //...</span><br><span class="line">                [userDatabase updateUser:p];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li><p>eg1中这段代码，因为只有一个 autoreleasepool ，而且内存清理工作要在所有的循环 迭代完成之后才能进行。</p>
+</li>
+<li><p>这个示例中有两个 autoreleasepool ，内层的 autoreleasepool 确保在每次循环迭代完成 后清理内存，从而导致更少的内存需求。</p>
+</li>
+</ol>
+<h3 id="2-5-自动引用计数"><a href="#2-5-自动引用计数" class="headerlink" title="2.5 自动引用计数"></a>2.5 自动引用计数</h3><p>持续跟踪 retain 、 release 和 autorelease 并不容易。要想找出是谁在什么时间和地点向谁 发送了这些消息就更难了。<br>2011 年的全球开发者大会上介绍了解决这一问题的方案——<strong>ARC</strong>。<br><strong>ARC 是一种编译器特性。</strong> 它评估了对象在代码中的生命周期，并在编译时自动注入适合的 内存管理调用。<strong>编译器还会生成适合的 dealloc 方法。</strong></p>
+<p><img src="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-03-22-080643.jpg" alt></p>
+<h4 id="ARC规则"><a href="#ARC规则" class="headerlink" title="ARC规则"></a>ARC规则</h4><ol>
+<li><p>不能实现或调用 retain 、 release 、 autorelease 或 retainCount 方法。 这一限制不仅针 对对象，对选择器同样有效。因此， [obj release] 或 @selector(retain) 是编译时的错误。</p>
+</li>
+<li><p>可以实现 dealloc 方法，但不能调用它们。不仅不能调用其他对象的 dealloc 方法，也不能调用超类。 [super dealloc] 是编译时的错误。 但你仍然可以对 Core Foundation 类型的对象调用 CFRetain 、 CFRelease 等相关方法。(注: CF 库需要手动内存管理)</p>
+</li>
+<li><p>不能调用 NSAllocateObject 和 NSDeallocateObject 方法。应使用alloc方法创建对象，运行时负责回收对象。</p>
+</li>
+<li><p>不能在 C 语言的结构体内使用对象指针。</p>
+</li>
+<li><p>不能在 id 类型和 void * 类型之间自动转换。如果需要，那么你必须做显示转换。</p>
+</li>
+<li><p>不能使用 NSAutoreleasePool ，要替换使用 autoreleasepool 块。</p>
+</li>
+<li><p>不能使用 NSZone 内存区域。</p>
+</li>
+<li><p>属性的访问器名称不能以 new 开头，以确保与 MRC 的互操作性。</p>
+</li>
+</ol>
+<h3 id="2-6-引用类型"><a href="#2-6-引用类型" class="headerlink" title="2.6 引用类型"></a>2.6 引用类型</h3><p>ARC 带来了新的引用类型：<code>弱引用</code>。</p>
+<ul>
+<li><p>强引用<br>强引用是默认的引用类型。 被强引用指向的内存不会被释放。 强引用会对引用计数加 1， 从而扩展对象的生命周期。</p>
+</li>
+<li><p>弱引用<br>弱引用是一种特殊的引用类型。它不会增加引用计数，因而不会扩展对象的生命周期。</p>
+</li>
+</ul>
+<h4 id="2-6-1-变量限定符"><a href="#2-6-1-变量限定符" class="headerlink" title="2.6.1 变量限定符"></a>2.6.1 变量限定符</h4><p>ARC 为变量供了<strong>四种生命周期限定符</strong>。</p>
+<p>(注:由于书上内容解析不太深刻，找到个更好的解析)</p>
+<table>
+<thead>
+<tr>
+<th>Variable Qualifier</th>
+<th>Desc</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>__strong</td>
+<td>是默认的。只要有强类型指针指向一个对象，那么该对象会一直”生存“下去。</td>
+</tr>
+<tr>
+<td>__weak<span class="Apple-tab-span" style="white-space:pre"></span></td>
+<td>表明一个不会维持所持对象生命期的引用。当没有强引用指向该对象时，弱引用会设置为nil。</td>
+</tr>
+<tr>
+<td>__unsafe_unretained</td>
+<td>指定一个引用，该引用不会维持所持对象的生命期，并且在没有强引用指向对象时也不会设置为nil。如果它所指向的对象已经被释放，那么它会成为一个野指针。</td>
+</tr>
+<tr>
+<td>__autoreleasing</td>
+<td>用以指示以引用（id*）传入的参数并在retun后自动释放。</td>
+</tr>
+</tbody>
+</table>
+<p><strong>eg.1</strong> 使用变量限定符</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">1. Person * __strong p1 = [[Person alloc] init];  </span><br><span class="line">2. Person * __weak p2 = [[Person alloc] init];</span><br><span class="line">3. Person * __unsafe_unretained p3 = [[Person alloc] init]; </span><br><span class="line">4. Person * __autoreleasing p4 = [[Person alloc] init];</span><br></pre></td></tr></table></figure>
+<ol>
+<li>创建对象后引用计数为 1， 并且对象在 p1 引用期间不会被回收。 </li>
+<li>创建对象后引用计数为 0， 对象会被立即释放，且 p2 将被设置为 nil 。 </li>
+<li>创建对象后引用计数为 1， 对象会被立即释放，但 p3 不会被设置为 nil 。 </li>
+<li>创建对象后引用计数为 1， 当方法返回时对象会被立即释放。</li>
+</ol>
+<h3 id="2-7-僵尸对象"><a href="#2-7-僵尸对象" class="headerlink" title="2.7 僵尸对象"></a>2.7 僵尸对象</h3><p>僵尸对象是用于捕捉内存错误的调试功能。<br>通常情况下，当引用计数降为 0 时对象会立即被释放，但这使得调试变得困难。如果开启 了僵尸对象， 那么对象就不会立即释放内存， 而是被标记为僵尸。 任何试图对其进行访 问的行为都会被日志记录， 因而你可以在对象的生命周期中跟踪对象在代码中被使用的位置。</p>
+<h3 id="2-9-循环引用"><a href="#2-9-循环引用" class="headerlink" title="2.9 循环引用"></a>2.9 循环引用</h3><p>(<strong>注: 书上的例子非常不科学，写出来是没有循环引用问题的。循环引用开发中比较常见，所以这里不做更多笔记说明。</strong>)</p>
+<h3 id="Final-内存这块笔记小结"><a href="#Final-内存这块笔记小结" class="headerlink" title="Final 内存这块笔记小结:"></a>Final 内存这块笔记小结:</h3><p>读完内存模块这一章节了解到更多内存管理方面知识,有以下几点补充总结。</p>
+<h4 id="1-iOS中一共有哪些存储空间："><a href="#1-iOS中一共有哪些存储空间：" class="headerlink" title="1. iOS中一共有哪些存储空间："></a>1. iOS中一共有哪些存储空间：</h4><ol>
+<li>栈区（stack）</li>
+<li>堆区（heap）</li>
+<li>静态区</li>
+<li>寄存器区</li>
+<li>文字常量区</li>
+<li>程序代码区</li>
+</ol>
+<h4 id="2-栈区"><a href="#2-栈区" class="headerlink" title="2. 栈区"></a>2. 栈区</h4><p>栈区中的内存空间是由编译器自动释放的，一般来是<strong>存放参数</strong>，<strong>局部变量</strong>等等。<br>在iOS开发中，栈空间的大小为1M。</p>
+<h4 id="3-堆区"><a href="#3-堆区" class="headerlink" title="3. 堆区"></a>3. 堆区</h4><p>栈空间只有1M，那么我们很多时候需要的资源都会超过1M，所以由此也引出了堆。在iOS中，栈空间是每个程序都有一个的，而且互相不干扰，堆空间则是一个系统公共的，换句话说就是所有的应用程序都使用一个堆空间。<br>对于堆中的内存空间的操作，是通过链表来操作的</p>
+<h4 id="4-MRC-stringWithFormat-和-initWithFormat-有何不同？"><a href="#4-MRC-stringWithFormat-和-initWithFormat-有何不同？" class="headerlink" title="4. (MRC) stringWithFormat 和 initWithFormat 有何不同？"></a>4. (MRC) stringWithFormat 和 initWithFormat 有何不同？</h4><ol>
+<li>initWithFormat是实例方法</li>
+</ol>
+<p>只能经由过程 NSString* str = [[NSString alloc] initWithFormat:＠”％＠”，＠”Hello World”] 调用，然则必须<strong>手动release</strong>来开释内存资料</p>
+<ol start="2">
+<li>stringWithFormat是类方法</li>
+</ol>
+<p>可以直接用 NSString* str = [NSString stringWithFormat:＠”％＠”，＠”Hello World”] 调用，内存经管上是autorelease的，不需手动显式release</p>
+<ol start="3">
+<li>Example:</li>
+</ol>
+<p>别的国外有个贴子对此有专门评论辩论并且提出了一个常见错误:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">label.text = [[NSString alloc] initWithFormat:＠&quot;％＠&quot;，＠&quot;abc&quot;];</span><br></pre></td></tr></table></figure>
+<p>最后在 <code>dealloc</code> 中将 <code>label</code>给 <code>release</code> 掉然则仍然会产生内存泄漏！</p>
+<p>原因在于：用</p>
+<p>label.text = …</p>
+<p>时，实际是隐式调用的label的<code>setText</code>办法，这会<code>retain label</code>内部的字符串变量<code>text</code>（哪怕这个字符串的内容跟传进来的字符串内容雷同，但体系仍然当成二个不合的字符串对象），所以最后<code>release label</code>时，实际上只开释了label内部的text字符串，然则最初用<code>initWithFormat</code>生成的字符串并未开释，终极造成了泄漏。</p>
+<p><strong>为什么会导致这样的情况呢？</strong></p>
+<p><code>initWithString</code>申请的地址每次都是一样的，而<code>initWithFormat</code>的地址每次都不一样，这个说明什么？<br>说明<code>initWithString</code>的地址是静态的，而<code>initWithFormat</code>是动态的。</p>
+<h4 id="5-autoreleasing"><a href="#5-autoreleasing" class="headerlink" title="5. __autoreleasing"></a>5. __autoreleasing</h4><p>有以下代码:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">NSError *error;</span><br><span class="line">BOOL OK = [myObject performOperationWithError:&amp;error];</span><br><span class="line">if (!OK) &#123;</span><br><span class="line">    //blablabla</span><br><span class="line">    //...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中，<code>error</code> 是隐式调用:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NSError * __strong e;</span><br></pre></td></tr></table></figure>
+<p>方法的声明通常是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (BOOL)performOperationWithError:(NSError * __autoreleasing *)error;</span><br></pre></td></tr></table></figure>
+<p>因此编译器会重写代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">NSError * __strong error;</span><br><span class="line">NSError * __autoreleasing tmp = error;</span><br><span class="line">BOOL OK = [myObject performOperationWithError:&amp;tmp];</span><br><span class="line">error = tmp;</span><br><span class="line">if (!OK) &#123;</span><br><span class="line">    //blablabla</span><br><span class="line">    //...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>本地变量声明( <strong>strong)和参数( </strong>autoreleasing)之间的区别导致编译器创建临时变量。在获取<strong>strong变量的地址时你可以通过将参数声明为 id </strong>storng*来获得其原始指针。或者你可以将变量声明为 __autoreleasing。</p>
+<p><strong>问题:</strong></p>
+<ol>
+<li><code>-(BOOL)performOperationWithError:(NSError * __autoreleasing *)error;</code>中为什么需要用 <code>__autoreleasing</code> 变量限定符修饰？</li>
+<li>本地变量声明<code>( __strong)</code>和参数<code>( __autoreleasing)</code>之间的区别导致编译器创建临时变量？</li>
+</ol>
+<p>解决上述两个问题，首先得知道:</p>
+<ol>
+<li>__autoreleasing是什么？</li>
+<li><strong>autoreleasing作用什么？（为什么要使用</strong>autoreleasing）</li>
+</ol>
+<h5 id="5-1-autoreleasing-是什么？"><a href="#5-1-autoreleasing-是什么？" class="headerlink" title="5.1 __autoreleasing 是什么？"></a>5.1 __autoreleasing 是什么？</h5><p>__autoreleasing 是 ARC 下用于控制变量生命周期而引入的4个变量限定符之一。</p>
+<h5 id="5-2-autoreleasing-作用什么？（为什么要使用autoreleasing"><a href="#5-2-autoreleasing-作用什么？（为什么要使用autoreleasing" class="headerlink" title="5.2 autoreleasing 作用什么？（为什么要使用autoreleasing)?"></a>5.2 <strong>autoreleasing 作用什么？（为什么要使用</strong>autoreleasing)?</h5><p><strong>ARC:</strong></p>
+<ol>
+<li>不能显式的调用dealloc，实现或调用 retain， release， retainCount，或 autorelease。</li>
+<li>不能使用 NSAutoreleasePool 对象<blockquote>
+<p>ARC 提供了 @autoreleasepool来代替。这比 NSAutoreleasePool更高效。</p>
+</blockquote>
+</li>
+</ol>
+<p>对比一下 MRC 与 ARC 下使用 autoreleasepool 的不同地方：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/* MRC  */</span><br><span class="line">1 NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];</span><br><span class="line">2 id obj = [[NSObject alloc] init];</span><br><span class="line">3 [obj autorelease]; //对象调用 autorelease 方法就是将该对象注册到最近的 autoreleasepool 中</span><br><span class="line">4 [pool drain];</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/* ARC */</span><br><span class="line">1 @autoreleasepool &#123;</span><br><span class="line">2   id __autoreleasing obj = [[NSObject alloc] init];</span><br><span class="line">3 &#125;</span><br></pre></td></tr></table></figure>
+<p><strong>通过将对象赋值给带有 <code>__autoreleasing</code> 修饰符的变量来代替调用 <code>autorelease</code> 方法，即将对象注册到 <code>autoreleasepool</code></strong></p>
+<p>所以:</p>
+<p>被添加到autoreleasepool了，默认情况下要将 obj 指向的对象添加到autoreleasepool中是需要 __autoreleasing 修饰符去修饰 obj 的，那么ARC 下它应该就会进行一个编译转换，如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id __autoreleasing tem = obj;</span><br></pre></td></tr></table></figure>
+<h4 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h4><ol>
+<li><p><a href="https://blog.csdn.net/nineteen_/article/details/48782465" target="_blank" rel="noopener">https://blog.csdn.net/nineteen_/article/details/48782465</a></p>
+</li>
+<li><p><a href="http://www.isaced.com/post-240.html" target="_blank" rel="noopener">http://www.isaced.com/post-240.html</a></p>
+</li>
+<li><p><a href="https://www.jianshu.com/p/245bdcb47e3b" target="_blank" rel="noopener">https://www.jianshu.com/p/245bdcb47e3b</a></p>
+</li>
+<li><p><a href="https://www.jianshu.com/p/0258ed2133ff" target="_blank" rel="noopener">https://www.jianshu.com/p/0258ed2133ff</a></p>
+</li>
+</ol>
+<h2 id="3-能耗"><a href="#3-能耗" class="headerlink" title="3. 能耗"></a>3. 能耗</h2><p>(<strong>注:这部分没有太多可以做笔记的知识点，忽略</strong>)</p>
+<h2 id="4-并发编程"><a href="#4-并发编程" class="headerlink" title="4. 并发编程"></a>4. 并发编程</h2><h3 id="4-1-线程"><a href="#4-1-线程" class="headerlink" title="4.1 线程"></a>4.1 线程</h3><p><strong>线程</strong>是运行时执行的一组指令序列。</p>
+<p>每个进程至少应包含一个线程。在 iOS 中，进程启动时的主要线程通常被称作主线程。所 有的 UI 元素都需要在主线程中创建和管理。</p>
+<p>Cocoa 编程不允许其他线程更新 UI 元素。这意味着，无论何时应用在后台线程执行了耗时 操作，比如网络或其他处理，代码都必须将上下文切换到主线程再更新 UI</p>
+<h3 id="4-2-线程开销"><a href="#4-2-线程开销" class="headerlink" title="4.2 线程开销"></a>4.2 线程开销</h3><p>线程不仅仅有创建时的时间开销，还会消耗内核的内存，即应用的内存空间。</p>
+<h4 id="4-2-1-内核数据结构"><a href="#4-2-1-内核数据结构" class="headerlink" title="4.2.1 内核数据结构"></a>4.2.1 内核数据结构</h4><p>每个线程大约消耗 1KB 的内核内存空间。这块内存用于存储与线程有关的数据结构和属 性。这块内存是联动内存（wired memory） ，无法被分页。</p>
+<h4 id="4-2-2-栈空间"><a href="#4-2-2-栈空间" class="headerlink" title="4.2.2 栈空间"></a>4.2.2 栈空间</h4><p>主线程的栈空间大小为 1M， 而且<strong>无法修改</strong>。所有的二级线程默认分配 512KB 的栈空间。 注意，<strong>完整的栈并不会立即被创建出来</strong>。实际的<strong>栈空间大小会随着使用而增长</strong>。因此，即 使主线程有 1MB 的栈空间，某个时间点的实际栈空间很可能要小很多。</p>
+<h3 id="4-3-GCD"><a href="#4-3-GCD" class="headerlink" title="4.3 GCD"></a>4.3 GCD</h3><p>GCD 提供的功能列表:</p>
+<ul>
+<li><p>任务或分发队列，允许主线程中的执行、并行执行和串行执行。</p>
+</li>
+<li><p>分发组，实现对一组任务执行情况的跟踪，而与这些任务所基于的队列无关。</p>
+</li>
+<li><p>信号量。</p>
+</li>
+<li><p>屏障，允许在并行分发队列中创建同步的点。</p>
+</li>
+<li><p>分发对象和管理源，实现更为底层的管理和监控。</p>
+</li>
+<li><p>异步 I/O， 使用文件描述符或管道。</p>
+</li>
+</ul>
+<p>注意:<br>当应用中有多个长耗时的任 务需要并行执行时，最好 . 对线程的创建过程加以控制。如果代码执行的时间过长，很有可能达到<strong>线程的限制 64 个</strong>， 2,3 即 GCD 的线程池上限。</p>
+<h3 id="4-4-操作与队列"><a href="#4-4-操作与队列" class="headerlink" title="4.4 操作与队列"></a>4.4 操作与队列</h3><p><code>NSOperation</code> 封装了一个任务以及和任务相关的数据和代码， 而 <code>NSOperationQueue</code> 以先入 先出的顺序控制了一个或多个这类任务的执行。 </p>
+<p><code>NSOperation</code> 和 <code>NSOperationQueue</code> 都提供控制线程个数的能力。 可用 <code>maxConcurrentOperationCount</code> 属性控制队列的个数，也可以控制每个队列的线程个数。</p>
+<p><strong>NSOperationQueue 和 GCD API 快速比较。</strong></p>
+<ul>
+<li><p>GCD</p>
+<ul>
+<li>抽象程度最高。</li>
+<li>两种队列开箱即用： main 和 global 。</li>
+<li>可以创建更多的队列（使用 dispatch_queue_create ）</li>
+<li>可以请求独占访问（使用 dispatch_barrier_sync 和 dispatch_barrier_async ）。</li>
+<li>基于线程管理。</li>
+<li>硬性限制创建 64 个线程。</li>
+</ul>
+</li>
+<li><p>NSOperationQueue</p>
+<ul>
+<li>无默认队列。</li>
+<li>应用管理自己创建的队列。</li>
+<li>队列是优先级队列。</li>
+<li>操作可以有不同的优先级（使用 queuePriority 属性)。</li>
+<li>使用 cancel 消息可以取消操作。注意， cancel 仅仅是个标记。 如果操作已经开始执行，则可能会继续执行下去。</li>
+<li>可以等待某个操作执行完毕（使用 waitUntilFinished 消息）。</li>
+</ul>
+</li>
+</ul>
+<h3 id="4-5-线程安全的代码"><a href="#4-5-线程安全的代码" class="headerlink" title="4.5 线程安全的代码"></a>4.5 线程安全的代码</h3><p>书中讨论了 <code>atomic</code> 与 <code>nonatomic</code> 问题，与 <code>@synchronized</code> 的使用. 关于 <code>atomic</code> 与 <code>nonatomic</code> 是否绝对安全，一些面试题或者博客有更好的解释。</p>
+<p>归纳知识点如下:</p>
+<p>所有的属性默认都是原子性的。</p>
+<p><code>atomic</code> 和 <code>nonatomic</code> 的区别在于，系统自动生成的 getter/setter 方法不一样。如果你自己写 getter/setter，那 atomic/nonatomic/retain/assign/copy 这些关键字只起提示作用，写不写都一样。</p>
+<p>对于<code>atomic</code>的属性，系统生成的 getter/setter 会保证 get、set 操作的完整性，<code>不受其他线程影响</code>。比如，线程 A 的 getter 方法运行到一半，线程 B 调用了 setter：那么线程 A 的 getter 还是能得到一个完好无损的对象。</p>
+<p>而<code>nonatomic</code>就没有这个保证了。所以，<strong>nonatomic的速度要比atomic快</strong>。</p>
+<p>不过<code>atomic</code>可<strong>并不能保证线程安全</strong>。如果线程 A 调了 getter，与此同时线程 B 、线程 C 都调了 setter——那最后线程 A get 到的值，3种都有可能：可能是 B、C set 之前原始的值，也可能是 B set 的值，也可能是 C set 的值。同时，最终这个属性的值，可能是 B set 的值，也有可能是 C set 的值。</p>
+<p>摘取 <strong>Mr.Peak</strong> 博客一个小结:</p>
+<blockquote>
+<p>atomic的作用只是给getter和setter加了个锁，atomic只能保证代码进入getter或者setter函数内部时是安全的，一旦出了getter和setter，多线程安全只能靠程序员自己保障了。所以atomic属性和使用property的多线程安全并没什么直接的联系。另外，atomic由于加锁也会带来一些性能损耗，所以我们在编写iOS代码的时候，一般声明property为nonatomic，在需要做多线程安全的场景，自己去额外加锁做同步。</p>
+</blockquote>
+<p><strong>原文:</strong> <a href="http://mrpeak.cn/blog/ios-thread-safety/" target="_blank" rel="noopener">传送门</a></p>
+<p>另外文中还有一些锁的概念，这里也不做太多扩展.</p>
+<h1 id="三-性能"><a href="#三-性能" class="headerlink" title="三. 性能"></a>三. 性能</h1><h2 id="5-应用生命周期"><a href="#5-应用生命周期" class="headerlink" title="5. 应用生命周期"></a>5. 应用生命周期</h2><p>iOS 应用启动时会调用 UIApplicationMain 方法，并传入 <code>UIApplicationDelegate</code> 类的引用。 委托接收应用范围的事件， 并且有明确的生命周期,<code>application:didFinishLaunchingWit hOptions:</code> 方法表明应用已经启动。关键组件的初始化就发生在这个方法中，如崩溃上报、</p>
+<p>网络、日志以及埋点的初始化。此外，初次启动或恢复前置状态以便后续启动时，还可能会执行一些一次性的初始化操作。</p>
+<h3 id="5-1-应用委托"><a href="#5-1-应用委托" class="headerlink" title="5.1 应用委托"></a>5.1 应用委托</h3><p>应用委托通常是应用创建的第一个对象。它为应用提供一些环境变量，其中包括应用启动 的详细信息、远程通知、深层链接，等等。</p>
+<p>如图启动流程:</p>
+<p><img src="media/15371688148453.jpg" alt></p>
+<h3 id="5-2-应用启动"><a href="#5-2-应用启动" class="headerlink" title="5.2 应用启动"></a>5.2 应用启动</h3><p>著名的 <code>application:didFinishLaunchingWithOptions:</code>方法是应用启动时最核心的地方。此 处不能发生任何错误，且绝不能发生崩溃，否则应用将无法正常使用，直到下次升级。</p>
+<p>应用有四种启动类型。</p>
+<ul>
+<li>首次启动</li>
+</ul>
+<p>安装应用后的首次启动。此时没有之前的状态，也没有本地缓存。</p>
+<p>这意味着将会出现以下两种情况中的一种：没有需要加载的内容（因此加载时间会缩 短)，或者需要从服务器上下载初始数据（可能需要很长的加载时间）。</p>
+<ul>
+<li>冷启动 </li>
+</ul>
+<p>应用后续的启动。在启动期间，可能需要恢复原来的状态，例如，游戏中达到的最高等 级、消息应用中的聊天记录、新闻应用中上一次同步的文章、已登录用户的证书，或者 仅仅是用户已经使用过的引导图标记符。</p>
+<ul>
+<li>热(重)启动</li>
+</ul>
+<p>这是指当应用处于后台，但并未被挂起或关闭时，用户切换至应用而触发的启动。在这 种情况下，当用户通过点击应用图标或深层链接,返回应用时，不会触发 启动时的回调，而是直接用 <code>applicationDidBecomeActive:</code>（或 <code>application:openURL:so urce:annotation:</code>）回调。</p>
+<ul>
+<li>升级后启动</li>
+</ul>
+<p>应用升级以后的启动。通常而言，升级后的启动与冷启动没有差别。</p>
+<h2 id="6-用户界面"><a href="#6-用户界面" class="headerlink" title="6. 用户界面"></a>6. 用户界面</h2><h3 id="6-1-视图控制器"><a href="#6-1-视图控制器" class="headerlink" title="6.1 视图控制器"></a>6.1 视图控制器</h3><p>视图控制器的生命周期。</p>
+<p><img src="media/15371694923367.jpg" alt> </p>
+<p>视图初始化时会涉及两个方法—— <code>loadView</code> 和 <code>viewDidLoad</code> 。当添加一个新的视图控制器时， 通过 Xcode 生成的模板代码只有 <code>viewDidLoad</code> 方法。当视图控制器的 <code>view</code> 被请求时， <code>loadView</code> 方法会被调用，但因为它还未被创建，所以会是 nil 。</p>
+<p>视图会通过以下三种方式加载：</p>
+<ul>
+<li><p>从 nibs</p>
+</li>
+<li><p>使用故事板（使用 UIStoryboardSegue ）</p>
+</li>
+<li><p>使用自定义代码创建 UI</p>
+</li>
+</ul>
+<p>如果通过覆写<code>loadView</code> 方法创建了自定义 UI，你需要牢记以下几点。</p>
+<ul>
+<li><p>将 view 属性设置到视图层级的根上。</p>
+</li>
+<li><p>确保视图正被其他的视图控制器所共享。</p>
+</li>
+<li><p><strong>不要调用 [super loadView]</strong> 。</p>
+</li>
+</ul>
+<p>书上剩下的知识点比较常见，如 <code>TableView</code>，<code>UIWebView</code>介绍等，不做更多笔记.</p>
+<h2 id="7-网络"><a href="#7-网络" class="headerlink" title="7 网络"></a>7 网络</h2><h2 id="8-数据共享"><a href="#8-数据共享" class="headerlink" title="8 数据共享"></a>8 数据共享</h2><h2 id="9-安全"><a href="#9-安全" class="headerlink" title="9 安全"></a>9 安全</h2><p>后续章节没有更多好的知识点，本书比较好的还是前半段关于内存知识点，更多知识点可以学习日本大佬写的那本 内存管理的书,看完这本书与另外搜索的笔记让一些模糊知识点变得清晰</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/24/iOSVolumeViewTips/" rel="next" title="iOS音量控制界面控制Tips">
+                <i class="fa fa-chevron-left"></i> iOS音量控制界面控制Tips
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/24/iOSMosaiImagePen/" rel="prev" title="iOS马赛克图片画笔一种实现思路">
+                iOS马赛克图片画笔一种实现思路 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-07-25-032947.jpg" alt="Sylar">
+          <p class="site-author-name" itemprop="name">Sylar</p>
+           
+              <p class="site-description motion-element" itemprop="description">一个不会iOS的搬砖工</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/swlfigo || github" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/swlfigo/Study/wiki || paper-plane" target="_blank" title="更多学习笔记">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                    
+                      更多学习笔记
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一-开始"><span class="nav-number">1.</span> <span class="nav-text">一. 开始</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-移动应用的性能"><span class="nav-number">1.1.</span> <span class="nav-text">1. 移动应用的性能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-定义性能"><span class="nav-number">1.2.</span> <span class="nav-text">1.1 定义性能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-性能指标"><span class="nav-number">1.3.</span> <span class="nav-text">1.2 性能指标</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-1-内存"><span class="nav-number">1.3.1.</span> <span class="nav-text">1.2.1 内存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-2-电量消耗"><span class="nav-number">1.3.2.</span> <span class="nav-text">1.2.2 电量消耗</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-3-初始化时间"><span class="nav-number">1.3.3.</span> <span class="nav-text">1.2.3 初始化时间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-4-执行速度"><span class="nav-number">1.3.4.</span> <span class="nav-text">1.2.4 执行速度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-5-响应速度"><span class="nav-number">1.3.5.</span> <span class="nav-text">1.2.5 响应速度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-6-本地存储"><span class="nav-number">1.3.6.</span> <span class="nav-text">1.2.6 本地存储</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-7-互操作性"><span class="nav-number">1.3.7.</span> <span class="nav-text">1.2.7 互操作性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-8-网络环境"><span class="nav-number">1.3.8.</span> <span class="nav-text">1.2.8 网络环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-9-安全"><span class="nav-number">1.3.9.</span> <span class="nav-text">1.2.9 安全</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二-核心优化"><span class="nav-number">2.</span> <span class="nav-text">二. 核心优化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-内存管理"><span class="nav-number">2.1.</span> <span class="nav-text">2. 内存管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-内存消耗"><span class="nav-number">2.1.1.</span> <span class="nav-text">2.1 内存消耗</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-1-栈大小"><span class="nav-number">2.1.1.1.</span> <span class="nav-text">2.1.1 栈大小</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-2-堆大小"><span class="nav-number">2.1.1.2.</span> <span class="nav-text">2.1.2 堆大小</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-内存管理模型"><span class="nav-number">2.1.2.</span> <span class="nav-text">2.2 内存管理模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-自动释放对象"><span class="nav-number">2.1.3.</span> <span class="nav-text">2.3 自动释放对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-自动释放池块-autoreleasepool"><span class="nav-number">2.1.4.</span> <span class="nav-text">2.4 自动释放池块 (@autoreleasepool)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-自动引用计数"><span class="nav-number">2.1.5.</span> <span class="nav-text">2.5 自动引用计数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ARC规则"><span class="nav-number">2.1.5.1.</span> <span class="nav-text">ARC规则</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-6-引用类型"><span class="nav-number">2.1.6.</span> <span class="nav-text">2.6 引用类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-6-1-变量限定符"><span class="nav-number">2.1.6.1.</span> <span class="nav-text">2.6.1 变量限定符</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-7-僵尸对象"><span class="nav-number">2.1.7.</span> <span class="nav-text">2.7 僵尸对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-9-循环引用"><span class="nav-number">2.1.8.</span> <span class="nav-text">2.9 循环引用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Final-内存这块笔记小结"><span class="nav-number">2.1.9.</span> <span class="nav-text">Final 内存这块笔记小结:</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-iOS中一共有哪些存储空间："><span class="nav-number">2.1.9.1.</span> <span class="nav-text">1. iOS中一共有哪些存储空间：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-栈区"><span class="nav-number">2.1.9.2.</span> <span class="nav-text">2. 栈区</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-堆区"><span class="nav-number">2.1.9.3.</span> <span class="nav-text">3. 堆区</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-MRC-stringWithFormat-和-initWithFormat-有何不同？"><span class="nav-number">2.1.9.4.</span> <span class="nav-text">4. (MRC) stringWithFormat 和 initWithFormat 有何不同？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-autoreleasing"><span class="nav-number">2.1.9.5.</span> <span class="nav-text">5. __autoreleasing</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#5-1-autoreleasing-是什么？"><span class="nav-number">2.1.9.5.1.</span> <span class="nav-text">5.1 __autoreleasing 是什么？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-2-autoreleasing-作用什么？（为什么要使用autoreleasing"><span class="nav-number">2.1.9.5.2.</span> <span class="nav-text">5.2 autoreleasing 作用什么？（为什么要使用autoreleasing)?</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Reference"><span class="nav-number">2.1.9.6.</span> <span class="nav-text">Reference</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-能耗"><span class="nav-number">2.2.</span> <span class="nav-text">3. 能耗</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-并发编程"><span class="nav-number">2.3.</span> <span class="nav-text">4. 并发编程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-线程"><span class="nav-number">2.3.1.</span> <span class="nav-text">4.1 线程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-线程开销"><span class="nav-number">2.3.2.</span> <span class="nav-text">4.2 线程开销</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-1-内核数据结构"><span class="nav-number">2.3.2.1.</span> <span class="nav-text">4.2.1 内核数据结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-2-栈空间"><span class="nav-number">2.3.2.2.</span> <span class="nav-text">4.2.2 栈空间</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-GCD"><span class="nav-number">2.3.3.</span> <span class="nav-text">4.3 GCD</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-操作与队列"><span class="nav-number">2.3.4.</span> <span class="nav-text">4.4 操作与队列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-5-线程安全的代码"><span class="nav-number">2.3.5.</span> <span class="nav-text">4.5 线程安全的代码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三-性能"><span class="nav-number">3.</span> <span class="nav-text">三. 性能</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-应用生命周期"><span class="nav-number">3.1.</span> <span class="nav-text">5. 应用生命周期</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-应用委托"><span class="nav-number">3.1.1.</span> <span class="nav-text">5.1 应用委托</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-应用启动"><span class="nav-number">3.1.2.</span> <span class="nav-text">5.2 应用启动</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-用户界面"><span class="nav-number">3.2.</span> <span class="nav-text">6. 用户界面</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-1-视图控制器"><span class="nav-number">3.2.1.</span> <span class="nav-text">6.1 视图控制器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-网络"><span class="nav-number">3.3.</span> <span class="nav-text">7 网络</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-数据共享"><span class="nav-number">3.4.</span> <span class="nav-text">8 数据共享</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-安全"><span class="nav-number">3.5.</span> <span class="nav-text">9 安全</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sylar</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

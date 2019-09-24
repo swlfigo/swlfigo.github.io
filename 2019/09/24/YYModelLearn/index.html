@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="iOS,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="YYModel 阅读学习YYModel 是 YYKit 中其中一个部件，作用于Model对象转换.YYModel有比大多数同类框架，有着很好的性能优势（下图为作者在github的贴图）文中大部分为摘抄原文，然后加上自己的理解注释.  YYModel 使用YYModel的使用相对于JSOMModel更佳简单，不需要类去继承JSONModel. 如果有这样一组json数据： 12345&amp;#123;&quot;n">
+<meta name="keywords" content="iOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="YYModel阅读学习">
+<meta property="og:url" content="https://swlfigo.github.io/2019/09/24/YYModelLearn/index.html">
+<meta property="og:site_name" content="Nevermore">
+<meta property="og:description" content="YYModel 阅读学习YYModel 是 YYKit 中其中一个部件，作用于Model对象转换.YYModel有比大多数同类框架，有着很好的性能优势（下图为作者在github的贴图）文中大部分为摘抄原文，然后加上自己的理解注释.  YYModel 使用YYModel的使用相对于JSOMModel更佳简单，不需要类去继承JSONModel. 如果有这样一组json数据： 12345&amp;#123;&quot;n">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://okslxr2o0.bkt.clouddn.com/15154810380412.jpg">
+<meta property="og:image" content="http://okslxr2o0.bkt.clouddn.com/15154816831104.jpg">
+<meta property="og:image" content="http://okslxr2o0.bkt.clouddn.com/15154819152265.png">
+<meta property="og:image" content="http://okslxr2o0.bkt.clouddn.com/15154860109322.png">
+<meta property="og:image" content="http://okslxr2o0.bkt.clouddn.com/15154863127831.png">
+<meta property="og:image" content="http://okslxr2o0.bkt.clouddn.com/15154889837952.jpg">
+<meta property="og:image" content="http://okslxr2o0.bkt.clouddn.com/15155695714664.png">
+<meta property="og:image" content="http://okslxr2o0.bkt.clouddn.com/15155726368400.png">
+<meta property="og:image" content="http://okslxr2o0.bkt.clouddn.com/15156499946157.png">
+<meta property="og:image" content="http://okslxr2o0.bkt.clouddn.com/15156500954097.png">
+<meta property="og:image" content="http://okslxr2o0.bkt.clouddn.com/15156520103741.png">
+<meta property="og:image" content="http://okslxr2o0.bkt.clouddn.com/15156525113843.jpg">
+<meta property="og:image" content="http://okslxr2o0.bkt.clouddn.com/15156525326488.jpg">
+<meta property="og:image" content="http://okslxr2o0.bkt.clouddn.com/15156525454690.jpg">
+<meta property="og:updated_time" content="2019-09-24T07:31:27.135Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="YYModel阅读学习">
+<meta name="twitter:description" content="YYModel 阅读学习YYModel 是 YYKit 中其中一个部件，作用于Model对象转换.YYModel有比大多数同类框架，有着很好的性能优势（下图为作者在github的贴图）文中大部分为摘抄原文，然后加上自己的理解注释.  YYModel 使用YYModel的使用相对于JSOMModel更佳简单，不需要类去继承JSONModel. 如果有这样一组json数据： 12345&amp;#123;&quot;n">
+<meta name="twitter:image" content="http://okslxr2o0.bkt.clouddn.com/15154810380412.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"always","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://swlfigo.github.io/2019/09/24/YYModelLearn/">
+
+
+
+
+
+  <title>YYModel阅读学习 | Nevermore</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nevermore</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://swlfigo.github.io/2019/09/24/YYModelLearn/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sylar">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-07-25-032947.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nevermore">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">YYModel阅读学习</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-24T07:31:27+00:00">
+                2019-09-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="YYModel-阅读学习"><a href="#YYModel-阅读学习" class="headerlink" title="YYModel 阅读学习"></a>YYModel 阅读学习</h1><p><a href="https://github.com/ibireme/YYModel" target="_blank" rel="noopener">YYModel</a> 是 <a href="https://github.com/ibireme/YYKit" target="_blank" rel="noopener">YYKit</a> 中其中一个部件，作用于Model对象转换.<br>YYModel有比大多数同类框架，有着很好的性能优势（下图为作者在github的贴图）<br>文中大部分为摘抄原文，然后加上自己的理解注释.</p>
+<p><img src="http://okslxr2o0.bkt.clouddn.com/15154810380412.jpg" alt></p>
+<h3 id="YYModel-使用"><a href="#YYModel-使用" class="headerlink" title="YYModel 使用"></a>YYModel 使用</h3><p>YYModel的使用相对于JSOMModel更佳简单，不需要类去继承JSONModel.</p>
+<p>如果有这样一组json数据：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line"><span class="attr">"number"</span>:<span class="string">"13612345678"</span>, </span><br><span class="line"><span class="attr">"name"</span>:<span class="string">"Germany"</span>,</span><br><span class="line"> <span class="attr">"age"</span>: <span class="number">49</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>那我们会去建立相应的Object对象</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">TestObject</span> : <span class="title">NSObject</span></span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span> *name;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span> *number;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">assign</span>) <span class="built_in">NSInteger</span> age;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>调用 </p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 从 JSON 转为 Model:</span></span><br><span class="line">TestObject *testObject = [TestObject yy_modelWithJSON:json];</span><br><span class="line"></span><br><span class="line"><span class="comment">//从 Model 转为 JSON:</span></span><br><span class="line"><span class="built_in">NSDictionary</span> *json = [testObject yy_modelToJSONObject];</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<h3 id="整体结构"><a href="#整体结构" class="headerlink" title="整体结构"></a>整体结构</h3><p><img src="http://okslxr2o0.bkt.clouddn.com/15154816831104.jpg" alt></p>
+<p><code>包括:</code></p>
+<ul>
+<li>文件YYModel.h:  导入YYModel头文件</li>
+<li>文件NSObject+YYModel: YYModel主体Category</li>
+<li>文件YYClassInfo:Class解析类</li>
+</ul>
+<p><img src="http://okslxr2o0.bkt.clouddn.com/15154819152265.png" alt></p>
+<p>文件 <code>YYClassInfo</code> 中包括:</p>
+<ul>
+<li><code>@interface YYClassIvarInfo : NSObject</code>  对Class的Ivar进行解析与构造</li>
+<li><code>@interface YYClassMethodInfo : NSObject</code>  对Class的Method进行解析与构造</li>
+<li><code>@interface YYClassPropertyInfo : NSObject</code>  对Class的Property进行解析与构造</li>
+<li><code>@interface YYClassInfo : NSObject</code>  通过以上三种解析，对Class进行解析与构造</li>
+</ul>
+<p>文件 <code>NSObject+YYModel</code> 中包含：</p>
+<ul>
+<li><code>@interface _YYModelPropertyMeta : NSObject</code>  对Model的property进行解析与构造(.m中的private类)</li>
+<li><code>@interface _YYModelMeta : NSObject</code>  对Model进行解析与构造(.m中的private类)</li>
+<li><code>@interface NSObject (YYModel)</code>  NSObject的YYModel Category</li>
+<li><code>@interface NSArray (YYModel)</code> NSArray的YYModel Category</li>
+<li><code>@interface NSDictionary (YYModel)</code> NSDictionary的YYModel Category</li>
+<li><code>@protocol YYModel &lt;NSObject&gt;</code> 接口YYModel</li>
+</ul>
+<h3 id="大体思路"><a href="#大体思路" class="headerlink" title="大体思路"></a>大体思路</h3><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//先转化json对象到dictionary，再调用yy_modelWithDictionary</span></span><br><span class="line">+ (<span class="keyword">instancetype</span>)yy_modelWithJSON:(<span class="keyword">id</span>)json &#123;</span><br><span class="line">    <span class="built_in">NSDictionary</span> *dic = [<span class="keyword">self</span> _yy_dictionaryWithJSON:json];</span><br><span class="line">    <span class="keyword">return</span> [<span class="keyword">self</span> yy_modelWithDictionary:dic];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中 <code>_yy_dictionaryWithJSON</code> 就是将id的JSON对象转成dictionary</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">+ (<span class="built_in">NSDictionary</span> *)_yy_dictionaryWithJSON:(<span class="keyword">id</span>)json &#123;</span><br><span class="line">    <span class="keyword">if</span> (!json || json == (<span class="keyword">id</span>)kCFNull) <span class="keyword">return</span> <span class="literal">nil</span>;</span><br><span class="line">    <span class="built_in">NSDictionary</span> *dic = <span class="literal">nil</span>;</span><br><span class="line">    <span class="built_in">NSData</span> *jsonData = <span class="literal">nil</span>;</span><br><span class="line">    <span class="keyword">if</span> ([json isKindOfClass:[<span class="built_in">NSDictionary</span> <span class="keyword">class</span>]]) &#123;</span><br><span class="line">        dic = json;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> ([json isKindOfClass:[<span class="built_in">NSString</span> <span class="keyword">class</span>]]) &#123;</span><br><span class="line">        jsonData = [(<span class="built_in">NSString</span> *)json dataUsingEncoding : <span class="built_in">NSUTF8StringEncoding</span>];</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> ([json isKindOfClass:[<span class="built_in">NSData</span> <span class="keyword">class</span>]]) &#123;</span><br><span class="line">        jsonData = json;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (jsonData) &#123;</span><br><span class="line">        dic = [<span class="built_in">NSJSONSerialization</span> JSONObjectWithData:jsonData options:kNilOptions error:<span class="literal">NULL</span>];</span><br><span class="line">        <span class="keyword">if</span> (![dic isKindOfClass:[<span class="built_in">NSDictionary</span> <span class="keyword">class</span>]]) dic = <span class="literal">nil</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dic;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>赋值</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//解析model属性并附值</span></span><br><span class="line">+ (<span class="keyword">instancetype</span>)yy_modelWithDictionary:(<span class="built_in">NSDictionary</span> *)dictionary &#123;</span><br><span class="line">    <span class="keyword">if</span> (!dictionary || dictionary == (<span class="keyword">id</span>)kCFNull) <span class="keyword">return</span> <span class="literal">nil</span>;</span><br><span class="line">    <span class="keyword">if</span> (![dictionary isKindOfClass:[<span class="built_in">NSDictionary</span> <span class="keyword">class</span>]]) <span class="keyword">return</span> <span class="literal">nil</span>;</span><br><span class="line">    </span><br><span class="line">    Class cls = [<span class="keyword">self</span> <span class="keyword">class</span>];</span><br><span class="line">    <span class="comment">//解析class得到modelmeta对象</span></span><br><span class="line">    _YYModelMeta *modelMeta = [_YYModelMeta metaWithClass:cls];</span><br><span class="line">    <span class="comment">//本地class类型映射</span></span><br><span class="line">    <span class="keyword">if</span> (modelMeta-&gt;_hasCustomClassFromDictionary) &#123;</span><br><span class="line">        cls = [cls modelCustomClassForDictionary:dictionary] ?: cls;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">NSObject</span> *one = [cls new];</span><br><span class="line">    <span class="comment">//附值函数</span></span><br><span class="line">    <span class="keyword">if</span> ([one yy_modelSetWithDictionary:dictionary]) <span class="keyword">return</span> one;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">nil</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Runtime-说起"><a href="#Runtime-说起" class="headerlink" title="Runtime 说起"></a>Runtime 说起</h3><h4 id="理解instance、class-object、metaclass"><a href="#理解instance、class-object、metaclass" class="headerlink" title="理解instance、class object、metaclass"></a>理解instance、class object、metaclass</h4><ol>
+<li><code>instance</code> 对象实例</li>
+</ol>
+<p>我们经常使用id来声明一个对象，那id的本质又是什么呢？打开 <code>#import&lt;objc/objc.h&gt;</code>文件，可以发现以下几行代码</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// An opaque type that represents an Objective-C class.</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> objc_class *Class;</span><br><span class="line"></span><br><span class="line"><span class="comment">/// Represents an instance of a class.</span></span><br><span class="line"><span class="keyword">struct</span> objc_object &#123;</span><br><span class="line">    Class isa  OBJC_ISA_AVAILABILITY;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/// A pointer to an instance of a class.</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> objc_object *<span class="keyword">id</span>;</span><br></pre></td></tr></table></figure>
+<p>通过注释和代码，创建的一个对象或实例其实就是一个<code>struct objc_object</code>结构体，而我们常用的id也就是这个结构体的指针。<br>这个结构体只有一个成员变量，这是一个<code>Class</code>类型的变量<code>isa</code>，也是一个结构体指针。<br>面向对象中每一个对象都必须依赖一个类来创建，因此对象的<code>isa</code>指针就指向对象所属的类根据这个类模板能够创建出实例变量、实例方法等。</p>
+<p>比如有如下代码:</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSString</span>* str = <span class="string">@"Hello World"</span>;</span><br></pre></td></tr></table></figure>
+<p>通过上文我们知道这个<code>str</code>对象本质就是一个<code>objc_object</code>结构体，而这个结构体的成员变量<code>isa</code>指针则表明了str is a NSString，因此这个<code>isa</code>就指向了NSString类，这个NSString类其实是类对象。</p>
+<ol start="2">
+<li><code>class object/metaclass</code></li>
+</ol>
+<p>继续查看结构体<code>objc_class</code>的定义</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> objc_class &#123;</span><br><span class="line">    Class isa  OBJC_ISA_AVAILABILITY;</span><br><span class="line"></span><br><span class="line"><span class="meta">#if !__OBJC2__</span></span><br><span class="line">    Class super_class                                        OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span> *name                                         OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="keyword">long</span> version                                             OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="keyword">long</span> info                                                OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="keyword">long</span> instance_size                                       OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="keyword">struct</span> objc_ivar_list *ivars                             OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="keyword">struct</span> objc_method_list **methodLists                    OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="keyword">struct</span> objc_cache *cache                                 OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="keyword">struct</span> objc_protocol_list *protocols                     OBJC2_UNAVAILABLE;</span><br><span class="line"><span class="meta">#endif</span></span><br><span class="line"></span><br><span class="line">&#125; OBJC2_UNAVAILABLE;</span><br><span class="line"><span class="comment">/* Use `Class` instead of `struct objc_class *` */</span></span><br></pre></td></tr></table></figure>
+<p><code>struct objc_classs</code> 结构体里存放的数据称为元数据(metadata)，通过成员变量的名称我们可以猜测里面存放有指向父类的指针、类的名字、版本、实例大小、实例变量列表、方法列表、缓存、遵守的协议列表等，这些信息就足够创建一个实例了，该结构体的第一个成员变量也是<code>isa</code>指针，这就说明了Class本身其实也是一个对象，我们称之为<code>类对象</code>，<code>类对象</code>在编译期产生用于创建实例对象，是单例，因此前文中的栗子其实应该表达为str的isa指针指向了NSString类对象,那么这个结构体的isa指针又指向什么呢？<br><code>类对象</code>中的元数据存储的都是如何创建一个实例的相关信息，那么类对象和类方法应该从哪里创建呢？就是从<code>isa</code>指针指向的结构体创建，类对象的isa指针指向的我们称之为<code>元类(metaclass)</code>，元类中保存了创建类对象以及类方法所需的所有信息，因此整个结构应该如下图所示:</p>
+<p><img src="http://okslxr2o0.bkt.clouddn.com/15154860109322.png" alt></p>
+<p>通过上图我们可以清晰的看出来一个实例对象也就是<code>struct objc_object</code>结构体它的<code>isa</code>指针指向类对象，类对象的<code>isa</code>指针指向了<code>元类</code>，<code>super_class</code>指针指向了父类的类对象，而元类的<code>super_class</code>指针指向了父类的元类，那元类的isa指针又指向了什么,引用一张网上经常看到的图:</p>
+<p><img src="http://okslxr2o0.bkt.clouddn.com/15154863127831.png" alt></p>
+<p>通过上图我们可以看出整个体系构成了一个自闭环，如果是从<code>NSObject</code>中继承而来的上图中的<code>Root class</code>就是<code>NSObject</code>。至此，整个实例、类对象、元类的概念也就讲清了</p>
+<ol start="3">
+<li>概念引用</li>
+</ol>
+<p><code>类对象</code><br>有如下代码:</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">Person</span> : <span class="title">NSObject</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span>* name;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">assign</span>) <span class="built_in">NSUInteger</span> age;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">Person</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@synthesize</span> name = _name;</span><br><span class="line"><span class="keyword">@synthesize</span> age = _age;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> main(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[]) &#123;</span><br><span class="line">    <span class="keyword">@autoreleasepool</span> &#123;</span><br><span class="line">        Person *p = [[Person alloc] init];</span><br><span class="line">        Class c1 = [p <span class="keyword">class</span>];</span><br><span class="line">        Class c2 = [Person <span class="keyword">class</span>];</span><br><span class="line">        <span class="comment">//输出 1</span></span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@"%d"</span>, c1 == c2);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>c1</code>是通过一个实例对象获取的<code>Class</code>，实例对象可以获取到其类对象，类名作为消息的接受者时代表的是<code>类对象</code>，因此类对象获取<code>Class</code>得到的是其本身，同时也印证了类对象是一个单例的想法。 </p>
+<p><code>如何获得 isa 指针的指向对象</code><br>介绍两个函数</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">OBJC_EXPORT <span class="built_in">BOOL</span> class_isMetaClass(Class cls) </span><br><span class="line">    OBJC_AVAILABLE(<span class="number">10.5</span>, <span class="number">2.0</span>, <span class="number">9.0</span>, <span class="number">1.0</span>);</span><br><span class="line"></span><br><span class="line">OBJC_EXPORT Class object_getClass(<span class="keyword">id</span> obj) </span><br><span class="line">    OBJC_AVAILABLE(<span class="number">10.5</span>, <span class="number">2.0</span>, <span class="number">9.0</span>, <span class="number">1.0</span>);</span><br></pre></td></tr></table></figure>
+<p><code>class_isMetaClass</code>用于判断<code>Class</code>对象是否为<code>元类</code>，<code>object_getClass</code>用于获取对象的<code>isa</code>指针指向的对象。</p>
+<p>再看如下代码:</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> main(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[]) &#123;</span><br><span class="line">    <span class="keyword">@autoreleasepool</span> &#123;</span><br><span class="line">        Person *p = [[Person alloc] init];</span><br><span class="line">        <span class="comment">//输出1</span></span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@"%d"</span>, [p <span class="keyword">class</span>] == object_getClass(p));</span><br><span class="line">        <span class="comment">//输出0</span></span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@"%d"</span>, class_isMetaClass(object_getClass(p)));</span><br><span class="line">        <span class="comment">//输出1</span></span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@"%d"</span>, class_isMetaClass(object_getClass([Person <span class="keyword">class</span>])));</span><br><span class="line">        <span class="comment">//输出0</span></span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@"%d"</span>, object_getClass(p) == object_getClass([Person <span class="keyword">class</span>]));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过代码可以看出，一个实例对象通过<code>class</code>方法获取的<code>Class</code>就是它的<code>isa</code>指针指向的<code>类对象</code>，而<code>类对象</code>不是<code>元类</code>，<code>类对象</code>的<code>isa</code>指针指向的对象是<code>元类</code>。</p>
+<h3 id="回到YYModel-YYClassInfo"><a href="#回到YYModel-YYClassInfo" class="headerlink" title="回到YYModel  - YYClassInfo"></a>回到YYModel  - YYClassInfo</h3><p>####1. <code>typedef NS_OPTIONS(NSUInteger, YYEncodingType)</code> 与 <code>YYEncodingType YYEncodingGetType(const char *typeEncoding)</code>方法</p>
+<p><a href="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtTypeEncodings.html" target="_blank" rel="noopener">Type Encodings:</a></p>
+<blockquote>
+<p>To assist the runtime system, the compiler encodes the return and argument types for each method in a character string and associates the string with the method selector. The coding scheme it uses is also useful in other contexts and so is made publicly available with the @encode() compiler directive. When given a type specification, @encode() returns a string encoding that type. The type can be a basic type such as an int, a pointer, a tagged structure or union, or a class name—any type, in fact, that can be used as an argument to the C sizeof() operator.</p>
+</blockquote>
+<p><code>property attribute</code>的解析就是通过<code>type encode</code>解析出来的<code>string</code>进行的解析。</p>
+<p>附上苹果官网一张encode图:</p>
+<p><img src="http://okslxr2o0.bkt.clouddn.com/15154889837952.jpg" alt></p>
+<p>在 <code>YYClassInfo.h</code> 中，先定义了一个 <code>NS_OPTIONS</code> ：</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="built_in">NS_OPTIONS</span>(<span class="built_in">NSUInteger</span>, YYEncodingType) &#123;</span><br><span class="line">    <span class="comment">//0~8位：变量类型</span></span><br><span class="line">    YYEncodingTypeMask       = <span class="number">0xFF</span>, <span class="comment">///&lt; mask of type value</span></span><br><span class="line">    YYEncodingTypeUnknown    = <span class="number">0</span>, <span class="comment">///&lt; unknown</span></span><br><span class="line">    YYEncodingTypeVoid       = <span class="number">1</span>, <span class="comment">///&lt; void</span></span><br><span class="line">    YYEncodingTypeBool       = <span class="number">2</span>, <span class="comment">///&lt; bool</span></span><br><span class="line">    YYEncodingTypeInt8       = <span class="number">3</span>, <span class="comment">///&lt; char / BOOL</span></span><br><span class="line">    YYEncodingTypeUInt8      = <span class="number">4</span>, <span class="comment">///&lt; unsigned char</span></span><br><span class="line">    YYEncodingTypeInt16      = <span class="number">5</span>, <span class="comment">///&lt; short</span></span><br><span class="line">    YYEncodingTypeUInt16     = <span class="number">6</span>, <span class="comment">///&lt; unsigned short</span></span><br><span class="line">    YYEncodingTypeInt32      = <span class="number">7</span>, <span class="comment">///&lt; int</span></span><br><span class="line">    YYEncodingTypeUInt32     = <span class="number">8</span>, <span class="comment">///&lt; unsigned int</span></span><br><span class="line">    YYEncodingTypeInt64      = <span class="number">9</span>, <span class="comment">///&lt; long long</span></span><br><span class="line">    YYEncodingTypeUInt64     = <span class="number">10</span>, <span class="comment">///&lt; unsigned long long</span></span><br><span class="line">    YYEncodingTypeFloat      = <span class="number">11</span>, <span class="comment">///&lt; float</span></span><br><span class="line">    YYEncodingTypeDouble     = <span class="number">12</span>, <span class="comment">///&lt; double</span></span><br><span class="line">    YYEncodingTypeLongDouble = <span class="number">13</span>, <span class="comment">///&lt; long double</span></span><br><span class="line">    YYEncodingTypeObject     = <span class="number">14</span>, <span class="comment">///&lt; id</span></span><br><span class="line">    YYEncodingTypeClass      = <span class="number">15</span>, <span class="comment">///&lt; Class</span></span><br><span class="line">    YYEncodingTypeSEL        = <span class="number">16</span>, <span class="comment">///&lt; SEL</span></span><br><span class="line">    YYEncodingTypeBlock      = <span class="number">17</span>, <span class="comment">///&lt; block</span></span><br><span class="line">    YYEncodingTypePointer    = <span class="number">18</span>, <span class="comment">///&lt; void*</span></span><br><span class="line">    YYEncodingTypeStruct     = <span class="number">19</span>, <span class="comment">///&lt; struct</span></span><br><span class="line">    YYEncodingTypeUnion      = <span class="number">20</span>, <span class="comment">///&lt; union</span></span><br><span class="line">    YYEncodingTypeCString    = <span class="number">21</span>, <span class="comment">///&lt; char*</span></span><br><span class="line">    YYEncodingTypeCArray     = <span class="number">22</span>, <span class="comment">///&lt; char[10] (for example)</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">//8~16位：方法类型</span></span><br><span class="line">    YYEncodingTypeQualifierMask   = <span class="number">0xFF00</span>,   <span class="comment">///&lt; mask of qualifier</span></span><br><span class="line">    YYEncodingTypeQualifierConst  = <span class="number">1</span> &lt;&lt; <span class="number">8</span>,  <span class="comment">///&lt; const</span></span><br><span class="line">    YYEncodingTypeQualifierIn     = <span class="number">1</span> &lt;&lt; <span class="number">9</span>,  <span class="comment">///&lt; in</span></span><br><span class="line">    YYEncodingTypeQualifierInout  = <span class="number">1</span> &lt;&lt; <span class="number">10</span>, <span class="comment">///&lt; inout</span></span><br><span class="line">    YYEncodingTypeQualifierOut    = <span class="number">1</span> &lt;&lt; <span class="number">11</span>, <span class="comment">///&lt; out</span></span><br><span class="line">    YYEncodingTypeQualifierBycopy = <span class="number">1</span> &lt;&lt; <span class="number">12</span>, <span class="comment">///&lt; bycopy</span></span><br><span class="line">    YYEncodingTypeQualifierByref  = <span class="number">1</span> &lt;&lt; <span class="number">13</span>, <span class="comment">///&lt; byref</span></span><br><span class="line">    YYEncodingTypeQualifierOneway = <span class="number">1</span> &lt;&lt; <span class="number">14</span>, <span class="comment">///&lt; oneway</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">//16~24位：property修饰类型</span></span><br><span class="line">    YYEncodingTypePropertyMask         = <span class="number">0xFF0000</span>, <span class="comment">///&lt; mask of property</span></span><br><span class="line">    YYEncodingTypePropertyReadonly     = <span class="number">1</span> &lt;&lt; <span class="number">16</span>, <span class="comment">///&lt; readonly</span></span><br><span class="line">    YYEncodingTypePropertyCopy         = <span class="number">1</span> &lt;&lt; <span class="number">17</span>, <span class="comment">///&lt; copy</span></span><br><span class="line">    YYEncodingTypePropertyRetain       = <span class="number">1</span> &lt;&lt; <span class="number">18</span>, <span class="comment">///&lt; retain</span></span><br><span class="line">    YYEncodingTypePropertyNonatomic    = <span class="number">1</span> &lt;&lt; <span class="number">19</span>, <span class="comment">///&lt; nonatomic</span></span><br><span class="line">    YYEncodingTypePropertyWeak         = <span class="number">1</span> &lt;&lt; <span class="number">20</span>, <span class="comment">///&lt; weak</span></span><br><span class="line">    YYEncodingTypePropertyCustomGetter = <span class="number">1</span> &lt;&lt; <span class="number">21</span>, <span class="comment">///&lt; getter=</span></span><br><span class="line">    YYEncodingTypePropertyCustomSetter = <span class="number">1</span> &lt;&lt; <span class="number">22</span>, <span class="comment">///&lt; setter=</span></span><br><span class="line">    YYEncodingTypePropertyDynamic      = <span class="number">1</span> &lt;&lt; <span class="number">23</span>, <span class="comment">///&lt; @dynamic</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><code>NS_OPTIONS</code> 主要定义了3个大类encode type:</p>
+<ul>
+<li>YYEncodingTypeMask:<br>变量类型，因为类型只会有一种，所以就用数字占位</li>
+<li>YYEncodingTypeQualifierMask:<br>方法中的参数变量修饰符，理论上只有解析Method的参数才能解析到</li>
+<li>YYEncodingTypePropertyMask<br>property修饰符类型</li>
+</ul>
+<p>获取Ivar类型的函数如下：</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//解析Ivar的type encode string</span></span><br><span class="line">YYEncodingType YYEncodingGetType(<span class="keyword">const</span> <span class="keyword">char</span> *typeEncoding) &#123;</span><br><span class="line">    <span class="keyword">char</span> *type = (<span class="keyword">char</span> *)typeEncoding;</span><br><span class="line">    <span class="keyword">if</span> (!type) <span class="keyword">return</span> YYEncodingTypeUnknown;</span><br><span class="line">    size_t len = strlen(type);</span><br><span class="line">    <span class="keyword">if</span> (len == <span class="number">0</span>) <span class="keyword">return</span> YYEncodingTypeUnknown;</span><br><span class="line">    </span><br><span class="line">    YYEncodingType qualifier = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">bool</span> prefix = <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">while</span> (prefix) &#123;</span><br><span class="line">        <span class="comment">//方法参数Ivar中的解析，理论上解析不到该类参数</span></span><br><span class="line">        <span class="keyword">switch</span> (*type) &#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">'r'</span>: &#123;</span><br><span class="line">                qualifier |= YYEncodingTypeQualifierConst;</span><br><span class="line">                type++;</span><br><span class="line">            &#125; <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">'n'</span>: &#123;</span><br><span class="line">                qualifier |= YYEncodingTypeQualifierIn;</span><br><span class="line">                type++;</span><br><span class="line">            &#125; <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">'N'</span>: &#123;</span><br><span class="line">                qualifier |= YYEncodingTypeQualifierInout;</span><br><span class="line">                type++;</span><br><span class="line">            &#125; <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">'o'</span>: &#123;</span><br><span class="line">                qualifier |= YYEncodingTypeQualifierOut;</span><br><span class="line">                type++;</span><br><span class="line">            &#125; <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">'O'</span>: &#123;</span><br><span class="line">                qualifier |= YYEncodingTypeQualifierBycopy;</span><br><span class="line">                type++;</span><br><span class="line">            &#125; <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">'R'</span>: &#123;</span><br><span class="line">                qualifier |= YYEncodingTypeQualifierByref;</span><br><span class="line">                type++;</span><br><span class="line">            &#125; <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">'V'</span>: &#123;</span><br><span class="line">                qualifier |= YYEncodingTypeQualifierOneway;</span><br><span class="line">                type++;</span><br><span class="line">            &#125; <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">default</span>: &#123; prefix = <span class="literal">false</span>; &#125; <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    len = strlen(type);</span><br><span class="line">    <span class="keyword">if</span> (len == <span class="number">0</span>) <span class="keyword">return</span> YYEncodingTypeUnknown | qualifier;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//返回值类型解析</span></span><br><span class="line">    <span class="keyword">switch</span> (*type) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">'v'</span>: <span class="keyword">return</span> YYEncodingTypeVoid | qualifier;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">'B'</span>: <span class="keyword">return</span> YYEncodingTypeBool | qualifier;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">'c'</span>: <span class="keyword">return</span> YYEncodingTypeInt8 | qualifier;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">'C'</span>: <span class="keyword">return</span> YYEncodingTypeUInt8 | qualifier;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">'s'</span>: <span class="keyword">return</span> YYEncodingTypeInt16 | qualifier;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">'S'</span>: <span class="keyword">return</span> YYEncodingTypeUInt16 | qualifier;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">'i'</span>: <span class="keyword">return</span> YYEncodingTypeInt32 | qualifier;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">'I'</span>: <span class="keyword">return</span> YYEncodingTypeUInt32 | qualifier;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">'l'</span>: <span class="keyword">return</span> YYEncodingTypeInt32 | qualifier;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">'L'</span>: <span class="keyword">return</span> YYEncodingTypeUInt32 | qualifier;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">'q'</span>: <span class="keyword">return</span> YYEncodingTypeInt64 | qualifier;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">'Q'</span>: <span class="keyword">return</span> YYEncodingTypeUInt64 | qualifier;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">'f'</span>: <span class="keyword">return</span> YYEncodingTypeFloat | qualifier;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">'d'</span>: <span class="keyword">return</span> YYEncodingTypeDouble | qualifier;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">'D'</span>: <span class="keyword">return</span> YYEncodingTypeLongDouble | qualifier;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">'#'</span>: <span class="keyword">return</span> YYEncodingTypeClass | qualifier;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">':'</span>: <span class="keyword">return</span> YYEncodingTypeSEL | qualifier;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">'*'</span>: <span class="keyword">return</span> YYEncodingTypeCString | qualifier;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">'^'</span>: <span class="keyword">return</span> YYEncodingTypePointer | qualifier;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">'['</span>: <span class="keyword">return</span> YYEncodingTypeCArray | qualifier;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">'('</span>: <span class="keyword">return</span> YYEncodingTypeUnion | qualifier;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">'&#123;'</span>: <span class="keyword">return</span> YYEncodingTypeStruct | qualifier;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">'@'</span>: &#123;</span><br><span class="line">            <span class="keyword">if</span> (len == <span class="number">2</span> &amp;&amp; *(type + <span class="number">1</span>) == <span class="string">'?'</span>)</span><br><span class="line">                <span class="keyword">return</span> YYEncodingTypeBlock | qualifier;     <span class="comment">//OC Block</span></span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                <span class="keyword">return</span> YYEncodingTypeObject | qualifier;    <span class="comment">//OC对象</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">default</span>: <span class="keyword">return</span> YYEncodingTypeUnknown | qualifier;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>该函数也是通过获得的<code>type encode</code>的string，对照着表进行解析，因为是解析Ivar,所以也只包含了YYEncodingTypeMask和YYEncodingTypeQualifierMask。而YYEncodingTypePropertyMask会包含在property的解析中。</p>
+<h4 id="2-interface-YYClassIvarInfo-NSObject"><a href="#2-interface-YYClassIvarInfo-NSObject" class="headerlink" title="2. @interface YYClassIvarInfo : NSObject"></a>2. @interface YYClassIvarInfo : NSObject</h4><p><code>相关知识</code>:</p>
+<p>Objective-C运行时定义了几种重要的类型。<br><code>Class</code>：定义Objective-C类<br><code>Ivar</code>：定义对象的实例变量，包括类型和名字。<br><code>Protocol</code>：定义正式协议。<br><code>objc_property_t</code>：定义属性。叫这个名字可能是为了防止和Objective-C 1.0中的用户类型冲突，那时候还没有属性。<br><code>Method</code>：定义对象方法或类方法。这个类型提供了方法的名字（就是<strong>选择器</strong>）、参数数量和类型，以及返回值（这些信息合起来称为方法的<strong>签名</strong>），还有一个指向代码的函数指针（也就是方法的<strong>实现</strong>）。<br><code>SEL</code>：定义选择器。选择器是方法名的唯一标识符。<br><code>IMP</code>：定义方法实现。这只是一个指向某个函数的指针，该函数接受一个对象、一个选择器和一个可变长参数列表（varargs），返回一个对象</p>
+<p><code>@property = ivar + getter + setter;</code></p>
+<p><code>Ivar</code> : An opaque type that represents an instance variable(实例变量，跟某个对象关联，不能被静态方法使用，与之想对应的是class variable).</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> ivar_t *Ivar;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> ivar_t &#123;</span><br><span class="line"><span class="meta">#if __x86_64__</span></span><br><span class="line">    <span class="comment">// *offset was originally 64-bit on some x86_64 platforms.</span></span><br><span class="line">    <span class="comment">// We read and write only 32 bits of it.</span></span><br><span class="line">    <span class="comment">// Some metadata provides all 64 bits. This is harmless for unsigned </span></span><br><span class="line">    <span class="comment">// little-endian values.</span></span><br><span class="line">    <span class="comment">// Some code uses all 64 bits. class_addIvar() over-allocates the </span></span><br><span class="line">    <span class="comment">// offset for their benefit.</span></span><br><span class="line"><span class="meta">#endif</span></span><br><span class="line">    int32_t *offset;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span> *name;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span> *type;</span><br><span class="line">    <span class="comment">// alignment is sometimes -1; use alignment() instead</span></span><br><span class="line">    uint32_t alignment_raw;</span><br><span class="line">    uint32_t size;</span><br><span class="line"></span><br><span class="line">    uint32_t alignment() <span class="keyword">const</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (alignment_raw == ~(uint32_t)<span class="number">0</span>) <span class="keyword">return</span> <span class="number">1</span>U &lt;&lt; WORD_SHIFT;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span> &lt;&lt; alignment_raw;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><p><code>YYClassIvarInfo</code></p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> Instance variable information.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">YYClassIvarInfo</span> : <span class="title">NSObject</span></span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">assign</span>, <span class="keyword">readonly</span>) Ivar ivar;              <span class="comment">///&lt; ivar opaque struct ivar本身指针</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) <span class="built_in">NSString</span> *name;         <span class="comment">///&lt; Ivar's name        ivar名</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">assign</span>, <span class="keyword">readonly</span>) ptrdiff_t offset;       <span class="comment">///&lt; Ivar's offset      ivar偏移量</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) <span class="built_in">NSString</span> *typeEncoding; <span class="comment">///&lt; Ivar's type encoding   ivar encode string</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">assign</span>, <span class="keyword">readonly</span>) YYEncodingType type;    <span class="comment">///&lt; Ivar's type        ivar encode解析值</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> Creates and returns an ivar info object.</span></span><br><span class="line"><span class="comment"> </span></span><br><span class="line"><span class="comment"> @param ivar ivar opaque struct</span></span><br><span class="line"><span class="comment"> @return A new object, or nil if an error occurs.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">- (<span class="keyword">instancetype</span>)initWithIvar:(Ivar)ivar;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p><code>YYClassIvarInfo</code></p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">instancetype</span>)initWithIvar:(Ivar)ivar &#123;</span><br><span class="line">    <span class="keyword">if</span> (!ivar) <span class="keyword">return</span> <span class="literal">nil</span>;</span><br><span class="line">    <span class="keyword">self</span> = [<span class="keyword">super</span> init];</span><br><span class="line">    _ivar = ivar;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span> *name = ivar_getName(ivar);      <span class="comment">//获取ivar名</span></span><br><span class="line">    <span class="keyword">if</span> (name) &#123;</span><br><span class="line">        _name = [<span class="built_in">NSString</span> stringWithUTF8String:name];</span><br><span class="line">    &#125;</span><br><span class="line">    _offset = ivar_getOffset(ivar);             <span class="comment">//获取偏移量</span></span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span> *typeEncoding = ivar_getTypeEncoding(ivar);  <span class="comment">//获取类型encode string</span></span><br><span class="line">    <span class="keyword">if</span> (typeEncoding) &#123;</span><br><span class="line">        _typeEncoding = [<span class="built_in">NSString</span> stringWithUTF8String:typeEncoding];</span><br><span class="line">        _type = YYEncodingGetType(typeEncoding);    <span class="comment">//类型解析</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>YYClassIvarInfo</code>本身就是对系统Ivar的一层封装，并进行了一次类型的解析。</p>
+<p><strong>PS:(阅读注:)</strong><br><code>Runtime</code> 获取本Class中的所有属性(Ivar),并初始化一个 <code>YYClassIvarInfo</code>储存</p>
+<h5 id="实例"><a href="#实例" class="headerlink" title="实例:"></a>实例:</h5><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">YYTestNestRepo</span> : <span class="title">NSObject</span></span></span><br><span class="line"><span class="keyword">@property</span> uint64_t repoID;</span><br><span class="line"><span class="keyword">@property</span> <span class="built_in">NSString</span> *name;</span><br><span class="line"><span class="keyword">@property</span> YYTestNestUser *user;</span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">YYTestNestRepo</span></span></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>YYTestNestRepo调用：</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSString</span> *json = <span class="string">@"&#123;\"repoID\":1234,\"name\":\"YYModel\",\"user\":&#123;\"uid\":5678,\"name\":\"ibireme\"&#125;&#125;"</span>;</span><br><span class="line">YYTestNestRepo *repo = [YYTestNestRepo yy_modelWithJSON:json];</span><br></pre></td></tr></table></figure>
+<p>设置解析断点在解析<code>@property YYTestNestUser *user</code>的Ivar变量处：</p>
+<p><img src="http://okslxr2o0.bkt.clouddn.com/15155695714664.png" alt></p>
+<h4 id="3-interface-YYClassMethodInfo-NSObject"><a href="#3-interface-YYClassMethodInfo-NSObject" class="headerlink" title="3. @interface YYClassMethodInfo : NSObject"></a>3. @interface YYClassMethodInfo : NSObject</h4><p><strong>Method</strong>:An opaque type that represents a method in a class definition.</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> method_t *Method;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> method_t &#123;</span><br><span class="line">    SEL name;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span> *types;</span><br><span class="line">    IMP imp;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">struct</span> SortBySELAddress :</span><br><span class="line">        public std::binary_function&lt;<span class="keyword">const</span> method_t&amp;,</span><br><span class="line">                                    <span class="keyword">const</span> method_t&amp;, <span class="keyword">bool</span>&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">bool</span> operator() (<span class="keyword">const</span> method_t&amp; lhs,</span><br><span class="line">                         <span class="keyword">const</span> method_t&amp; rhs)</span><br><span class="line">        &#123; <span class="keyword">return</span> lhs.name &lt; rhs.name; &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>其中包含两个结构体SEL和IMP：</p>
+<p><strong>SEL</strong>:An opaque type that represents a method selector</p>
+<blockquote>
+<p>Method selectors are used to represent the name of a method at runtime. A method selector is a C string that has been registered (or “mapped“) with the Objective-C runtime. Selectors generated by the compiler are automatically mapped by the runtime when the class is loaded.</p>
+</blockquote>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> objc_selector *SEL;</span><br></pre></td></tr></table></figure>
+<p><code>IMP</code>:A pointer to the function of a method implementation</p>
+<blockquote>
+<p>This data type is a pointer to the start of the function that implements the method. This function uses standard C calling conventions as implemented for the current CPU architecture. The first argument is a pointer to self (that is, the memory for the particular instance of this class, or, for a class method, a pointer to the metaclass). The second argument is the method selector. The method arguments follow.</p>
+</blockquote>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#if !OBJC_OLD_DISPATCH_PROTOTYPES</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">void</span> (*IMP)(<span class="keyword">void</span> <span class="comment">/* id, SEL, ... */</span> ); </span><br><span class="line"><span class="meta">#else</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">id</span> (*IMP)(<span class="keyword">id</span>, SEL, ...); </span><br><span class="line"><span class="meta">#endif</span></span><br></pre></td></tr></table></figure>
+<p><strong>PS:(阅读注:)</strong><br><code>SEL</code> 方法名字选择器，只是一个String不包括实现, <code>IMP</code>指的是实现，函数指针</p>
+<h5 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h5><p><code>YYClassMethodInfo</code>类声明：</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">YYClassMethodInfo</span> : <span class="title">NSObject</span></span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">assign</span>, <span class="keyword">readonly</span>) Method method;                  <span class="comment">///&lt; method opaque struct method指针</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) <span class="built_in">NSString</span> *name;                 <span class="comment">///&lt; method name            method名</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">assign</span>, <span class="keyword">readonly</span>) SEL sel;                        <span class="comment">///&lt; method's selector      method selector</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">assign</span>, <span class="keyword">readonly</span>) IMP imp;                        <span class="comment">///&lt; method's implementation    method implementation</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) <span class="built_in">NSString</span> *typeEncoding;         <span class="comment">///&lt; method's parameter and return types    method的参数和返回类型</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) <span class="built_in">NSString</span> *returnTypeEncoding;   <span class="comment">///&lt; return value's type    method返回值的encode types</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nullable</span>, <span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) <span class="built_in">NSArray</span>&lt;<span class="built_in">NSString</span> *&gt; *argumentTypeEncodings; <span class="comment">///&lt; array of arguments' type method参数列表</span></span><br><span class="line"></span><br><span class="line">- (<span class="keyword">instancetype</span>)initWithMethod:(Method)method;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p><code>initWithMethod</code>方法实现：</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">instancetype</span>)initWithMethod:(Method)method &#123;</span><br><span class="line">    <span class="keyword">if</span> (!method) <span class="keyword">return</span> <span class="literal">nil</span>;</span><br><span class="line">    <span class="keyword">self</span> = [<span class="keyword">super</span> init];</span><br><span class="line">    _method = method;</span><br><span class="line">    _sel = method_getName(method);                      <span class="comment">//获取方法名，在oc中，方法名就是selector的标志</span></span><br><span class="line">    _imp = method_getImplementation(method);            <span class="comment">//获取方法实现</span></span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span> *name = sel_getName(_sel);</span><br><span class="line">    <span class="keyword">if</span> (name) &#123;</span><br><span class="line">        _name = [<span class="built_in">NSString</span> stringWithUTF8String:name];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span> *typeEncoding = method_getTypeEncoding(method);  <span class="comment">//获得方法参数和返回值</span></span><br><span class="line">    <span class="keyword">if</span> (typeEncoding) &#123;</span><br><span class="line">        _typeEncoding = [<span class="built_in">NSString</span> stringWithUTF8String:typeEncoding];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">char</span> *returnType = method_copyReturnType(method);           <span class="comment">//获得返回值encode string</span></span><br><span class="line">    <span class="keyword">if</span> (returnType) &#123;</span><br><span class="line">        _returnTypeEncoding = [<span class="built_in">NSString</span> stringWithUTF8String:returnType];</span><br><span class="line">        free(returnType);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> argumentCount = method_getNumberOfArguments(method);       <span class="comment">//获得方法参数数量</span></span><br><span class="line">    <span class="keyword">if</span> (argumentCount &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="built_in">NSMutableArray</span> *argumentTypes = [<span class="built_in">NSMutableArray</span> new];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">unsigned</span> <span class="keyword">int</span> i = <span class="number">0</span>; i &lt; argumentCount; i++) &#123;                  <span class="comment">//遍历参数</span></span><br><span class="line">            <span class="keyword">char</span> *argumentType = method_copyArgumentType(method, i);        <span class="comment">//获得该参数的encode string</span></span><br><span class="line">            <span class="built_in">NSString</span> *type = argumentType ? [<span class="built_in">NSString</span> stringWithUTF8String:argumentType] : <span class="literal">nil</span>;</span><br><span class="line">            [argumentTypes addObject:type ? type : <span class="string">@""</span>];</span><br><span class="line">            <span class="keyword">if</span> (argumentType) free(argumentType);</span><br><span class="line">        &#125;</span><br><span class="line">        _argumentTypeEncodings = argumentTypes;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="实例-1"><a href="#实例-1" class="headerlink" title="实例"></a>实例</h5><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">YYTestNestRepo</span> : <span class="title">NSObject</span></span></span><br><span class="line"><span class="keyword">@property</span> uint64_t repoID;</span><br><span class="line"><span class="keyword">@property</span> <span class="built_in">NSString</span> *name;</span><br><span class="line"><span class="keyword">@property</span> YYTestNestUser *user;</span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">YYTestNestRepo</span></span></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>YYTestNestRepo调用：</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSString</span> *json = <span class="string">@"&#123;\"repoID\":1234,\"name\":\"YYModel\",\"user\":&#123;\"uid\":5678,\"name\":\"ibireme\"&#125;&#125;"</span>;</span><br><span class="line">YYTestNestRepo *repo = [YYTestNestRepo yy_modelWithJSON:json];</span><br></pre></td></tr></table></figure>
+<p>设置解析断点解析<code>user</code>方法：</p>
+<p><img src="http://okslxr2o0.bkt.clouddn.com/15155726368400.png" alt></p>
+<p>对于property来说，本质是:<code>Ivar+getter+setter</code>，所以设置了property也会触发initWithMethod解析<code>-(YYTestNestUser *) user</code> 方法.</p>
+<p><code>引申:</code><br><code>user</code>没有参数，怎么<code>method_getNumberOfArguments</code>解析出来2个参数<br>?<br>原因就是方法调用最后都会转成<code>((void (*)(id, SEL))objc_msgSend)((id)m, @selector(user))</code>;，所以会有两个参数。</p>
+<ol start="4">
+<li>@interface YYClassPropertyInfo : NSObject</li>
+</ol>
+<p><code>Property</code>:An opaque type that represents an Objective-C declared property.</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> property_t *objc_property_t;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> property_t &#123;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span> *name;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span> *attributes;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>其中对于attributes就是property属性的encode string。对应上表中属性的标识</p>
+<h5 id="代码-2"><a href="#代码-2" class="headerlink" title="代码"></a>代码</h5><p><code>YYClassPropertyInfo</code></p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">YYClassPropertyInfo</span> : <span class="title">NSObject</span></span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">assign</span>, <span class="keyword">readonly</span>) objc_property_t property; <span class="comment">///&lt; property's opaque struct     property指针</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) <span class="built_in">NSString</span> *name;           <span class="comment">///&lt; property's name              property名</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">assign</span>, <span class="keyword">readonly</span>) YYEncodingType type;      <span class="comment">///&lt; property's type              property encode解析值</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) <span class="built_in">NSString</span> *typeEncoding;   <span class="comment">///&lt; property's encoding value    property encode string</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) <span class="built_in">NSString</span> *ivarName;       <span class="comment">///&lt; property's ivar name         property对应的ivar名字</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nullable</span>, <span class="keyword">nonatomic</span>, <span class="keyword">assign</span>, <span class="keyword">readonly</span>) Class cls;      <span class="comment">///&lt; may be nil                   property如果是oc类型，oc类型对应的class</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nullable</span>, <span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) <span class="built_in">NSArray</span>&lt;<span class="built_in">NSString</span> *&gt; *protocols; <span class="comment">///&lt; may nil      property如果存在protocol，protocol列表</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">assign</span>, <span class="keyword">readonly</span>) SEL <span class="keyword">getter</span>;               <span class="comment">///&lt; getter (nonnull)             property的getter方法</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">assign</span>, <span class="keyword">readonly</span>) SEL <span class="keyword">setter</span>;               <span class="comment">///&lt; setter (nonnull)             property的setter方法</span></span><br><span class="line"></span><br><span class="line">- (<span class="keyword">instancetype</span>)initWithProperty:(objc_property_t)property;</span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line">initWithProperty方法实现：</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">instancetype</span>)initWithProperty:(objc_property_t)property &#123;</span><br><span class="line">    <span class="keyword">if</span> (!property) <span class="keyword">return</span> <span class="literal">nil</span>;</span><br><span class="line">    <span class="keyword">self</span> = [<span class="keyword">super</span> init];</span><br><span class="line">    _property = property;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span> *name = property_getName(property);              <span class="comment">//获得property名</span></span><br><span class="line">    <span class="keyword">if</span> (name) &#123;</span><br><span class="line">        _name = [<span class="built_in">NSString</span> stringWithUTF8String:name];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    YYEncodingType type = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> attrCount;</span><br><span class="line">    objc_property_attribute_t *attrs = property_copyAttributeList(property, &amp;attrCount);    <span class="comment">//获得所有property的attribute array</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">unsigned</span> <span class="keyword">int</span> i = <span class="number">0</span>; i &lt; attrCount; i++) &#123;</span><br><span class="line">        <span class="keyword">switch</span> (attrs[i].name[<span class="number">0</span>]) &#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">'T'</span>: &#123; <span class="comment">// Type encoding            表示是property类型</span></span><br><span class="line">                <span class="keyword">if</span> (attrs[i].value) &#123;</span><br><span class="line">                    _typeEncoding = [<span class="built_in">NSString</span> stringWithUTF8String:attrs[i].value];     <span class="comment">//获得attribute的encode string</span></span><br><span class="line">                    type = YYEncodingGetType(attrs[i].value);                           <span class="comment">//解析type</span></span><br><span class="line">                    </span><br><span class="line">                    <span class="keyword">if</span> ((type &amp; YYEncodingTypeMask) == YYEncodingTypeObject &amp;&amp; _typeEncoding.length) &#123;      <span class="comment">//代表是OC类型</span></span><br><span class="line">                        <span class="built_in">NSScanner</span> *scanner = [<span class="built_in">NSScanner</span> scannerWithString:_typeEncoding];               <span class="comment">//扫描attribute的encode string</span></span><br><span class="line">                        <span class="keyword">if</span> (![scanner scanString:<span class="string">@"@\""</span> intoString:<span class="literal">NULL</span>]) <span class="keyword">continue</span>;                <span class="comment">//不包含@\"代表不是oc类型，跳过</span></span><br><span class="line">                        </span><br><span class="line">                        <span class="built_in">NSString</span> *clsName = <span class="literal">nil</span>;</span><br><span class="line">                        <span class="keyword">if</span> ([scanner scanUpToCharactersFromSet: [<span class="built_in">NSCharacterSet</span> characterSetWithCharactersInString:<span class="string">@"\"&lt;"</span>] intoString:&amp;clsName]) &#123;  <span class="comment">//扫描oc类型string，在 \"之前</span></span><br><span class="line">                            <span class="keyword">if</span> (clsName.length) _cls = objc_getClass(clsName.UTF8String);               <span class="comment">//获得oc对象类型，并附值</span></span><br><span class="line">                        &#125;</span><br><span class="line">                        </span><br><span class="line">                        <span class="built_in">NSMutableArray</span> *protocols = <span class="literal">nil</span>;</span><br><span class="line">                        <span class="keyword">while</span> ([scanner scanString:<span class="string">@"&lt;"</span> intoString:<span class="literal">NULL</span>]) &#123;                 <span class="comment">//扫描&lt;&gt;中的protocol类型，并设置</span></span><br><span class="line">                            <span class="built_in">NSString</span>* protocol = <span class="literal">nil</span>;</span><br><span class="line">                            <span class="keyword">if</span> ([scanner scanUpToString:<span class="string">@"&gt;"</span> intoString: &amp;protocol]) &#123;</span><br><span class="line">                                <span class="keyword">if</span> (protocol.length) &#123;</span><br><span class="line">                                    <span class="keyword">if</span> (!protocols) protocols = [<span class="built_in">NSMutableArray</span> new];</span><br><span class="line">                                    [protocols addObject:protocol];</span><br><span class="line">                                &#125;</span><br><span class="line">                            &#125;</span><br><span class="line">                            [scanner scanString:<span class="string">@"&gt;"</span> intoString:<span class="literal">NULL</span>];</span><br><span class="line">                        &#125;</span><br><span class="line">                        _protocols = protocols;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">'V'</span>: &#123; <span class="comment">// Instance variable                        //ivar变量</span></span><br><span class="line">                <span class="keyword">if</span> (attrs[i].value) &#123;</span><br><span class="line">                    _ivarName = [<span class="built_in">NSString</span> stringWithUTF8String:attrs[i].value];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">'R'</span>: &#123;                                             <span class="comment">//以下为property的几种类型扫描,setter和getter方法要记录方法名</span></span><br><span class="line">                type |= YYEncodingTypePropertyReadonly;</span><br><span class="line">            &#125; <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">'C'</span>: &#123;</span><br><span class="line">                type |= YYEncodingTypePropertyCopy;</span><br><span class="line">            &#125; <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">'&amp;'</span>: &#123;</span><br><span class="line">                type |= YYEncodingTypePropertyRetain;</span><br><span class="line">            &#125; <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">'N'</span>: &#123;</span><br><span class="line">                type |= YYEncodingTypePropertyNonatomic;</span><br><span class="line">            &#125; <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">'D'</span>: &#123;</span><br><span class="line">                type |= YYEncodingTypePropertyDynamic;</span><br><span class="line">            &#125; <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">'W'</span>: &#123;</span><br><span class="line">                type |= YYEncodingTypePropertyWeak;</span><br><span class="line">            &#125; <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">'G'</span>: &#123;</span><br><span class="line">                type |= YYEncodingTypePropertyCustomGetter;</span><br><span class="line">                <span class="keyword">if</span> (attrs[i].value) &#123;</span><br><span class="line">                    _<span class="keyword">getter</span> = <span class="built_in">NSSelectorFromString</span>([<span class="built_in">NSString</span> stringWithUTF8String:attrs[i].value]);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">'S'</span>: &#123;</span><br><span class="line">                type |= YYEncodingTypePropertyCustomSetter;</span><br><span class="line">                <span class="keyword">if</span> (attrs[i].value) &#123;</span><br><span class="line">                    _<span class="keyword">setter</span> = <span class="built_in">NSSelectorFromString</span>([<span class="built_in">NSString</span> stringWithUTF8String:attrs[i].value]);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="comment">// break; commented for code coverage in next line</span></span><br><span class="line">            <span class="keyword">default</span>: <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (attrs) &#123;                <span class="comment">//有attrs要free</span></span><br><span class="line">        free(attrs);</span><br><span class="line">        attrs = <span class="literal">NULL</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    _type = type;               <span class="comment">//最后设置encode解析值</span></span><br><span class="line">    <span class="keyword">if</span> (_name.length) &#123;             <span class="comment">//设置默认的getter方法和setter方法</span></span><br><span class="line">        <span class="keyword">if</span> (!_<span class="keyword">getter</span>) &#123;</span><br><span class="line">            _<span class="keyword">getter</span> = <span class="built_in">NSSelectorFromString</span>(_name);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (!_<span class="keyword">setter</span>) &#123;</span><br><span class="line">            _<span class="keyword">setter</span> = <span class="built_in">NSSelectorFromString</span>([<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"set%@%@:"</span>, [_name substringToIndex:<span class="number">1</span>].uppercaseString, [_name substringFromIndex:<span class="number">1</span>]]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="实例-2"><a href="#实例-2" class="headerlink" title="实例"></a>实例</h5><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">YYTestNestRepo</span> : <span class="title">NSObject</span></span></span><br><span class="line"><span class="keyword">@property</span> uint64_t repoID;</span><br><span class="line"><span class="keyword">@property</span> <span class="built_in">NSString</span> *name;</span><br><span class="line"><span class="keyword">@property</span> YYTestNestUser *user;</span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">YYTestNestRepo</span></span></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>YYTestNestRepo调用</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSString</span> *json = <span class="string">@"&#123;\"repoID\":1234,\"name\":\"YYModel\",\"user\":&#123;\"uid\":5678,\"name\":\"ibireme\"&#125;&#125;"</span>;</span><br><span class="line">YYTestNestRepo *repo = [YYTestNestRepo yy_modelWithJSON:json];</span><br></pre></td></tr></table></figure>
+<p>设置解析断点解析<code>property-user</code>：</p>
+<p><img src="http://okslxr2o0.bkt.clouddn.com/15156499946157.png" alt></p>
+<ol start="5">
+<li>@interface YYClassInfo : NSObject</li>
+</ol>
+<p><code>Class</code>:An opaque type that represents an Objective-C class.</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> objc_class *Class;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> objc_class : objc_object &#123;</span><br><span class="line">    Class superclass;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span> *name;</span><br><span class="line">    uint32_t version;</span><br><span class="line">    uint32_t info;</span><br><span class="line">    uint32_t instance_size;</span><br><span class="line">    <span class="keyword">struct</span> old_ivar_list *ivars;</span><br><span class="line">    <span class="keyword">struct</span> old_method_list **methodLists;</span><br><span class="line">    Cache cache;</span><br><span class="line">    <span class="keyword">struct</span> old_protocol_list *protocols;</span><br><span class="line">    <span class="comment">// CLS_EXT only</span></span><br><span class="line">    <span class="keyword">const</span> uint8_t *ivar_layout;</span><br><span class="line">    <span class="keyword">struct</span> old_class_ext *ext;</span><br><span class="line"></span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> objc_object &#123;</span><br><span class="line">private:</span><br><span class="line">    isa_t isa;</span><br><span class="line"></span><br><span class="line">public:</span><br><span class="line"> </span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>重新引用上面文章一张图加深记忆:</p>
+<p><img src="http://okslxr2o0.bkt.clouddn.com/15156500954097.png" alt></p>
+<p>上图实线是 super_class 指针，虚线是isa指针。 根元类的超类是NSObject，而isa指向了自己，而NSObject的超类为nil，也就是它没有超类。</p>
+<h5 id="代码-3"><a href="#代码-3" class="headerlink" title="代码"></a>代码</h5><p><code>YYClassInfo</code>：</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">YYClassInfo</span> : <span class="title">NSObject</span></span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">assign</span>, <span class="keyword">readonly</span>) Class cls; <span class="comment">///&lt; class object                        class指针</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nullable</span>, <span class="keyword">nonatomic</span>, <span class="keyword">assign</span>, <span class="keyword">readonly</span>) Class superCls; <span class="comment">///&lt; super class object   superClass指针</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nullable</span>, <span class="keyword">nonatomic</span>, <span class="keyword">assign</span>, <span class="keyword">readonly</span>) Class metaCls;  <span class="comment">///&lt; class's meta class object    metaClass指针</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">readonly</span>) <span class="built_in">BOOL</span> isMeta; <span class="comment">///&lt; whether this class is meta class          是否该class是metaclass</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) <span class="built_in">NSString</span> *name; <span class="comment">///&lt; class name                     class名</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nullable</span>, <span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) YYClassInfo *superClassInfo; <span class="comment">///&lt; super class's class info    superClass的classinfo（缓存）</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nullable</span>, <span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) <span class="built_in">NSDictionary</span>&lt;<span class="built_in">NSString</span> *, YYClassIvarInfo *&gt; *ivarInfos; <span class="comment">///&lt; ivars        ivar的dictionary,key为ivar的name</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nullable</span>, <span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) <span class="built_in">NSDictionary</span>&lt;<span class="built_in">NSString</span> *, YYClassMethodInfo *&gt; *methodInfos; <span class="comment">///&lt; methods  method的dictionary,key为method的name</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nullable</span>, <span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) <span class="built_in">NSDictionary</span>&lt;<span class="built_in">NSString</span> *, YYClassPropertyInfo *&gt; *propertyInfos; <span class="comment">///&lt; properties   properties的dictionary,key为property的name</span></span><br><span class="line"><span class="comment">//设置class更新，比如动态增加了一个方法，需要更新class</span></span><br><span class="line">- (<span class="keyword">void</span>)setNeedUpdate;</span><br><span class="line"><span class="comment">//返回class是否需要更新，更新则应该调用下面两个方法之一</span></span><br><span class="line">- (<span class="built_in">BOOL</span>)needUpdate;</span><br><span class="line">+ (<span class="keyword">nullable</span> <span class="keyword">instancetype</span>)classInfoWithClass:(Class)cls;</span><br><span class="line">+ (<span class="keyword">nullable</span> <span class="keyword">instancetype</span>)classInfoWithClassName:(<span class="built_in">NSString</span> *)className;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p><code>YYClassInfo</code>中有一个<code>needUpdate</code>是否更新的标识符，当手动更改class结构(比如class_addMethod()等)的时候，可以调用方法：</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">YYClassInfo</span> </span>&#123;</span><br><span class="line">    <span class="built_in">BOOL</span> _needUpdate;           <span class="comment">//是否需要更新private变量</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)setNeedUpdate &#123;         <span class="comment">//设置需要更新</span></span><br><span class="line">    _needUpdate = <span class="literal">YES</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="built_in">BOOL</span>)needUpdate &#123;            <span class="comment">//返回是否需要更新</span></span><br><span class="line">    <span class="keyword">return</span> _needUpdate;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//多一层class从nsstring到class对象的转换</span></span><br><span class="line">+ (<span class="keyword">instancetype</span>)classInfoWithClassName:(<span class="built_in">NSString</span> *)className &#123;</span><br><span class="line">    Class cls = <span class="built_in">NSClassFromString</span>(className);</span><br><span class="line">    <span class="keyword">return</span> [<span class="keyword">self</span> classInfoWithClass:cls];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//class解析主体方法</span></span><br><span class="line">+ (<span class="keyword">instancetype</span>)classInfoWithClass:(Class)cls &#123;</span><br><span class="line">    <span class="keyword">if</span> (!cls) <span class="keyword">return</span> <span class="literal">nil</span>;</span><br><span class="line">    <span class="keyword">static</span> <span class="built_in">CFMutableDictionaryRef</span> classCache;           <span class="comment">//class缓存</span></span><br><span class="line">    <span class="keyword">static</span> <span class="built_in">CFMutableDictionaryRef</span> metaCache;            <span class="comment">//meta class缓存</span></span><br><span class="line">    <span class="keyword">static</span> <span class="built_in">dispatch_once_t</span> onceToken;</span><br><span class="line">    <span class="keyword">static</span> dispatch_semaphore_t lock;                   <span class="comment">//锁</span></span><br><span class="line">    <span class="built_in">dispatch_once</span>(&amp;onceToken, ^&#123;                        <span class="comment">//初始化两种缓存</span></span><br><span class="line">        classCache = <span class="built_in">CFDictionaryCreateMutable</span>(<span class="built_in">CFAllocatorGetDefault</span>(), <span class="number">0</span>, &amp;kCFTypeDictionaryKeyCallBacks, &amp;kCFTypeDictionaryValueCallBacks);</span><br><span class="line">        metaCache = <span class="built_in">CFDictionaryCreateMutable</span>(<span class="built_in">CFAllocatorGetDefault</span>(), <span class="number">0</span>, &amp;kCFTypeDictionaryKeyCallBacks, &amp;kCFTypeDictionaryValueCallBacks);</span><br><span class="line">        lock = dispatch_semaphore_create(<span class="number">1</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">    dispatch_semaphore_wait(lock, DISPATCH_TIME_FOREVER);       <span class="comment">//只允许同时1个线程</span></span><br><span class="line">    YYClassInfo *info = <span class="built_in">CFDictionaryGetValue</span>(class_isMetaClass(cls) ? metaCache : classCache, (__bridge <span class="keyword">const</span> <span class="keyword">void</span> *)(cls));        <span class="comment">//获取曾经解析过的缓存</span></span><br><span class="line">    <span class="keyword">if</span> (info &amp;&amp; info-&gt;_needUpdate) &#123;        <span class="comment">//如果存在且需要更新，则重新解析class并更新结构体</span></span><br><span class="line">        [info _update];</span><br><span class="line">    &#125;</span><br><span class="line">    dispatch_semaphore_signal(lock);                        <span class="comment">//释放锁</span></span><br><span class="line">    <span class="keyword">if</span> (!info) &#123;                                            <span class="comment">//如果没有缓存，则第一次解析class</span></span><br><span class="line">        info = [[YYClassInfo alloc] initWithClass:cls];</span><br><span class="line">        <span class="keyword">if</span> (info) &#123;                                         <span class="comment">//解析完毕设置缓存</span></span><br><span class="line">            dispatch_semaphore_wait(lock, DISPATCH_TIME_FOREVER);</span><br><span class="line">            <span class="built_in">CFDictionarySetValue</span>(info.isMeta ? metaCache : classCache, (__bridge <span class="keyword">const</span> <span class="keyword">void</span> *)(cls), (__bridge <span class="keyword">const</span> <span class="keyword">void</span> *)(info));</span><br><span class="line">            dispatch_semaphore_signal(lock);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> info;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>classInfoWithClass</code>方法中主要调用了两个方法- <code>(instancetype)initWithClass:(Class)cls</code>（初始化class）和 <code>- (void)_update</code>（更新class），接下来看该两个方法的实现。</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">//初始化class对象方法</span></span><br><span class="line">- (<span class="keyword">instancetype</span>)initWithClass:(Class)cls &#123;</span><br><span class="line">    <span class="keyword">if</span> (!cls) <span class="keyword">return</span> <span class="literal">nil</span>;</span><br><span class="line">    <span class="keyword">self</span> = [<span class="keyword">super</span> init];</span><br><span class="line">    _cls = cls;</span><br><span class="line">    _superCls = class_getSuperclass(cls);           <span class="comment">//设置superclass</span></span><br><span class="line">    _isMeta = class_isMetaClass(cls);               <span class="comment">//判断是否是metaclass</span></span><br><span class="line">    <span class="keyword">if</span> (!_isMeta) &#123;                                 <span class="comment">//不是的话获得meta class</span></span><br><span class="line">        _metaCls = objc_getMetaClass(class_getName(cls));</span><br><span class="line">    &#125;</span><br><span class="line">    _name = <span class="built_in">NSStringFromClass</span>(cls);                 <span class="comment">//获得类名</span></span><br><span class="line">    [<span class="keyword">self</span> _update];                                 <span class="comment">//进行更新</span></span><br><span class="line"></span><br><span class="line">    _superClassInfo = [<span class="keyword">self</span>.class classInfoWithClass:_superCls];    <span class="comment">//递归superclass</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>也用到了<code>- (void)_update</code>（更新class），这应该就是class的核心更新方法：</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//更新函数</span></span><br><span class="line">- (<span class="keyword">void</span>)_update &#123;</span><br><span class="line">    _ivarInfos = <span class="literal">nil</span>;                   <span class="comment">//重置ivar，mthod，property3个缓存dictionary</span></span><br><span class="line">    _methodInfos = <span class="literal">nil</span>;</span><br><span class="line">    _propertyInfos = <span class="literal">nil</span>;</span><br><span class="line">    </span><br><span class="line">    Class cls = <span class="keyword">self</span>.cls;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> methodCount = <span class="number">0</span>;</span><br><span class="line">    Method *methods = class_copyMethodList(cls, &amp;methodCount);</span><br><span class="line">    <span class="keyword">if</span> (methods) &#123;                      <span class="comment">//解析method，并以name为key，进行缓存设置</span></span><br><span class="line">        <span class="built_in">NSMutableDictionary</span> *methodInfos = [<span class="built_in">NSMutableDictionary</span> new];</span><br><span class="line">        _methodInfos = methodInfos;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">unsigned</span> <span class="keyword">int</span> i = <span class="number">0</span>; i &lt; methodCount; i++) &#123;</span><br><span class="line">            YYClassMethodInfo *info = [[YYClassMethodInfo alloc] initWithMethod:methods[i]];</span><br><span class="line">            <span class="keyword">if</span> (info.name) methodInfos[info.name] = info;</span><br><span class="line">        &#125;</span><br><span class="line">        free(methods);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> propertyCount = <span class="number">0</span>;</span><br><span class="line">    objc_property_t *properties = class_copyPropertyList(cls, &amp;propertyCount);</span><br><span class="line">    <span class="keyword">if</span> (properties) &#123;                   <span class="comment">//解析property，并以name为key，进行缓存设置</span></span><br><span class="line">        <span class="built_in">NSMutableDictionary</span> *propertyInfos = [<span class="built_in">NSMutableDictionary</span> new];</span><br><span class="line">        _propertyInfos = propertyInfos;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">unsigned</span> <span class="keyword">int</span> i = <span class="number">0</span>; i &lt; propertyCount; i++) &#123;</span><br><span class="line">            YYClassPropertyInfo *info = [[YYClassPropertyInfo alloc] initWithProperty:properties[i]];</span><br><span class="line">            <span class="keyword">if</span> (info.name) propertyInfos[info.name] = info;</span><br><span class="line">        &#125;</span><br><span class="line">        free(properties);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> ivarCount = <span class="number">0</span>;</span><br><span class="line">    Ivar *ivars = class_copyIvarList(cls, &amp;ivarCount);</span><br><span class="line">    <span class="keyword">if</span> (ivars) &#123;                        <span class="comment">//解析ivar，并以name为key，进行缓存设置</span></span><br><span class="line">        <span class="built_in">NSMutableDictionary</span> *ivarInfos = [<span class="built_in">NSMutableDictionary</span> new];</span><br><span class="line">        _ivarInfos = ivarInfos;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">unsigned</span> <span class="keyword">int</span> i = <span class="number">0</span>; i &lt; ivarCount; i++) &#123;</span><br><span class="line">            YYClassIvarInfo *info = [[YYClassIvarInfo alloc] initWithIvar:ivars[i]];</span><br><span class="line">            <span class="keyword">if</span> (info.name) ivarInfos[info.name] = info;</span><br><span class="line">        &#125;</span><br><span class="line">        free(ivars);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (!_ivarInfos) _ivarInfos = @&#123;&#125;;          <span class="comment">//如果不存在相应的方法，则初始化空的dictionary给相应的方法</span></span><br><span class="line">    <span class="keyword">if</span> (!_methodInfos) _methodInfos = @&#123;&#125;;</span><br><span class="line">    <span class="keyword">if</span> (!_propertyInfos) _propertyInfos = @&#123;&#125;;</span><br><span class="line">    </span><br><span class="line">    _needUpdate = <span class="literal">NO</span>;                           <span class="comment">//已经更新完成，设no</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>PS:(阅读注:)</strong><br>此方法，将method,property,ivar全部取出并附值给缓存。解析Model的Class所有属性，在 <code>update</code>方法中获取，获取 <code>Class</code> 的 <code>Ivar</code> , <code>Property</code> ,<code>Method</code> , 并用 <code>YYClass</code> 封装多一层使用. 方法中,  <code>[[YYClassInfo alloc] initWithClass:cls]</code> , 可获取此 <code>Class</code> 的父类，继续做相同步骤的操作，递归感觉.</p>
+<h4 id="实例-3"><a href="#实例-3" class="headerlink" title="实例"></a>实例</h4><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">YYTestNestRepo</span> : <span class="title">NSObject</span></span></span><br><span class="line"><span class="keyword">@property</span> uint64_t repoID;</span><br><span class="line"><span class="keyword">@property</span> <span class="built_in">NSString</span> *name;</span><br><span class="line"><span class="keyword">@property</span> YYTestNestUser *user;</span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">YYTestNestRepo</span></span></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>YYTestNestRepo调用：</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSString</span> *json = <span class="string">@"&#123;\"repoID\":1234,\"name\":\"YYModel\",\"user\":&#123;\"uid\":5678,\"name\":\"ibireme\"&#125;&#125;"</span>;</span><br><span class="line">YYTestNestRepo *repo = [YYTestNestRepo yy_modelWithJSON:json];</span><br></pre></td></tr></table></figure>
+<p>设置解析断点解析class <code>YYTestNestRepo</code>：</p>
+<p><img src="http://okslxr2o0.bkt.clouddn.com/15156520103741.png" alt></p>
+<p>至此，整个model的class信息全部被解析完成，然后设置到了<code>YYClassInfo</code>类型的上。</p>
+<p><strong>PS(阅读注):</strong></p>
+<p>解析并缓存了 <code>Class</code> 所有属性与方法，并能动态更新</p>
+<p><code>引申:</code></p>
+<h5 id="class-copyPropertyList与class-copyIvarList区别"><a href="#class-copyPropertyList与class-copyIvarList区别" class="headerlink" title="class_copyPropertyList与class_copyIvarList区别"></a>class_copyPropertyList与class_copyIvarList区别</h5><p> <code>class_copyPropertyList</code> 返回的仅仅是对象类的属性(@property申明的属性)，而 <code>class_copyIvarList</code> 返回类的所有属性和变量(包括在@interface大括号中声明的变量)，下面做个简单的测试。首先，定义一个WFrequencyManager类<br> <img src="http://okslxr2o0.bkt.clouddn.com/15156525113843.jpg" alt></p>
+<p>然后在测试类中写一个测试函数testProperties调用上述两个函数得到其返回结果再分别依次遍历输出其返回值</p>
+<p><img src="http://okslxr2o0.bkt.clouddn.com/15156525326488.jpg" alt></p>
+<p>执行上述测试函数后在控制台输出结果为：</p>
+<p><img src="http://okslxr2o0.bkt.clouddn.com/15156525454690.jpg" alt></p>
+<p>从上述执行结果可以很好的说明前者只获取由<code>@property</code>声明的属性，而后者不但获取了<code>@property</code>属性，而且还获取了<code>@interface</code>大括号中声明的变量</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结:"></a>总结:</h3><p>解析服务器返回JSON时候，会先使用<code>Runtime</code> 读取 <code>Class</code> 所有属性，方法，并做缓存处理 . <code>YYModel</code> 会判断是否有本地的不同class的映射，服务器返回不同数据则解析不同 <code>Model</code>的 <code>Class</code> . 然后，根据 <code>KeyMapper</code>读取每个 <code>Class</code> 中字典键值映射, 根据 <code>.</code> 符号拆分, 如下:</p>
+<pre><code class="objectivec">+ (<span class="built_in">NSDictionary</span> *)modelCustomPropertyMapper {
+    <span class="keyword">return</span> @{ <span class="string">@"name"</span> : <span class="string">@"n"</span>,
+              <span class="string">@"count"</span> : <span class="string">@"ext.c"</span>,
+              <span class="string">@"desc1"</span> : <span class="string">@"ext.d"</span>, <span class="comment">// mapped to same key path</span>
+              <span class="string">@"desc2"</span> : <span class="string">@"ext.d"</span>, <span class="comment">// mapped to same key path</span>
+              <span class="string">@"desc3"</span> : <span class="string">@"ext.d.e"</span>,
+              <span class="string">@"desc4"</span> : <span class="string">@".ext"</span>,
+              <span class="string">@"modelID"</span> : @[<span class="string">@"ID"</span>, <span class="string">@"Id"</span>, <span class="string">@"id"</span>, <span class="string">@"ext.id"</span>]};
+}
+</code></pre>
+<p>拆分后，根据缓存的 <code>YYClassInfo</code>中的键值一一赋值，完成解析</p>
+<h4 id="Reference"><a href="#Reference" class="headerlink" title="Reference:"></a>Reference:</h4><ol>
+<li><a href="https://www.jianshu.com/p/5428552be6ce" target="_blank" rel="noopener">YYModel源代码分析</a></li>
+<li><a href="http://www.zhimengzhe.com/IOSkaifa/253119.html" target="_blank" rel="noopener">iOS class深入理解： 实例对象、类对象、元类和isa指针</a></li>
+<li><a href="http://blog.csdn.net/east5683/article/details/45875713" target="_blank" rel="noopener">class_copyPropertyList与class_copyIvarList区别</a></li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/24/hello-world/" rel="next" title="Hello World">
+                <i class="fa fa-chevron-left"></i> Hello World
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/24/YYCacheLearn/" rel="prev" title="YYCache阅读学习">
+                YYCache阅读学习 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-07-25-032947.jpg" alt="Sylar">
+          <p class="site-author-name" itemprop="name">Sylar</p>
+           
+              <p class="site-description motion-element" itemprop="description">一个不会iOS的搬砖工</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/swlfigo || github" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/swlfigo/Study/wiki || paper-plane" target="_blank" title="更多学习笔记">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                    
+                      更多学习笔记
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#YYModel-阅读学习"><span class="nav-number">1.</span> <span class="nav-text">YYModel 阅读学习</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#YYModel-使用"><span class="nav-number">1.0.1.</span> <span class="nav-text">YYModel 使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#整体结构"><span class="nav-number">1.0.2.</span> <span class="nav-text">整体结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#大体思路"><span class="nav-number">1.0.3.</span> <span class="nav-text">大体思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Runtime-说起"><span class="nav-number">1.0.4.</span> <span class="nav-text">Runtime 说起</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#理解instance、class-object、metaclass"><span class="nav-number">1.0.4.1.</span> <span class="nav-text">理解instance、class object、metaclass</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#回到YYModel-YYClassInfo"><span class="nav-number">1.0.5.</span> <span class="nav-text">回到YYModel  - YYClassInfo</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-interface-YYClassIvarInfo-NSObject"><span class="nav-number">1.0.5.1.</span> <span class="nav-text">2. @interface YYClassIvarInfo : NSObject</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#代码"><span class="nav-number">1.0.5.1.1.</span> <span class="nav-text">代码</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#实例"><span class="nav-number">1.0.5.1.2.</span> <span class="nav-text">实例:</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-interface-YYClassMethodInfo-NSObject"><span class="nav-number">1.0.5.2.</span> <span class="nav-text">3. @interface YYClassMethodInfo : NSObject</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#代码-1"><span class="nav-number">1.0.5.2.1.</span> <span class="nav-text">代码</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#实例-1"><span class="nav-number">1.0.5.2.2.</span> <span class="nav-text">实例</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#代码-2"><span class="nav-number">1.0.5.2.3.</span> <span class="nav-text">代码</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#实例-2"><span class="nav-number">1.0.5.2.4.</span> <span class="nav-text">实例</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#代码-3"><span class="nav-number">1.0.5.2.5.</span> <span class="nav-text">代码</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实例-3"><span class="nav-number">1.0.5.3.</span> <span class="nav-text">实例</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#class-copyPropertyList与class-copyIvarList区别"><span class="nav-number">1.0.5.3.1.</span> <span class="nav-text">class_copyPropertyList与class_copyIvarList区别</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">1.0.6.</span> <span class="nav-text">总结:</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Reference"><span class="nav-number">1.0.6.1.</span> <span class="nav-text">Reference:</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sylar</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
