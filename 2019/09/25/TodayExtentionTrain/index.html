@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="iOS,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="最近需求是App接入 Today Extentsion 组件，因为之前没做过这方面，都是摸着石头过河.以下文章都是基于摸索中遇到问题和一些总结，如果有什么不对，请指教一下~ 1. App Extensions简介1.1 什么是App Extensions从 iOS 8 开始，苹果引入了全新的 App Extension。它是一种扩展，很类似于一些大型软件的插件机制。App Extension 事实">
+<meta name="keywords" content="iOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS Extentsion 入门实战">
+<meta property="og:url" content="https://swlfigo.github.io/2019/09/25/TodayExtentionTrain/index.html">
+<meta property="og:site_name" content="Nevermore">
+<meta property="og:description" content="最近需求是App接入 Today Extentsion 组件，因为之前没做过这方面，都是摸着石头过河.以下文章都是基于摸索中遇到问题和一些总结，如果有什么不对，请指教一下~ 1. App Extensions简介1.1 什么是App Extensions从 iOS 8 开始，苹果引入了全新的 App Extension。它是一种扩展，很类似于一些大型软件的插件机制。App Extension 事实">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190409160751.png">
+<meta property="og:image" content="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190409160833.png">
+<meta property="og:image" content="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190409165903.png">
+<meta property="og:image" content="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190409170336.png">
+<meta property="og:image" content="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190409170633.png">
+<meta property="og:image" content="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190409172331.png">
+<meta property="og:image" content="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190409172505.png">
+<meta property="og:image" content="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190409173055.png">
+<meta property="og:image" content="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190409173138.png">
+<meta property="og:image" content="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190409173435.png">
+<meta property="og:image" content="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190409173749.png">
+<meta property="og:image" content="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190409174457.png">
+<meta property="og:image" content="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190409215150.png">
+<meta property="og:image" content="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190409215449.png">
+<meta property="og:image" content="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190409220738.png">
+<meta property="og:image" content="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190409220848.png">
+<meta property="og:image" content="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190409221138.png">
+<meta property="og:image" content="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190409221227.png">
+<meta property="og:image" content="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190409221323.png">
+<meta property="og:image" content="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190409184143.png">
+<meta property="og:updated_time" content="2019-09-25T04:03:07.049Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS Extentsion 入门实战">
+<meta name="twitter:description" content="最近需求是App接入 Today Extentsion 组件，因为之前没做过这方面，都是摸着石头过河.以下文章都是基于摸索中遇到问题和一些总结，如果有什么不对，请指教一下~ 1. App Extensions简介1.1 什么是App Extensions从 iOS 8 开始，苹果引入了全新的 App Extension。它是一种扩展，很类似于一些大型软件的插件机制。App Extension 事实">
+<meta name="twitter:image" content="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190409160751.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"always","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://swlfigo.github.io/2019/09/25/TodayExtentionTrain/">
+
+
+
+
+
+  <title>iOS Extentsion 入门实战 | Nevermore</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nevermore</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://swlfigo.github.io/2019/09/25/TodayExtentionTrain/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sylar">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-07-25-032947.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nevermore">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">iOS Extentsion 入门实战</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-25T12:03:07+08:00">
+                2019-09-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近需求是App接入 <code>Today Extentsion</code> 组件，因为之前没做过这方面，都是摸着石头过河.以下文章都是基于摸索中遇到问题和一些总结，如果有什么不对，请指教一下~</p>
+<h1 id="1-App-Extensions简介"><a href="#1-App-Extensions简介" class="headerlink" title="1. App Extensions简介"></a>1. App Extensions简介</h1><h2 id="1-1-什么是App-Extensions"><a href="#1-1-什么是App-Extensions" class="headerlink" title="1.1 什么是App Extensions"></a>1.1 什么是App Extensions</h2><p>从 iOS 8 开始，苹果引入了全新的 App Extension。它是一种扩展，很类似于一些大型软件的插件机制。App Extension 事实上并不是你应用的插件，而是系统的插件，其生命周期是由系统来管理的，所以如果你想做什么坏事还是行不通的…但是 App Extension 分发的载体是应用，也就是说如果你只是单纯想做一个今日面板插件，也需要有个主程序，你的主程序可以什么都不做，也可以提供一些基本的设置和数据。iOS的Extension包括以下:</p>
+<p><img src="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190409160751.png" alt></p>
+<p><img src="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190409160833.png" alt></p>
+<p>文章用到的是 <code>Today Extension</code>,用于 iPhone 的今日插件</p>
+<a id="more"></a>
+<h2 id="1-2-App-Extension-和主程序的关系"><a href="#1-2-App-Extension-和主程序的关系" class="headerlink" title="1.2 App Extension 和主程序的关系"></a>1.2 App Extension 和主程序的关系</h2><p>可以说没有什么关系，基本上就是两个独立的程序，你的主程序既不可以访问 App Extension 的代码，也不可以访问其存储空间，这完完全全就是<strong>两个进程</strong>、<strong>两个程序</strong>。</p>
+<h2 id="1-3-App-Extension-可以干什么？不可以干什么？"><a href="#1-3-App-Extension-可以干什么？不可以干什么？" class="headerlink" title="1.3 App Extension 可以干什么？不可以干什么？"></a>1.3 App Extension 可以干什么？不可以干什么？</h2><p>基本上什么都能干,但是内存有限制，App Extension 的可用内存远不如常规应用。也不能执行长时间的操作，你的 <code>App Extension</code> 可能随时被系统 Kill 掉,因为 <code>App Extension</code> 是由系统管理生命周期的。最后一些API也是不能用，一部分如下：</p>
+<ul>
+<li>不能使用 sharedApplication 对象及其其中的方法。</li>
+<li>使用NS_EXTENSION_UNAVAILABLE 宏在头文件中标记的任意API或类似的不可用的宏或API在一个不可用的框架中。例如，在iOS 8.0中，the HealthKit framework and EventKit UI framework 将不能使用app extension.</li>
+<li>不能在iOS设备中使用相机和麦克风(不像其他app extensions，iMessage app可以访问这些资源，只有它正确的配置 NSCameraUsageDescription and NSMicrophoneUsageDescription Info.plist 文件中的Key)。</li>
+<li>不能长期运行后台任务，该限制的具体细节因平台而异。(一个app extension能够使用NSURLSession对象启动一个上传或下载并将这些操作的结果返回给containing app)</li>
+<li>不能使用Air Drop接收数据(一个app extension能够像一个正常的app一样通过UIActivityViewController class去使用AirDrop发送数据)</li>
+</ul>
+<p>还有更多不可用的 API 可以看这个苹果官方文档（以文档为主）：<a href="https://link.jianshu.com/?t=https://developer.apple.com/library/ios/documentation/General/Conceptual/ExtensibilityPG/ExtensionOverview.html#//apple_ref/doc/uid/TP40014214-CH2-SW2" target="_blank" rel="noopener">Understand How an App Extension Works</a></p>
+<h2 id="1-4-App-Extension-生命周期与交互"><a href="#1-4-App-Extension-生命周期与交互" class="headerlink" title="1.4  App Extension 生命周期与交互"></a>1.4  App Extension 生命周期与交互</h2><p>因为app extension不是一个app,它的生命周期和app是不同的，在大多情况下，当用户从app的UI上或者其他活动视图控制器中选择开启extension功能的选项时将会开始执行。</p>
+<p>先说下几个概念:</p>
+<ul>
+<li>App : 就是我们正常手机里的每个应用程序，即Xcode运行后生成的程序。一个app可以包含一个或多个target,每个target将产生一个product.</li>
+<li>App extension : 为了扩展特定app的功能并且依赖于一个特定的app的<strong>一条进程</strong>。</li>
+<li>Containing app：一个app包含一个或多个extension称为containing app。</li>
+<li>target : 在项目中新建一个target来创建app extension.任意一个target指定了应用程序中构建product的设置信息和文件。</li>
+<li>host app : 包含app extension 并且能从中打开它(并不一定非要从此app内部打开，可以是app内部也可以是例如Today Widget外部控件)。</li>
+</ul>
+<p><code>host app</code> : 我们可以把它理解为<code>宿主的App</code>，能够调起extension的app被称为host app，比如：Safari app 里面网页分享到微信, Safari就是 host app ; widget的host app就是Today。</p>
+<p>App Extension基本认知： </p>
+<ul>
+<li>Extension不能单独发布和部署，需要依赖于容器应用(Containing App)。</li>
+<li>Extension和容器应用(Containing App)的生命周期是独立的，分别为两个不同的进程.</li>
+<li>Extension的运行依赖于宿主应用(Host App)，生命周期由宿主应用决定。</li>
+<li>Extension作为一个单独的target存在，但会随着容器应用(Containing App)的安装和卸载而安装和卸载。</li>
+<li>Extension需要独立的证书用来打包和测试。</li>
+</ul>
+<h3 id="1-4-1-Extension的生命周期如下"><a href="#1-4-1-Extension的生命周期如下" class="headerlink" title="1.4.1 Extension的生命周期如下:"></a>1.4.1 Extension的生命周期如下:</h3><p><img src="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190409165903.png" alt></p>
+<p>调用起了 <code>Extension</code> ，操作完就退出</p>
+<h3 id="1-4-2-Extension-与-App-交互"><a href="#1-4-2-Extension-与-App-交互" class="headerlink" title="1.4.2 Extension 与 App 交互"></a>1.4.2 Extension 与 App 交互</h3><p>一些简单的交互</p>
+<p><img src="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190409170336.png" alt></p>
+<ul>
+<li>app extension 和 containing app将不能够直接交互，典型的，containing app可能还没有开始运行然而它包含的app extension已经在运行了。（例如，一个天气的app,当你还没有打开它时，你可以在Today Widget中看到今天天气的信息）</li>
+<li>在一个典型的请求响应事务中，系统代表的host app打开app extension, 通过host提供的extension上下文(context)传递数据, 这个extension通过界面的展示来执行一些任务，如果适用于extension的目的，返回数据给host.</li>
+<li>上图的虚线代表了app extension 和 containing app之间有限的交互。例如Today widget(只有 Today Extension 才支持通过调用其他不可以) 通过调用 NSExtensionContext类中<code>openURL:completionHandler:</code>方法来要求系统去打开它的containing app.</li>
+</ul>
+<p>具体交互</p>
+<p><img src="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190409170633.png" alt></p>
+<p>任意一个app extension和它的containing app能够在一个私有的shared container中分享数据。</p>
+<h1 id="2-实战"><a href="#2-实战" class="headerlink" title="2. 实战"></a>2. 实战</h1><p><strong>要做的事情:</strong></p>
+<p>使用 <code>Extensions</code> 难免会与<code>Containing App</code>有一定交互或者资源共享,首先列出了可能会遇到的情景:</p>
+<h5 id="widget-和-主-App-共用资源"><a href="#widget-和-主-App-共用资源" class="headerlink" title="widget 和 主 App 共用资源"></a>widget 和 主 App 共用资源</h5><p>widget 和主 App 共享代码和资源。我们还是要尽可能的让 widget 和主 App 共享代码。因为没必要一份代码写2次，能复用就复用</p>
+<p>主要有两个方案:</p>
+<ul>
+<li>framework</li>
+<li>直接共享</li>
+</ul>
+<h5 id="widget-和-主-App-共享数据"><a href="#widget-和-主-App-共享数据" class="headerlink" title="widget 和 主 App 共享数据"></a>widget 和 主 App 共享数据</h5><p>严格来说 widget 和 App 是不同的两个 App 了, 而且他们之间有沙盒限制，他们之间要共享数据的话只能使用 <strong>App Groups</strong> 了。常用就是 <code>NSUserDefault</code>、<code>Core Data</code> 、<code>SQL</code></p>
+<h3 id="2-1-创建项目的-Extension"><a href="#2-1-创建项目的-Extension" class="headerlink" title="2.1 创建项目的 Extension"></a>2.1 创建项目的 Extension</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">XCode -&gt; File -&gt; New -&gt; Target</span><br></pre></td></tr></table></figure>
+<p><img src="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190409172331.png" alt></p>
+<p><img src="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190409172505.png" alt></p>
+<p>选择 <code>Today Extension</code> , 项目名字随便取,当然最好就是你的跟你项目相关了,创建后可以看到，几个地方多了这个<code>Extension</code> 显示了:</p>
+<p>项目中多了个文件夹，文件夹名字就是 <code>Extension</code> 命名的名字了</p>
+<p><img src="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190409173055.png" alt></p>
+<p>target中多了 <code>Extension</code></p>
+<p><img src="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190409173138.png" alt></p>
+<p>纵观一下文件， <code>TodayViewController</code>是 <code>Extension</code>主体文件了，业务逻辑也写在里面，默认新创建的<code>Extension</code>是使用 <code>.storyboard</code> 管理UI视图的，当然你不想用也行，只需要在 <code>Extension</code>里的 <code>info.plist</code>改下</p>
+<p><img src="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190409173435.png" alt></p>
+<p>改 <code>NSExtensionMainStoryboard</code>字段为 <code>NSExtensionPrincipalClass</code> ，并修改入口为自定义类。</p>
+<p>然后选择 scheme可以编译看下<code>helloworld</code> 效果了</p>
+<p><img src="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190409173749.png" alt></p>
+<h3 id="2-2-Pod-的配置"><a href="#2-2-Pod-的配置" class="headerlink" title="2.2 Pod 的配置"></a>2.2 Pod 的配置</h3><p><code>Extension</code>开发中有时难免会用到一些第三方,如 <code>SDWebImage</code> 或者<code>AFNetworking</code>之类的，<code>Cocoapod</code> 也提供了这方面功能，能使 <code>Extension</code> 用上这些类,同理在 <code>Podfile</code> 中添加</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">target <span class="string">'TodayExtentsionDemo'</span> <span class="keyword">do</span></span><br><span class="line">    pod <span class="string">'AFNetworking'</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">target <span class="string">'TodayExtentsion'</span> <span class="keyword">do</span></span><br><span class="line">    pod <span class="string">'AFNetworking'</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">  <span class="comment"># target写 App 与 Extension 名字即可关联</span></span><br></pre></td></tr></table></figure>
+<p>此时你也许会留意到，比如上面 <code>AF</code> 两个Target都要用到，都要重新写一次，会很麻烦。</p>
+<p>是很麻烦，故此上网找了下相关解决方法，知道有个这个 <code>link_with</code> 方法，如下:</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">link_with <span class="string">'TodayExtentsionDemo'</span>, <span class="string">'TodayExtentsion'</span></span><br><span class="line">	pod <span class="string">'AFNetworking'</span></span><br></pre></td></tr></table></figure>
+<p>但是,这种方法已经弃用了, <code>Pod install</code>会报错,所以你看到网上介绍相关方法的文章，都是抄别人自己又不试的</p>
+<p><img src="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190409174457.png" alt></p>
+<p>由于 <code>Cocoapod</code>是 <code>Ruby</code> 写的，我们可以这样子操作一下</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">shareFramework</span></span></span><br><span class="line">    pod <span class="string">'AFNetworking'</span></span><br><span class="line">    <span class="comment">#blablabla Framework</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">target <span class="string">'TodayExtentsionDemo'</span> <span class="keyword">do</span></span><br><span class="line">    shareFramework</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">target <span class="string">'TodayExtentsion'</span> <span class="keyword">do</span></span><br><span class="line">    shareFramework</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#定义了个Function，在里面添加通用的库</span></span><br></pre></td></tr></table></figure>
+<p><code>Pod install</code>之后即可为每个 <code>Target</code> 引入相关库</p>
+<blockquote>
+<p>课外阅读: <a href="https://juejin.im/entry/59dd94b06fb9a0451463030b" target="_blank" rel="noopener">Cocoapods原理总结</a> </p>
+</blockquote>
+<p>此时，我们可以在 <code>Containning App</code> 与 <code>Extension</code>中使用 <code>AF</code>库了</p>
+<h3 id="2-3-Extension-入门-UI-操作"><a href="#2-3-Extension-入门-UI-操作" class="headerlink" title="2.3 Extension 入门 UI 操作"></a>2.3 Extension 入门 UI 操作</h3><p>我们刚编译的 <code>Extension</code>  你会看到是没有展开按钮的，此时我们只需要在 <code>viewDidLoad</code> 中添加</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//这个iOS10以后的API，可以在Extension上显示 展开/收起 按钮, 至于iOS10 之前需要搞一个按钮手动触发改变高度?</span><br><span class="line">//由于手上没有 iOS10 之前机子测试, 所以先挖个坑，迟点有了再补坑</span><br><span class="line">if (@available(iOS 10.0, *)) &#123;</span><br><span class="line">        self.extensionContext.widgetLargestAvailableDisplayMode = NCWidgetDisplayModeExpanded;</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>添加了这句代码 之后，你会发现 <code>Extension</code>上有了折叠收起按钮了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">- (void)widgetActiveDisplayModeDidChange:(NCWidgetDisplayMode)activeDisplayMode withMaximumSize:(CGSize)maxSize &#123;</span><br><span class="line">    if (activeDisplayMode == NCWidgetDisplayModeExpanded) &#123;</span><br><span class="line">        // 设置展开的新高度</span><br><span class="line">      	//最大只能 screen size - 139</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        self.preferredContentSize = maxSize;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个是 <code>Extension</code>代理方法，用于回调点击了 收起/展开 按钮后，返回 显示区域的高度大小</p>
+<p>经过一些测试，发现这个 <code>Extension</code>最大的高度只能是 屏幕高度 - 139. 超过了也是这么高</p>
+<p>else 下的是收起高度，直接返回代理给你的系统 高度好了(没有特别要求的话)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">- (void)widgetPerformUpdateWithCompletionHandler:(void (^)(NCUpdateResult))completionHandler&#123;</span><br><span class="line">  //blablabla</span><br><span class="line">  //做vieWillAppear前数据获取之类的操作</span><br><span class="line">  //或者系统每隔一段时间截取 Extension 图片时候调用的方法</span><br><span class="line">  	completionHandler(NCUpdateResultNewData);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>大致意思是建议你通过实现它的回调来获取数据，你也可以在viewwillappear中设置你的初始数据，但是希望你在获取到新数据时能平稳的过渡到新的数据来。并且它是在主线程更新。</p>
+<p>当widget最初被创建时，widgetPerformUpdateWithCompletionHandler几乎被简单地调用，所以你可以在这里完成所有的加载，但是苹果建议你尽可能的在生命周期的早期开始加载过程。</p>
+<p>如果您的小部件显示的信息永远不会更改，那么您不必在<code>widgetPerformUpdateWithCompletionHandler</code>中执行任何操作。</p>
+<p>其实可以理解为 类似天气或者股票之类App，在用户使用时候，系统每隔一段时间会调用这个方法获取 <code>Extension</code>的快照，比如一段时间获得当前天气情况，更新<code>Extension</code>,下次你看到这个 <code>Extension</code>时候就是最新的天气了</p>
+<h3 id="2-4-Extension-与-Containing-App-代码共享"><a href="#2-4-Extension-与-Containing-App-代码共享" class="headerlink" title="2.4 Extension 与 Containing App 代码共享"></a>2.4 Extension 与 Containing App 代码共享</h3><p><code>Extension</code>也有UI,也有业务逻辑，有时候跟项目一些流程相同，那么代码复用也是一个考虑的点。</p>
+<p>由于 <code>Extension</code> 与 <code>Containing App</code> 不算同一个App且同一个进程，如果要代码共享，很多人会考虑直接拷贝一份代码放到 <code>Extension</code> 里面(即<code>Target</code>选多一个<code>Extension</code>),比如，我们 <code>Extension</code> 里面需要用到一个 <code>Tableview</code> 显示数据，<code>Containing App</code>中也有相应的 <code>Tableview</code> 用到这个 <code>Cell</code>,</p>
+<p><img src="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190409215150.png" alt></p>
+<p>比如你在 <code>Extension</code> 里面引入这个类并且写逻辑，你会发现并不能通过编译，因为<code>Extension</code> 无法访问这个，此时最简单方法就是</p>
+<p><img src="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190409215449.png" alt></p>
+<p>在 <code>Target Membership</code>中勾选 <code>Containning App</code> 与 <code>Extension</code> 即可</p>
+<p>但是一个问题来了,比如你这个 Cell 还引用了其他类，其他类的 <code>Target Membership</code> 也是需要勾选的，这样一来，项目一大你不知道有哪些勾了和没勾。这只是其中一个小问题，</p>
+<p>另外的问题就是.如果这个文件还是主程序的 <code>target</code>,只要改动一下，所属的target就被编译器标记为需要重新编译，这样整个App就需要重新编译(当然你Run也是重新编译一次)，但是如果你用下面所说的 <code>framework</code> 苹果推荐方法，只需要编译<code>framework</code>里面的文件，达到组件化。我们知道<code>cocoapod</code> 也是将第三方库编译成 <code>framework</code>避免每次编译App也编译这部分东西的.</p>
+<p>具体原理可以参考下面 文章  <a href="https://www.appcoda.com.tw/framework/" target="_blank" rel="noopener">用 Framework 重構 Swift 程式碼　大大提高編譯效率！</a></p>
+<p>做法如下:</p>
+<p>首先在新建一个  <code>Framework</code>:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">XCode -&gt; File -&gt; New -&gt; Target</span><br></pre></td></tr></table></figure>
+<p><img src="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190409220738.png" alt></p>
+<p><img src="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190409220848.png" alt></p>
+<p>通常 <code>Framework</code> 都以 <code>xxxkit</code>结尾作为标准规范,新建完成后会发现架构中多了这个<code>Framework</code>文件夹以及 <code>Target</code> 中多了一个(情况如上面新建<code>Extension</code>一样，不做更多截图)</p>
+<p>第二 , 在<code>Containning App</code>的 <code>Target</code>中删除共用代码的文件</p>
+<p><img src="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190409221138.png" alt></p>
+<p>然后再 <code>Framework</code>的 <code>Complie Sources</code> 添加这个共用类</p>
+<p><img src="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190409221227.png" alt></p>
+<p>最后，在 <code>Extension</code> 中添加 <code>Link Binary With Libraries</code></p>
+<p><img src="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190409221323.png" alt></p>
+<p>这样既可完成 <code>Extension</code> 与 <code>Containing App</code> 共用类的编译以及运行</p>
+<p><strong>如何解决警告linking against dylib not safe for use in application extensions</strong>:</p>
+<p>因为app extension限制了某些API的使用， ( <a href="https://developer.apple.com/library/prerelease/ios/documentation/General/Conceptual/ExtensibilityPG/ExtensionOverview.html#//apple_ref/doc/uid/TP40014214-CH2-SW6" target="_blank" rel="noopener">App Extensions不能使用的一些API</a> ) ，因此在自定义自己的framework后，这个framework可能包含了某些在App Extensions里不能使用的API，因此为了安全起见才会给出这个警告。</p>
+<p>选中自定义framework的target,然后选中Build Settings，（记住选择All,而不是Basic),在过滤框中输入”require only”，将<code>Require Only App-Extension-Safe API</code>的值改成YES，（默认为NO)，然后Command + K clean一下工程，警告久消除了。</p>
+<p><img src="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190409184143.png" alt></p>
+<h3 id="2-5-Widget-调用-Containing-App"><a href="#2-5-Widget-调用-Containing-App" class="headerlink" title="2.5 Widget 调用 Containing App"></a>2.5 Widget 调用 Containing App</h3><p>这个跟 urlScheme 设置一样，主要就是因为 <code>Extension</code>不能调用 <code>[UIApplication sharedApplication]</code> 所以正确做法是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">self.extensionContext openURL:&lt;#(nonnull NSURL *)#&gt; completionHandler:&lt;#^(BOOL success)completionHandler#&gt;</span><br></pre></td></tr></table></figure>
+<p>这里不做更多叙述，可以通过URL传递参数，APP动态路由处理即可</p>
+<h3 id="2-6-Widget-与-Containing-App-数据共通"><a href="#2-6-Widget-与-Containing-App-数据共通" class="headerlink" title="2.6 Widget 与 Containing App 数据共通"></a>2.6 Widget 与 Containing App 数据共通</h3><p>严格来说 widget 和 App 是不同的两个 App 了, 他们之间要共享数据的话只能使用 <strong>App Groups</strong> 了。</p>
+<p>具体做法忽略，暂时用个人开发者账户，之前创建的 AppGroup 发现不能删除..等上了公司证书再补坑</p>
+<p>最后附上 Demo 地址 : <a href="https://github.com/swlfigo/someDemo/tree/master/TodayExtentsionDemo" target="_blank" rel="noopener">Demo</a></p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a href="https://www.jianshu.com/p/bbc6a95d9c54" target="_blank" rel="noopener">1.揭秘 iOS App Extension 开发 —— Today 篇</a></p>
+<p><a href="https://www.jianshu.com/p/9cd45d0b3697" target="_blank" rel="noopener">2.App extension 总结</a></p>
+<p><a href="https://developer.apple.com/library/archive/documentation/General/Conceptual/ExtensibilityPG/index.html#//apple_ref/doc/uid/TP40014214-CH20-SW1" target="_blank" rel="noopener">3.App Extensions Increase Your Impact</a></p>
+<p><a href="https://developer.apple.com/library/archive/documentation/General/Conceptual/ExtensibilityPG/ExtensionOverview.html#//apple_ref/doc/uid/TP40014214-CH2-SW2" target="_blank" rel="noopener">4.Understand How an App Extension Works</a></p>
+<p><a href="https://juejin.im/entry/59dd94b06fb9a0451463030b" target="_blank" rel="noopener">5.Cocoapods原理总结</a> </p>
+<p><a href="https://www.appcoda.com.tw/framework/" target="_blank" rel="noopener">6.用 Framework 重構 Swift 程式碼　大大提高編譯效率！</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/25/YYCacheLearn/" rel="next" title="YYCache阅读学习">
+                <i class="fa fa-chevron-left"></i> YYCache阅读学习
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/25/Thailand/" rel="prev" title="Thailand Trip">
+                Thailand Trip <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-07-25-032947.jpg" alt="Sylar">
+          <p class="site-author-name" itemprop="name">Sylar</p>
+           
+              <p class="site-description motion-element" itemprop="description">一个不会iOS的搬砖工</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/swlfigo || github" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/swlfigo/Study/wiki || paper-plane" target="_blank" title="更多学习笔记">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                    
+                      更多学习笔记
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-App-Extensions简介"><span class="nav-number">1.</span> <span class="nav-text">1. App Extensions简介</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-什么是App-Extensions"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 什么是App Extensions</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-App-Extension-和主程序的关系"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 App Extension 和主程序的关系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-App-Extension-可以干什么？不可以干什么？"><span class="nav-number">1.3.</span> <span class="nav-text">1.3 App Extension 可以干什么？不可以干什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-App-Extension-生命周期与交互"><span class="nav-number">1.4.</span> <span class="nav-text">1.4  App Extension 生命周期与交互</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-1-Extension的生命周期如下"><span class="nav-number">1.4.1.</span> <span class="nav-text">1.4.1 Extension的生命周期如下:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-2-Extension-与-App-交互"><span class="nav-number">1.4.2.</span> <span class="nav-text">1.4.2 Extension 与 App 交互</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-实战"><span class="nav-number">2.</span> <span class="nav-text">2. 实战</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#widget-和-主-App-共用资源"><span class="nav-number">2.0.0.0.1.</span> <span class="nav-text">widget 和 主 App 共用资源</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#widget-和-主-App-共享数据"><span class="nav-number">2.0.0.0.2.</span> <span class="nav-text">widget 和 主 App 共享数据</span></a></li></ol></li></ol><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-创建项目的-Extension"><span class="nav-number">2.0.1.</span> <span class="nav-text">2.1 创建项目的 Extension</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-Pod-的配置"><span class="nav-number">2.0.2.</span> <span class="nav-text">2.2 Pod 的配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-Extension-入门-UI-操作"><span class="nav-number">2.0.3.</span> <span class="nav-text">2.3 Extension 入门 UI 操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-Extension-与-Containing-App-代码共享"><span class="nav-number">2.0.4.</span> <span class="nav-text">2.4 Extension 与 Containing App 代码共享</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-Widget-调用-Containing-App"><span class="nav-number">2.0.5.</span> <span class="nav-text">2.5 Widget 调用 Containing App</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-6-Widget-与-Containing-App-数据共通"><span class="nav-number">2.0.6.</span> <span class="nav-text">2.6 Widget 与 Containing App 数据共通</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Reference"><span class="nav-number">3.</span> <span class="nav-text">Reference</span></a></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sylar</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

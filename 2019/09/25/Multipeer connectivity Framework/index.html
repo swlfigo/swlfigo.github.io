@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="iOS,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="Multipeer connectivity是一个使附近设备通过Wi-Fi网络、P2P Wi-Fi以及蓝牙个人局域网进行通信的框架。互相链接的节点可以安全地传递信息、流或是其他文件资源，而不用通过网络服务。此框架是在iOS7以后推出，旨在替代GameKit下的GKPeerPickerController通信。通过此框架我们可以直接连接同一网络下的设备，让其直接进行类似微信，qq那样的即时通讯效果。">
+<meta name="keywords" content="iOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MultipeerConnectivity框架，近场通信的基本使用">
+<meta property="og:url" content="https://swlfigo.github.io/2019/09/25/Multipeer connectivity Framework/index.html">
+<meta property="og:site_name" content="Nevermore">
+<meta property="og:description" content="Multipeer connectivity是一个使附近设备通过Wi-Fi网络、P2P Wi-Fi以及蓝牙个人局域网进行通信的框架。互相链接的节点可以安全地传递信息、流或是其他文件资源，而不用通过网络服务。此框架是在iOS7以后推出，旨在替代GameKit下的GKPeerPickerController通信。通过此框架我们可以直接连接同一网络下的设备，让其直接进行类似微信，qq那样的即时通讯效果。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-09-25T04:03:07.049Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MultipeerConnectivity框架，近场通信的基本使用">
+<meta name="twitter:description" content="Multipeer connectivity是一个使附近设备通过Wi-Fi网络、P2P Wi-Fi以及蓝牙个人局域网进行通信的框架。互相链接的节点可以安全地传递信息、流或是其他文件资源，而不用通过网络服务。此框架是在iOS7以后推出，旨在替代GameKit下的GKPeerPickerController通信。通过此框架我们可以直接连接同一网络下的设备，让其直接进行类似微信，qq那样的即时通讯效果。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"always","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://swlfigo.github.io/2019/09/25/Multipeer connectivity Framework/">
+
+
+
+
+
+  <title>MultipeerConnectivity框架，近场通信的基本使用 | Nevermore</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nevermore</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://swlfigo.github.io/2019/09/25/Multipeer connectivity Framework/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sylar">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-07-25-032947.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nevermore">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">MultipeerConnectivity框架，近场通信的基本使用</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-25T12:03:07+08:00">
+                2019-09-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h6 id="Multipeer-connectivity是一个使附近设备通过Wi-Fi网络、P2P-Wi-Fi以及蓝牙个人局域网进行通信的框架。互相链接的节点可以安全地传递信息、流或是其他文件资源，而不用通过网络服务。此框架是在iOS7以后推出，旨在替代GameKit下的GKPeerPickerController通信。通过此框架我们可以直接连接同一网络下的设备，让其直接进行类似微信，qq那样的即时通讯效果。"><a href="#Multipeer-connectivity是一个使附近设备通过Wi-Fi网络、P2P-Wi-Fi以及蓝牙个人局域网进行通信的框架。互相链接的节点可以安全地传递信息、流或是其他文件资源，而不用通过网络服务。此框架是在iOS7以后推出，旨在替代GameKit下的GKPeerPickerController通信。通过此框架我们可以直接连接同一网络下的设备，让其直接进行类似微信，qq那样的即时通讯效果。" class="headerlink" title="Multipeer connectivity是一个使附近设备通过Wi-Fi网络、P2P Wi-Fi以及蓝牙个人局域网进行通信的框架。互相链接的节点可以安全地传递信息、流或是其他文件资源，而不用通过网络服务。此框架是在iOS7以后推出，旨在替代GameKit下的GKPeerPickerController通信。通过此框架我们可以直接连接同一网络下的设备，让其直接进行类似微信，qq那样的即时通讯效果。"></a><strong>Multipeer connectivity</strong>是一个使附近设备通过Wi-Fi网络、P2P Wi-Fi以及蓝牙个人局域网进行通信的框架。互相链接的节点可以安全地传递信息、流或是其他文件资源，而不用通过网络服务。此框架是在iOS7以后推出，旨在替代GameKit下的GKPeerPickerController通信。通过此框架我们可以直接连接同一网络下的设备，让其直接进行类似微信，qq那样的即时通讯效果。</h6><h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>其中通讯的原理，是利用节点来进行广播服务（标示符），其他节点可以通过服务（标示符）发现广播。并对此节点进行连接。在项目中可以将广播和发现放在一起实现，这样既可以发现并连接到其他节点，同时也可以被其他节点所搜索链接。服务的命名规则为由ASCII字母、数字和“-”组成的短文本串，最多15个字符。通常，一个服务的名字应该由应用程序的名字开始，后边跟“-”和一个独特的描述符号</p>
+<a id="more"></a>
+<h3 id="相关类"><a href="#相关类" class="headerlink" title="相关类"></a>相关类</h3><p>针对于近场通信，在Multipeer connectivity框架中我们所需要学习的类如下:</p>
+<p>　　1. MCPeerID  //代表用户信息 </p>
+<p>　　2.MCSession //启用和管理Multipeer连接会话中的所有人之间的沟通。 通过Sesion，给别人发送和读取数据。</p>
+<p>　　3.MCNearbyServiceBrowser  //用于搜索附近的服务端，并可以对搜索到的服务端发出邀请加入某个会话中。 </p>
+<p>　　4.MCNearbyServiceAdvertiser //广播服务可以接收，并处理用户请求连接的响应。但是，这个类会有回调，告知有用户要与服务端设备连接，需要自定义提示框，以及自定义连接处理。</p>
+<p>　　5.MCAdvertiserAssistant   //广播服务可以接收，并处理用户请求连接的响应。没有回调，会弹出默认的提示框，并处理连接。</p>
+<p>　　6. MCBrowserViewController  //用于搜索附近的用户，是基于MCNearbyServiceBrowse的封装 </p>
+<h3 id="使用步骤"><a href="#使用步骤" class="headerlink" title="使用步骤"></a>使用步骤</h3><p>　　<br>　　 <strong>MCPeerID，MCSession，MCNearbyServiceAdvertiser，MCNearbyServiceBrowser</strong>本文中用这四个类来实现（MCNearbyServiceAdvertiser，MCNearbyServiceBrowserx相对来说更原生态，此处通过这个两个类来编写代码更容易帮助我们理解其内部实现的过程）。</p>
+<p>通过<strong>MCPeer</strong>来生成节点信息</p>
+<p>通过<strong>MCNearbyServiceAdvertiser</strong>来发送广播，告诉别人这里有个节点可连接，其他节点想要发现此节点必须</p>
+<p>通过<strong>MCNearbyServiceBrowser</strong>来搜索服务（标示符）来找到发送广播的节点，并请求连接，<br>当连接成功后便可以通过M<strong>CSession</strong>来进行消息的发送和读取。</p>
+<h3 id="代码部分"><a href="#代码部分" class="headerlink" title="代码部分"></a>代码部分</h3><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//需要遵循以下协议</span></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">MultiPeerModule</span> : <span class="title">NSObject</span>&lt;<span class="title">MCSessionDelegate</span>,<span class="title">MCBrowserViewControllerDelegate</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@property</span>(<span class="keyword">nonatomic</span>,<span class="keyword">strong</span>)MCPeerID *peerID; <span class="comment">//PeerID-&gt;连接设备的标志</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@property</span>(<span class="keyword">nonatomic</span>,<span class="keyword">strong</span>)MCSession *mySession; <span class="comment">//会话-&gt;用于传输数据</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@property</span>(<span class="keyword">nonatomic</span>,<span class="keyword">strong</span>)MCBrowserViewController *browser; <span class="comment">//系统基于MCNearbyServiceBrowser 封装的一个Controller</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@property</span>(<span class="keyword">nonatomic</span>,<span class="keyword">strong</span>)MCAdvertiserAssistant *advertiser; <span class="comment">//广播-&gt;用于向外发送服务，让Browser搜索到开了广播的设备</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>####初始化</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">_peerID = [[MCPeerID alloc]initWithDisplayName:[<span class="built_in">UIDevice</span> currentDevice].name];</span><br><span class="line">_mySession = [[MCSession alloc]initWithPeer:_peerID];</span><br><span class="line">_mySession.delegate = <span class="keyword">self</span>;</span><br><span class="line">   </span><br><span class="line"><span class="comment">//它是由ASCII字母、数字和“-”组成的短文本串，最多15个字符。通常，一个服务的名字应该由应用程序的名字开始，后边跟“-”和一个独特的描述符号。</span></span><br><span class="line"></span><br><span class="line">_browser = [[MCBrowserViewController alloc]initWithServiceType:<span class="string">@"trans-stream"</span> session:_mySession];</span><br><span class="line">_browser.delegate = <span class="keyword">self</span>;</span><br><span class="line">   </span><br><span class="line"><span class="comment">//初始化广播</span></span><br><span class="line">_advertiser = [[MCAdvertiserAssistant alloc]initWithServiceType:<span class="string">@"trans-stream"</span> discoveryInfo:<span class="literal">nil</span> session:_mySession];</span><br><span class="line"></span><br><span class="line"><span class="comment">//这是开始广播方法,向四周发送广播</span></span><br><span class="line"><span class="comment">//[_advertiser start];</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//同理Stop</span></span><br><span class="line"><span class="comment">//[_advertiser stop];</span></span><br></pre></td></tr></table></figure>
+<p>####代理</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">//连接状态更改</span></span><br><span class="line"><span class="comment">//无论服务端和客户端</span></span><br><span class="line"><span class="comment">//只要连接状态改变，都会进入这个代理</span></span><br><span class="line"><span class="comment">//PS:好像无法获得是服务端还是客户端变化?</span></span><br><span class="line">-(<span class="keyword">void</span>)session:(MCSession *)session peer:(MCPeerID *)peerID didChangeState:(MCSessionState)state&#123;</span><br><span class="line">    <span class="keyword">switch</span> (state) &#123;</span><br><span class="line">        <span class="keyword">case</span> MCSessionStateConnected:</span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"Connected With %@ Success!"</span>,peerID.displayName);</span><br><span class="line">            </span><br><span class="line">            <span class="comment">//连接成功后发送通知</span></span><br><span class="line">            <span class="comment">//做后续逻辑</span></span><br><span class="line">            </span><br><span class="line">            [[<span class="built_in">NSNotificationCenter</span> defaultCenter]postNotificationName:<span class="string">@"SuccessConnect"</span> object:peerID];</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> MCSessionStateConnecting:</span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"Connecting With %@ =================&gt;"</span>,peerID.displayName);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> MCSessionStateNotConnected:</span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"Lost Connected With %@ Bye~!"</span>,peerID.displayName);</span><br><span class="line">            [[<span class="built_in">NSNotificationCenter</span> defaultCenter]postNotificationName:<span class="string">@"LostConnect"</span> object:peerID];</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"Unknown Error=======&gt;"</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//第一个方法在节点改变状态的时候被调用，已连接或已断开。</span></span><br><span class="line"><span class="comment">//有三个状态： MCSessionStateConnected , MCSessionStateConnecting  and  MCSessionStateNotConnected。最后一个状态在节点从连接断开后依然有效。</span></span><br><span class="line"><span class="comment">//第二个方法在有新数据从节点过来时被调用。</span></span><br><span class="line"><span class="comment">//记住有三种数据可以交换：消息，流和资源。这个是消息的代理。</span></span><br><span class="line"></span><br><span class="line">-(<span class="keyword">void</span>)session:(MCSession *)session didReceiveData:(<span class="built_in">NSData</span> *)data fromPeer:(MCPeerID *)peerID&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (data.length&gt;<span class="number">0</span>) &#123;</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@"收到的Data长度:%ld"</span>,data.length);</span><br><span class="line">        [[<span class="built_in">NSNotificationCenter</span> defaultCenter] postNotificationName:<span class="string">@"didReceiveData"</span> object:data];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">-(<span class="keyword">void</span>)session:(MCSession *)session didStartReceivingResourceWithName:(<span class="built_in">NSString</span> *)resourceName fromPeer:(MCPeerID *)peerID withProgress:(<span class="built_in">NSProgress</span> *)progress&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">-(<span class="keyword">void</span>)session:(MCSession *)session didReceiveStream:(<span class="built_in">NSInputStream</span> *)stream withName:(<span class="built_in">NSString</span> *)streamName fromPeer:(MCPeerID *)peerID&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">-(<span class="keyword">void</span>)session:(MCSession *)session didFinishReceivingResourceWithName:(<span class="built_in">NSString</span> *)resourceName fromPeer:(MCPeerID *)peerID atURL:(<span class="built_in">NSURL</span> *)localURL withError:(<span class="built_in">NSError</span> *)error&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//选择设备系统自定义Controller</span></span><br><span class="line"></span><br><span class="line">-(<span class="keyword">void</span>)browserViewControllerDidFinish:(MCBrowserViewController *)browserViewController&#123;</span><br><span class="line">    [<span class="keyword">self</span>.browser dismissViewControllerAnimated:<span class="literal">YES</span> completion:<span class="literal">nil</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">-(<span class="keyword">void</span>)browserViewControllerWasCancelled:(MCBrowserViewController *)browserViewController&#123;</span><br><span class="line">    [<span class="keyword">self</span>.browser dismissViewControllerAnimated:<span class="literal">YES</span> completion:<span class="literal">nil</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="以上就是-Multipeer-connectivity-需要实现的代理方法"><a href="#以上就是-Multipeer-connectivity-需要实现的代理方法" class="headerlink" title="以上就是 Multipeer connectivity 需要实现的代理方法"></a>以上就是 <strong>Multipeer connectivity</strong> 需要实现的代理方法</h5><p>使用略</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/25/PodResourceUsage/" rel="next" title="Pod私有库素材管理">
+                <i class="fa fa-chevron-left"></i> Pod私有库素材管理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/25/HexoBuilt/" rel="prev" title="Hexo 折腾">
+                Hexo 折腾 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-07-25-032947.jpg" alt="Sylar">
+          <p class="site-author-name" itemprop="name">Sylar</p>
+           
+              <p class="site-description motion-element" itemprop="description">一个不会iOS的搬砖工</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/swlfigo || github" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/swlfigo/Study/wiki || paper-plane" target="_blank" title="更多学习笔记">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                    
+                      更多学习笔记
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-6"><a class="nav-link" href="#Multipeer-connectivity是一个使附近设备通过Wi-Fi网络、P2P-Wi-Fi以及蓝牙个人局域网进行通信的框架。互相链接的节点可以安全地传递信息、流或是其他文件资源，而不用通过网络服务。此框架是在iOS7以后推出，旨在替代GameKit下的GKPeerPickerController通信。通过此框架我们可以直接连接同一网络下的设备，让其直接进行类似微信，qq那样的即时通讯效果。"><span class="nav-number">1.</span> <span class="nav-text">Multipeer connectivity是一个使附近设备通过Wi-Fi网络、P2P Wi-Fi以及蓝牙个人局域网进行通信的框架。互相链接的节点可以安全地传递信息、流或是其他文件资源，而不用通过网络服务。此框架是在iOS7以后推出，旨在替代GameKit下的GKPeerPickerController通信。通过此框架我们可以直接连接同一网络下的设备，让其直接进行类似微信，qq那样的即时通讯效果。</span></a></li></ol><li class="nav-item nav-level-3"><a class="nav-link" href="#原理"><span class="nav-number"></span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#相关类"><span class="nav-number"></span> <span class="nav-text">相关类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用步骤"><span class="nav-number"></span> <span class="nav-text">使用步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码部分"><span class="nav-number"></span> <span class="nav-text">代码部分</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#以上就是-Multipeer-connectivity-需要实现的代理方法"><span class="nav-number"></span> <span class="nav-text">以上就是 Multipeer connectivity 需要实现的代理方法</span></a></li></ol></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sylar</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

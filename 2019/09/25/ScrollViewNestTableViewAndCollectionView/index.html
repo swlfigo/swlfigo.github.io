@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="iOS,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="ScrollView、TableView、CollectionView 联动一种实现思路首先看看效果:  带悬停View头部的类型,可以上下拉刷新   2.不带悬停View头部的类型,可以上下拉刷新 (PS.图床上传GIF有问题，经常出现卡死问题,直接运行DEMO比较直观) → Demo地址 联动思路实现核心思路大部分处理方案由于联动是在最底部的 ScrollView 上面添加一个 TableVI">
+<meta name="keywords" content="iOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ScrollView、TableView、CollectionView 联动一种实现思路">
+<meta property="og:url" content="https://swlfigo.github.io/2019/09/25/ScrollViewNestTableViewAndCollectionView/index.html">
+<meta property="og:site_name" content="Nevermore">
+<meta property="og:description" content="ScrollView、TableView、CollectionView 联动一种实现思路首先看看效果:  带悬停View头部的类型,可以上下拉刷新   2.不带悬停View头部的类型,可以上下拉刷新 (PS.图床上传GIF有问题，经常出现卡死问题,直接运行DEMO比较直观) → Demo地址 联动思路实现核心思路大部分处理方案由于联动是在最底部的 ScrollView 上面添加一个 TableVI">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-03-22-075824.gif">
+<meta property="og:image" content="http://okslxr2o0.bkt.clouddn.com/15204113018994.jpg">
+<meta property="og:image" content="http://okslxr2o0.bkt.clouddn.com/15205644028544.jpg">
+<meta property="og:image" content="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-03-22-075857.jpg">
+<meta property="og:updated_time" content="2019-09-25T04:03:07.049Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ScrollView、TableView、CollectionView 联动一种实现思路">
+<meta name="twitter:description" content="ScrollView、TableView、CollectionView 联动一种实现思路首先看看效果:  带悬停View头部的类型,可以上下拉刷新   2.不带悬停View头部的类型,可以上下拉刷新 (PS.图床上传GIF有问题，经常出现卡死问题,直接运行DEMO比较直观) → Demo地址 联动思路实现核心思路大部分处理方案由于联动是在最底部的 ScrollView 上面添加一个 TableVI">
+<meta name="twitter:image" content="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-03-22-075824.gif">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"always","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://swlfigo.github.io/2019/09/25/ScrollViewNestTableViewAndCollectionView/">
+
+
+
+
+
+  <title>ScrollView、TableView、CollectionView 联动一种实现思路 | Nevermore</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nevermore</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://swlfigo.github.io/2019/09/25/ScrollViewNestTableViewAndCollectionView/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sylar">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-07-25-032947.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nevermore">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">ScrollView、TableView、CollectionView 联动一种实现思路</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-25T12:03:07+08:00">
+                2019-09-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="ScrollView、TableView、CollectionView-联动一种实现思路"><a href="#ScrollView、TableView、CollectionView-联动一种实现思路" class="headerlink" title="ScrollView、TableView、CollectionView 联动一种实现思路"></a>ScrollView、TableView、CollectionView 联动一种实现思路</h1><p><strong>首先看看效果:</strong></p>
+<ol>
+<li>带悬停View头部的类型,可以上下拉刷新</li>
+</ol>
+<p><img src="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-03-22-075824.gif" alt="scrollViewHoldHeader"></p>
+<p>2.不带悬停View头部的类型,可以上下拉刷新</p>
+<p>(PS.图床上传GIF有问题，经常出现卡死问题,直接运行DEMO比较直观)</p>
+<p>→ <a href="https://github.com/swlfigo/ScrollViewNestTableViewAndCollectionView" target="_blank" rel="noopener">Demo地址</a></p>
+<h1 id="联动思路实现"><a href="#联动思路实现" class="headerlink" title="联动思路实现"></a>联动思路实现</h1><h2 id="核心思路"><a href="#核心思路" class="headerlink" title="核心思路"></a>核心思路</h2><h3 id="大部分处理方案"><a href="#大部分处理方案" class="headerlink" title="大部分处理方案"></a>大部分处理方案</h3><p>由于联动是在最底部的 <code>ScrollView</code> 上面添加一个 <code>TableVIew</code> 或者 <code>CollectionView</code> 之类的, 最大难点就是 <code>手势</code>处理 . 嵌套 <code>ScrollView</code>之后,需要一个条件来控制某个具体时刻那个 <code>ScrollView</code> 响应滑动事件。</p>
+<p>通常，我们会在 <code>ScrollView</code> 代理方法里面 </p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)scrollViewDidScroll:(<span class="built_in">UIScrollView</span> *)scrollView &#123;</span><br><span class="line"></span><br><span class="line"><span class="comment">//blablabla 逻辑</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>例如，我们会实现这样一个逻辑，最底部有一个 <code>mainScrollView</code> ， <code>mainScrollView</code> 上有一个 <code>SubScrollView</code>, 这样就类似一个双 <code>ScrollView</code>嵌套场景了</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//写个伪代码</span></span><br><span class="line"><span class="keyword">if</span> (scrollView.contentOffset.y &gt; maxOffsetY)&#123;</span><br><span class="line">    mainScrollView.isScrollEnabled = <span class="literal">false</span>;</span><br><span class="line">    subScrollView.isScrollEnabled = <span class="literal">true</span>;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="comment">// 当 subScrollView 滑动到顶部时，停止响应，mainScrollView 开始响应</span></span><br><span class="line">    <span class="keyword">if</span> scrollView.contentOffset.y &lt; <span class="number">0</span>&#123;</span><br><span class="line">        subScrollView.isScrollEnabled = <span class="literal">false</span>;</span><br><span class="line">        mainScrollView.isScrollEnabled = ture;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>代理方法里面 <code>scrollViewDidScroll</code> 中进行判断，当 <code>mainScrollView</code> 划出了 <code>maxOffsetY</code> ，停止响应滚动，继续滑动时候，就是 <code>subScrollView</code> 响应滚动了</p>
+<p>但是，在实际操作上有个很大问题，使用者并不是总能滑动到 <code>maxOffsetY</code> 地方，停下手，进行下一次滑动，如果滑动大于 <code>maxOffsetY</code> 地方， <code>mainScrollView</code> 就会滚动到 <code>maxOffsetY</code> 之后，停止响应，是因为这是一次手势， <code>subScrollView</code> 也不会响应，使用者就有中断感觉，需要第二次滑动才能继续滚动</p>
+<a id="more"></a>
+<h3 id="改变一下思路"><a href="#改变一下思路" class="headerlink" title="改变一下思路"></a>改变一下思路</h3><p>由于有上面的不足，我们就改变一下思路.<br>大家都知道，每个 <code>ScrollView</code> 都带有一个 <code>panGestureRecognizer</code> 的手势,如果可以控制这个手势，就理论上能优化了,那么我们就有:</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mainScrollView.panGestureRecognizer.delegate = <span class="keyword">self</span>;</span><br></pre></td></tr></table></figure>
+<p>结果App 运行后报错:</p>
+<blockquote>
+<p>‘UIScrollView’s built-in pan gesture recognizer must have its scroll view as its delegate’</p>
+</blockquote>
+<p>解决的思路是我们自己添加一个联动的 pan 手势<br>UIGestureRecognizerDelegate里面有一个委托方法：</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">BOOL</span>)gestureRecognizer:(<span class="built_in">UIGestureRecognizer</span> *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(<span class="built_in">UIGestureRecognizer</span> *)otherGestureRecognizer &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">YES</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>只需要将其返回YES即可同时执行多种手势；如果手势之间或手势对应的视图有冲突或者有不同的需求，可以在这个方法里面添加一些相应的判断，例如一个uiview里面有3个手势分别是移动、缩放、旋转，而我只需要同时执行缩放和旋转的话：</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// called when the recognition of one of gestureRecognizer or otherGestureRecognizer would be blocked by the other</span></span><br><span class="line"><span class="comment">// return YES to allow both to recognize simultaneously. the default implementation returns NO (by default no two gestures can be recognized simultaneously)</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// note: returning YES is guaranteed to allow simultaneous recognition. returning NO is not guaranteed to prevent simultaneous recognition, as the other gesture's delegate may return YES</span></span><br><span class="line"></span><br><span class="line">- (<span class="built_in">BOOL</span>)gestureRecognizer:(<span class="built_in">UIGestureRecognizer</span> *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(<span class="built_in">UIGestureRecognizer</span> *)otherGestureRecognizer</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> ([gestureRecognizer isKindOfClass:[<span class="built_in">UIPinchGestureRecognizer</span> <span class="keyword">class</span>]] &amp;&amp; [otherGestureRecognizer isKindOfClass:[<span class="built_in">UIRotationGestureRecognizer</span> <span class="keyword">class</span>]]) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">YES</span>;</span><br><span class="line">    &#125;</span><br><span class="line">returnNO;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>一句话总结就是此方法返回YES时，手势事件会一直往下传递，不论当前层次是否对该事件进行响应。</p>
+<p>那么，我们可以这样做，在 <code>mainScrollView</code>实现这个代理,让手势传下去，给 <code>subScrollView</code></p>
+<p>回到Demo:<br>此Demo的 <code>ScrollView</code> 样子大概是这样:</p>
+<p><img src="http://okslxr2o0.bkt.clouddn.com/15204113018994.jpg" alt></p>
+<p>如图, 红色框柱区域为 <code>mainScrollView</code> , 蓝色框柱地方为 <code>HeaderView</code> , 紫色框柱的地方是 <code>subScrollView</code> (CollectionView) ;</p>
+<p>那么，如果需要悬停（就是红色 <code>headerView</code> 那部分，在 <code>mainScrollView</code> 上滑到最上面时候，卡在最上面， <code>subScrollView</code> 继续滑动）<br>实现思路类似上面所说的，在ScrollView代理中方法里面做文章 </p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)scrollViewDidScroll:(<span class="built_in">UIScrollView</span> *)scrollView &#123;</span><br><span class="line"></span><br><span class="line"><span class="comment">//blablabla 逻辑</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>UI布局</strong></p>
+<p>首先， <code>subScrollView</code> 是一个 <code>Controller</code> 里面的 <code>CollectionView</code> , <code>mainScrollView</code> 的Controller最底部那个View, 上面添加了一个 <code>headerView(UIView可悬停)</code> , 再添加一个可以左右切换的 <code>segmentScrollView(请联系源码看)</code> , <code>subScrollView</code>就是添加在这个可以左右切换的<code>ScrollView</code> 上,总体来说，<code>mainScrollView</code> 的 <code>ContentSize</code> 就是 <code>HeaderView的高度</code> + <code>subScrollView里面CollectionView的高度</code> .</p>
+<p><strong>滑动传递</strong></p>
+<p> 滑动到的时候，因为上面设置了 <code>mainScrollView</code> 的手势方法，可以响应多手势. 在拖着 <code>subScrollView</code>,即 <code>CollectionView</code> 的那个紫色区域时候, 底部的父视图的 <code>mainScrollView</code>也会收到响应，两个 <code>ScrollView</code> 都会进入各自 <code>Controller</code> 的 <code>(void)scrollViewDidScroll:(UIScrollView *)scrollView</code> 方法里面，我们只要在各自方法里面写相应的逻辑判断，则会达到一个联动效果.</p>
+<p><strong>滑动逻辑</strong></p>
+<p>(具体详情可查看源码，这里说一个大概)</p>
+<p><code>mainScrollView</code> :</p>
+<p><code>didScroll</code>代理里面</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">//联动滑</span></span><br><span class="line">       <span class="built_in">CGFloat</span> offsetY = scrollView.contentOffset.y;</span><br><span class="line">       <span class="keyword">self</span>.isTopIsCanNotMoveTabViewPre = <span class="keyword">self</span>.isTopIsCanNotMoveTabView;</span><br><span class="line">       <span class="keyword">if</span> (offsetY &gt;= <span class="keyword">self</span>.scrollMinOffsetY + _headerViewTotalHeight  ) &#123;</span><br><span class="line">           scrollView.contentOffset = <span class="built_in">CGPointMake</span>(<span class="number">0</span>,  _headerViewTotalHeight + <span class="keyword">self</span>.scrollMinOffsetY);</span><br><span class="line">           <span class="keyword">self</span>.isTopIsCanNotMoveTabView = <span class="literal">YES</span>;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">else</span> &#123;</span><br><span class="line">           <span class="keyword">self</span>.isTopIsCanNotMoveTabView = <span class="literal">NO</span>;</span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure>
+<p>先说下这个逻辑, <code>isTopIsCanNotMoveTabViewPre</code> 与 <code>isTopIsCanNotMoveTabView</code> 是一个全局变量，记录了当前状态与前一个状态是否能滑动状态,每次滑动时候，将根据是否达到了极限值而改变布尔类型</p>
+<p><img src="http://okslxr2o0.bkt.clouddn.com/15205644028544.jpg" alt></p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">offsetY &gt;= <span class="keyword">self</span>.scrollMinOffsetY + _headerViewTotalHeight</span><br></pre></td></tr></table></figure>
+<p> 因为一开始，<code>mainScrollView</code>的offset是在(0,0),向上拖动时候，offsetY增大, 当小于极限值时候 (如果是需要悬停状态，那么极限值就是 头部HeaderView高度 - 需要悬停高度) ， 滚动的是  <code>mainScrollView</code>, <code>subScrollView</code> 的 <code>contentOffset</code> 将会保持 (0,0) , 同理，如果大于极限值， <code>mainScrollView</code>的 <code>contentOffset</code> 也将会保持一个固定值，那么滑动的是 <code>subScrollView</code> , 两者之间将会用通知传递状态信息</p>
+<p><strong>注意</strong></p>
+<p>Demo中通知名使用的是唯一通知，好处就是，如果多个 <code>Controller</code> 也用到这种结构，在 <code>NavigationController</code>视图堆栈里面还没用清空销毁的 <code>Controller</code> 也会接收到另外 <code>Controller</code>通知，也会触发到 <code>didScroll</code> 方法里面的逻辑，所以，稳妥方法是不同 模块的Controller用唯一通知名</p>
+<h4 id="滑动到极限位置"><a href="#滑动到极限位置" class="headerlink" title="滑动到极限位置"></a>滑动到极限位置</h4><p><img src="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-03-22-075857.jpg" alt="test15227221269627"></p>
+<p>滑动到极限位置时候，HeaderView固定在极限位置, 即 <code>MainScrollView</code> 滑动到极限位置， 然后在 <code>didScroll</code> 代理方法里面,发通知给 <code>SubScrollView</code> ，让 <code>SubScrollView</code>可以滑动</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="keyword">self</span>.isTopIsCanNotMoveTabView != <span class="keyword">self</span>.isTopIsCanNotMoveTabViewPre) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!<span class="keyword">self</span>.isTopIsCanNotMoveTabViewPre &amp;&amp; <span class="keyword">self</span>.isTopIsCanNotMoveTabView) &#123;</span><br><span class="line">                [[<span class="built_in">NSNotificationCenter</span> defaultCenter] postNotificationName:_ScrollViewNestControllerViewGoTopNotificationName object:<span class="literal">nil</span> userInfo:@&#123;_ScrollViewNestControllerViewCanScrollKey : <span class="string">@"1"</span>&#125;];</span><br><span class="line">                <span class="keyword">self</span>.canScroll = <span class="literal">NO</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span>(<span class="keyword">self</span>.isTopIsCanNotMoveTabViewPre &amp;&amp; !<span class="keyword">self</span>.isTopIsCanNotMoveTabView)&#123;</span><br><span class="line">                <span class="keyword">if</span> (!<span class="keyword">self</span>.canScroll) &#123;</span><br><span class="line">                    scrollView.contentOffset = <span class="built_in">CGPointMake</span>(<span class="number">0</span>, _headerViewTotalHeight + <span class="keyword">self</span>.scrollMinOffsetY);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<p> 逻辑中，根据 <code>canScroll</code> 判断 <code>sub</code>和<code>main</code>是否能滑动</p>
+<h3 id="上下拉刷新回调"><a href="#上下拉刷新回调" class="headerlink" title="上下拉刷新回调"></a>上下拉刷新回调</h3><p>这套实现思路，能做到上下啦刷新，上拉刷新好说，就是在 <code>mainScrollView</code> 上面添加刷新控件，例如 <code>MJReresh</code> , 下拉刷新的话，需要再 <code>subScrollView</code> 上添加，因为，在 <code>mainScrollView</code> 固定不滚动时候，滚动的响应视图是 <code>subScrollView</code> , 所以 , 只能通过回调告诉 <code>mainScrollView</code>做相应操作，当然，如果你项目逻辑只需在 <code>subScrollView</code>里面完成就行的话，就不需要回调，一切视乎项目要求</p>
+<h3 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h3><p> 说下上面实现可能在项目中一些功能上，需求上不足</p>
+<ol>
+<li>如果数据量太少，例如数据量不足一屏幕， <code>CollectionView</code> 或者 <code>Tableview</code> 创建时候，是基于一个全屏幕的,所以在滚动到极限位置，开始滚动 <code>subScrollView</code> 时候，下面会有很大一片空白位置, 暂时知道的 <code>微博</code> 也会存在这个问题，如果你们设计没有太大要求就没什么问题。 那么对于这种，解决方法也不是没有，<code>CollectionView</code> 通过</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">[CollectionView performBatchUpdates:^&#123;</span><br><span class="line">            </span><br><span class="line">        &#125; completion:^(BOOL finished) &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p> 这个方法，<code>completion</code>时候，能获得 <code>collectionView</code> 正真的 <code>contentsize</code>高度，那么可以判断是否少于屏幕高度尺寸，再直接设置 <code>mainScrollView</code> 与 <code>subScrollView</code> 的 <code>contentSize</code> 来不给他滚动太大距离即可， <code>TableView</code>就比较麻烦，需要提早缓存 高度，请求数据完成后，根据数据数量与每个缓存高度，计算是否少于屏幕尺寸也做响应操作。在左右切换 <code>ScrollView</code> 时候，也要动态即时改变，这个是比较麻烦的坑</p>
+<p> 另外如果有更好的解决方法，欢迎留言~谢谢</p>
+<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference:"></a>Reference:</h3><ol>
+<li><a href="https://www.jianshu.com/p/040772693872" target="_blank" rel="noopener">嵌套UIScrollview的滑动冲突解决方案</a></li>
+<li><a href="http://blog.csdn.net/meegomeego/article/details/7949278" target="_blank" rel="noopener">UIGestureRecognizer同时识别两个手势</a></li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/25/Test/" rel="next" title="testTime">
+                <i class="fa fa-chevron-left"></i> testTime
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/25/RegularExpressionLearn/" rel="prev" title="正则表达学习">
+                正则表达学习 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-07-25-032947.jpg" alt="Sylar">
+          <p class="site-author-name" itemprop="name">Sylar</p>
+           
+              <p class="site-description motion-element" itemprop="description">一个不会iOS的搬砖工</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/swlfigo || github" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/swlfigo/Study/wiki || paper-plane" target="_blank" title="更多学习笔记">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                    
+                      更多学习笔记
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ScrollView、TableView、CollectionView-联动一种实现思路"><span class="nav-number">1.</span> <span class="nav-text">ScrollView、TableView、CollectionView 联动一种实现思路</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#联动思路实现"><span class="nav-number">2.</span> <span class="nav-text">联动思路实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#核心思路"><span class="nav-number">2.1.</span> <span class="nav-text">核心思路</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#大部分处理方案"><span class="nav-number">2.1.1.</span> <span class="nav-text">大部分处理方案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#改变一下思路"><span class="nav-number">2.1.2.</span> <span class="nav-text">改变一下思路</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#滑动到极限位置"><span class="nav-number">2.1.2.1.</span> <span class="nav-text">滑动到极限位置</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#上下拉刷新回调"><span class="nav-number">2.1.3.</span> <span class="nav-text">上下拉刷新回调</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#最后"><span class="nav-number">2.1.4.</span> <span class="nav-text">最后</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Reference"><span class="nav-number">2.1.5.</span> <span class="nav-text">Reference:</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sylar</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

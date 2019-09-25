@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="iOS,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="正则表达学习在线正则表达式测试地址 &amp;lt;- 点我Sample1: 找出以 lefe 或 lefe_x 单词开头，以 wsy 结尾的字符串。比如：lefe name is wsy 是合法的，而 lef name is wsy 是非法的。  正则表达式为：(^(?:lefe|lefe_x)\b.{0,}wsy$) 1.^表示从字符串的开始位置匹配，^(?:lefe|lefe_x) 表示以 lefe">
+<meta name="keywords" content="iOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="正则表达学习">
+<meta property="og:url" content="https://swlfigo.github.io/2019/09/25/RegularExpressionLearn/index.html">
+<meta property="og:site_name" content="Nevermore">
+<meta property="og:description" content="正则表达学习在线正则表达式测试地址 &amp;lt;- 点我Sample1: 找出以 lefe 或 lefe_x 单词开头，以 wsy 结尾的字符串。比如：lefe name is wsy 是合法的，而 lef name is wsy 是非法的。  正则表达式为：(^(?:lefe|lefe_x)\b.{0,}wsy$) 1.^表示从字符串的开始位置匹配，^(?:lefe|lefe_x) 表示以 lefe">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-09-25T04:03:07.049Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="正则表达学习">
+<meta name="twitter:description" content="正则表达学习在线正则表达式测试地址 &amp;lt;- 点我Sample1: 找出以 lefe 或 lefe_x 单词开头，以 wsy 结尾的字符串。比如：lefe name is wsy 是合法的，而 lef name is wsy 是非法的。  正则表达式为：(^(?:lefe|lefe_x)\b.{0,}wsy$) 1.^表示从字符串的开始位置匹配，^(?:lefe|lefe_x) 表示以 lefe">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"always","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://swlfigo.github.io/2019/09/25/RegularExpressionLearn/">
+
+
+
+
+
+  <title>正则表达学习 | Nevermore</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nevermore</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://swlfigo.github.io/2019/09/25/RegularExpressionLearn/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sylar">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-07-25-032947.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nevermore">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">正则表达学习</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-25T12:03:07+08:00">
+                2019-09-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="正则表达学习"><a href="#正则表达学习" class="headerlink" title="正则表达学习"></a>正则表达学习</h2><h3 id="在线正则表达式测试地址-lt-点我"><a href="#在线正则表达式测试地址-lt-点我" class="headerlink" title="在线正则表达式测试地址 &lt;- 点我"></a><a href="http://tool.chinaz.com/regex/" target="_blank" rel="noopener">在线正则表达式测试地址</a> &lt;- 点我</h3><h5 id="Sample1"><a href="#Sample1" class="headerlink" title="Sample1:"></a>Sample1:</h5><blockquote>
+<p>找出以 <code>lefe</code> 或 <code>lefe_x</code> 单词开头，以 <code>wsy</code> 结尾的字符串。比如：<code>lefe name is wsy</code> 是合法的，而 <code>lef name is wsy</code> 是非法的。</p>
+</blockquote>
+<p>正则表达式为：<code>(^(?:lefe|lefe_x)\b.{0,}wsy$)</code></p>
+<p>1.<code>^</code>表示从字符串的开始位置匹配，<code>^(?:lefe|lefe_x)</code> 表示以 <code>lefe</code> 或者 <code>lefe_x</code> 开头；</p>
+<ol start="2">
+<li><code>|</code> 表示或，比如 A | B | C ，表示 A，B 和 C 中任意一个；</li>
+<li><code>()</code> 表示一个组，<code>(?:)</code> 表示不捕获这个分组；</li>
+<li><code>\b</code> 表示匹配一个单词的边界，在这里只能匹配 <code>lefe</code> 和 <code>lefe_x</code>;<br>5.匹配字符串的开头和结尾后，基本上完成了题目的要求，但是字符串<code>lefe</code>（lefe_x）和<code>wsy</code>之间可以是任意字符，<code>.</code> 表示匹配任意字符（不包含换行符），<code>{0,}</code>表示匹配0个或多个字符，则<code>.{0,}</code> 表示匹配0个或多个任意字符（不包含换行符）；<br>6.<code>$</code>表示从字符串的结尾处开始匹配，<code>wsy$</code> 则表示以 <code>wsy</code> 结尾；</li>
+</ol>
+<a id="more"></a>
+<h3 id="【-知识点-】"><a href="#【-知识点-】" class="headerlink" title="【 知识点 】"></a>【 知识点 】</h3><ol>
+<li>字符边界<br><code>^</code>，<code>$</code> 和 <code>\b</code> 表示字符的边界，<code>^</code> 匹配字符串的开头，<code>$</code>匹配字符串的结尾，<code>\b</code>匹配单词的边界，如：<code>lefe\b</code> 可以匹配 <code>lefe</code> ，但不可匹配 <code>lefe_x</code>；</li>
+<li>量词<br>{m} 只出现 m 次，lefe{2} 只能匹配 lefee<br>{m,n} 出现 m 到 n 次<br>{m,} 至少出现 m 次</li>
+<li>选择表达式<br>比如 lefe | Lefe_x | Lefe ，表示 lefe，Lefe_x 和 Lefe 中任意一个</li>
+<li>分组<br>以括号括起来的字符集为一个分组，在 ( 添加 ?: 将忽略这个分组 )</li>
+<li>字符集<br>. 匹配除换行符以外的任意一个字符<br>\w = [0-9a-zA-Z_]<br>\W = [^0-9a-zA-Z_]<br>\s = [\t\n\v]<br>\S = [^\t\n\v]<br>\d = [0-9]<br>\D = [^0-9]</li>
+</ol>
+<h3 id="正则表达式分组-、不捕获"><a href="#正则表达式分组-、不捕获" class="headerlink" title="正则表达式分组()、不捕获(?:)"></a>正则表达式分组()、不捕获(?:)</h3><h4 id="分组"><a href="#分组" class="headerlink" title="分组"></a>分组</h4><p>分组在正则中用()表示，分组的作用有两个：</p>
+<p>1.将某些规律看成是一组，然后进行组级别的重复，可以得到意想不到的效果。</p>
+<p>2.分组之后，可以通过后向引用简化表达式（\1 或者$1）。</p>
+<h5 id="分组举列"><a href="#分组举列" class="headerlink" title="分组举列"></a>分组举列</h5><p>先来看第一个作用，对于IP地址的匹配，简单的可以写为如下形式：</p>
+<p><code>\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3}</code></p>
+<p>但仔细观察，可以发现一定的规律，可以把.\d{1,3}看成一个整体，也就是把他们看成一组，再把这个组重复3次即可。表达式如下：</p>
+<p><code>\d{1,3}(.\d{1,3}){3}</code></p>
+<p>再来看第二个作用，就拿匹配<title>xxx</title>标签来说，简单的正则可以这样写：</p>
+<p><code>&lt;title&gt;.*&lt;/title&gt;</code></p>
+<p>可以看出，上边表达式中有两个title，完全一样，其实可以通过分组简写。表达式如下：</p>
+<p><code>&lt;(title)&gt;.*&lt;/\1&gt;</code></p>
+<p>对于分组而言，<strong>整个表达式永远算作第0组</strong>，在本例中，第0组是&lt;(title)&gt;.*&lt;/\1&gt;，然后从左到右，依次为分组编号，因此，(title)是第1组。    [(xxx) 一个括号等于一个分组]</p>
+<p><strong>注意：</strong></p>
+<p>用\1这种语法，可以引用某组的<strong>文本内容</strong>，但不能引用正则表达式。</p>
+<p>例如刚刚的IP地址正则表达式为\d{1,3}(.\d{1,3}){3}，里边的\d{1,3}重复了两次，如果利用后向引用简化，表达式如下：</p>
+<p><strong>错误示范:</strong><br><code>(\d{1,3})(.\1){3}</code></p>
+<p>后向引用，引用的仅仅是文本内容，而不是正则表达式！</p>
+<p>也就是说，组中的内容一旦匹配成功，后向引用，引用的就是匹配成功后的内容，引用的是结果，而不是表达式。</p>
+<p>因此，(\d{1,3})(.\1){3}这个表达式实际上匹配的是四个数都相同的IP地址，比如：123.123.123.123。</p>
+<h4 id="不捕获"><a href="#不捕获" class="headerlink" title="不捕获"></a>不捕获</h4><p>不捕获就是在分组的前边加上<code>?:</code> ，可以在不需要捕获分组的表达式中使用，加快表达式执行速度。</p>
+<p>就拿匹配<title>xxx</title>标签来说，通过分组可以简写为</p>
+<p><code>&lt;(title)&gt;.*&lt;/\1&gt;</code></p>
+<p>但是如果是 <code>(?:title)</code> ,则\1就不能捕获到这个子组了，只能捕获第一个出现的非 <code>?:</code> 的分组作为\1</p>
+<p>同时注意(?:title)本身会在完整匹配中，只是不在子组中，注意和断言的区别</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$str=<span class="string">"ab123ff"</span>;</span><br><span class="line"><span class="comment">//正常,完整匹配为ab123ff, 有两个子组ab, ff</span></span><br><span class="line">preg_match_all(<span class="string">"|([a-z]&#123;2&#125;).*([a-z]&#123;2&#125;)|U"</span>, $str, $out);<span class="keyword">echo</span> <span class="string">"&lt;pre&gt;"</span>;</span><br><span class="line">print_r($out);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">"&lt;/pre&gt;"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//不捕获分组,完整匹配为ab23ff, 有一个子组ff</span></span><br><span class="line">preg_match_all(<span class="string">"|(?:[a-z]&#123;2&#125;).*([a-z]&#123;2&#125;)|U"</span>, $str, $out);<span class="keyword">echo</span> <span class="string">"&lt;pre&gt;"</span>;</span><br><span class="line">print_r($out);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">"&lt;/pre&gt;"</span>;</span><br></pre></td></tr></table></figure>
+<hr>
+<h5 id="Sample2"><a href="#Sample2" class="headerlink" title="Sample2 :"></a>Sample2 :</h5><p>匹配以 <code>lefe</code> 开头，<code>lefe</code> 后面不能紧跟<code>_x</code>，后面由数字，-，_和字母组成，且不包含l,e,f 三个字母中的任意一个(至少一位)，且为最短的用户名    </p>
+<p><code>【分析】</code><br>根据要求可以把题目拆分成：<br>1.以 <code>lefe</code> 开头，不能为 <code>lefe_x</code>。可以转换成 <code>^lefe(?!_x)</code>;<br>2.中间部分由数字，-，<em>和字母组成，不能包含 l,e,f，至少一位。可以转换成 `[0-9a-dg-km-zA-DG-KM-Z</em>-]+<code>;
+3.匹配最短的。在正则表达式中用到了贪婪与非贪婪的概念，使用</code>?`;</p>
+<p>【正则表达式】<br> <code>^(lefe(?!_x)(?:[0-9a-dg-km-zA-DG-KM-Z_-]+?)</code></p>
+<h3 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h3><p>1.非获取匹配<br>lefe(?=_x) ，lefe 后面紧跟着 _x，正向肯定预查<br>lefe(?!_x) ，lefe 后面不能出现 _x，正向否的定预查<br>(?&lt;!lefe)_x ，_x 前面不能为 lefe，反向肯定预查<br>(?&lt;=lefe)_x ，_x 前面为 lefe，反向否的定预查<br>2.字符集合<br>[xyz] 匹配 x,y,z 任意一个字符；<br>[^xyz] 匹配除 x,y,z 外的任意一个字符；<br>[a-z] 匹配 a-z 中任意一个字符；<br>3.贪婪匹配与非贪婪匹配<br>默认的匹配规则为非贪婪匹配，使用 <code>?</code> 使贪婪匹配变为非贪婪匹配。比如：使用正则表达式<code>lefe{2,}</code> 匹配 <code>lefeeeeeeee</code>，如果为贪婪匹配(<code>lefe{2,}</code>)时将匹配 <code>lefeeeeeeee</code>，为非贪婪匹配(<code>lefe{2,}?</code>)时，将匹配 <code>lefee</code>。<br>4.量词 <code>*</code>，<code>+</code>，<code>?</code><br><code>&#39;lefe*&#39;</code> ，lef 后有0个或多个e<br><code>&#39;lefe+&#39;</code> ，lef 后有1个或多个e<br><code>&#39;lefe?&#39;</code> ，lef 后有0个或1个e</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/25/ScrollViewNestTableViewAndCollectionView/" rel="next" title="ScrollView、TableView、CollectionView 联动一种实现思路">
+                <i class="fa fa-chevron-left"></i> ScrollView、TableView、CollectionView 联动一种实现思路
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/25/RACCommand/" rel="prev" title="RACCommand粗解">
+                RACCommand粗解 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-07-25-032947.jpg" alt="Sylar">
+          <p class="site-author-name" itemprop="name">Sylar</p>
+           
+              <p class="site-description motion-element" itemprop="description">一个不会iOS的搬砖工</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/swlfigo || github" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/swlfigo/Study/wiki || paper-plane" target="_blank" title="更多学习笔记">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                    
+                      更多学习笔记
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#正则表达学习"><span class="nav-number">1.</span> <span class="nav-text">正则表达学习</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#在线正则表达式测试地址-lt-点我"><span class="nav-number">1.1.</span> <span class="nav-text">在线正则表达式测试地址 &lt;- 点我</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Sample1"><span class="nav-number">1.1.0.1.</span> <span class="nav-text">Sample1:</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#【-知识点-】"><span class="nav-number">1.2.</span> <span class="nav-text">【 知识点 】</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#正则表达式分组-、不捕获"><span class="nav-number">1.3.</span> <span class="nav-text">正则表达式分组()、不捕获(?:)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#分组"><span class="nav-number">1.3.1.</span> <span class="nav-text">分组</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#分组举列"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">分组举列</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#不捕获"><span class="nav-number">1.3.2.</span> <span class="nav-text">不捕获</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Sample2"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">Sample2 :</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#知识点"><span class="nav-number">1.4.</span> <span class="nav-text">知识点</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sylar</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

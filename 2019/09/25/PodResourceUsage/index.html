@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="iOS,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="​    首先说说场景,由于以前项目是基于小组件化功能开发最后再拼合起来。某一些模块内需要用到一些UI素材，做法就是在 .podspec中的 resource_bundle中添加素材的路径,执行 pod install后添加到pod里面 12345s.resource_bundles = &amp;#123;    #素材路径    #采用的是keyValue形式   &amp;apos;Bundle名字&amp;apo">
+<meta name="keywords" content="iOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Pod私有库素材管理">
+<meta property="og:url" content="https://swlfigo.github.io/2019/09/25/PodResourceUsage/index.html">
+<meta property="og:site_name" content="Nevermore">
+<meta property="og:description" content="​    首先说说场景,由于以前项目是基于小组件化功能开发最后再拼合起来。某一些模块内需要用到一些UI素材，做法就是在 .podspec中的 resource_bundle中添加素材的路径,执行 pod install后添加到pod里面 12345s.resource_bundles = &amp;#123;    #素材路径    #采用的是keyValue形式   &amp;apos;Bundle名字&amp;apo">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190402105433.png">
+<meta property="og:image" content="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190402111551.png">
+<meta property="og:image" content="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190402152100.png">
+<meta property="og:image" content="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190402143218.png">
+<meta property="og:image" content="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190402143314.png">
+<meta property="og:image" content="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190402144138.png">
+<meta property="og:image" content="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190402151957.png">
+<meta property="og:image" content="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190402155314.png">
+<meta property="og:image" content="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190402160002.png">
+<meta property="og:image" content="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190402160214.png">
+<meta property="og:image" content="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190402160611.png">
+<meta property="og:image" content="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190402160641.png">
+<meta property="og:image" content="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190402162001.png">
+<meta property="og:image" content="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190402164007.png">
+<meta property="og:image" content="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190402164117.png">
+<meta property="og:image" content="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190402164259.png">
+<meta property="og:image" content="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190402164619.png">
+<meta property="og:image" content="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190402164930.png">
+<meta property="og:image" content="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190402165130.png">
+<meta property="og:updated_time" content="2019-09-25T04:03:07.049Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Pod私有库素材管理">
+<meta name="twitter:description" content="​    首先说说场景,由于以前项目是基于小组件化功能开发最后再拼合起来。某一些模块内需要用到一些UI素材，做法就是在 .podspec中的 resource_bundle中添加素材的路径,执行 pod install后添加到pod里面 12345s.resource_bundles = &amp;#123;    #素材路径    #采用的是keyValue形式   &amp;apos;Bundle名字&amp;apo">
+<meta name="twitter:image" content="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190402105433.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"always","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://swlfigo.github.io/2019/09/25/PodResourceUsage/">
+
+
+
+
+
+  <title>Pod私有库素材管理 | Nevermore</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nevermore</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://swlfigo.github.io/2019/09/25/PodResourceUsage/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sylar">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-07-25-032947.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nevermore">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Pod私有库素材管理</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-25T12:03:07+08:00">
+                2019-09-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>​    首先说说场景,由于以前项目是基于小组件化功能开发最后再拼合起来。某一些模块内需要用到一些UI素材，做法就是在 <code>.podspec</code>中的 <code>resource_bundle</code>中添加素材的路径,执行 <code>pod install</code>后添加到pod里面</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">s.resource_bundles = &#123;</span><br><span class="line">    #素材路径</span><br><span class="line">    #采用的是keyValue形式</span><br><span class="line">   &apos;Bundle名字&apos; =&gt; [&apos;路径/Resource/Asset/**/**.png&apos;]</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>如上，<code>pod install</code>时候就会在路径文件夹下，导入所有<code>.png</code>素材到工程里面.</p>
+<p>这是网上普遍做法，且 <code>cocoapod</code> 的 <code>.podspec</code> 文件中也是默认这样导进去素材的.这样导进素材有什么问题呢?</p>
+<p><img src="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190402105433.png" alt></p>
+<p><code>install</code>完，素材只是简单的copy到了项目bundle里面(<strong>PS:素材文件夹命名也不正规</strong>)。会有以下问题:</p>
+<ol>
+<li>管理起来麻烦</li>
+<li>如果图片资源放到 <code>.xcasset</code> 里面 <code>Xcode</code> 会帮我们自动优化、可以使用 Slicing 等，但是放在 <code>bundle</code>里面并不会压缩素材等，等项目大了，包越来越大</li>
+</ol>
+<p>所以，调研了网上做法，踩了坑之后决定写一篇文章记录下做法，这也是 <strong>包瘦身</strong> 一个方法.由于从0记录了整个过程，我会从创建私有库开始写起，如果你已经有了私有库，直接可以跳去第二步看起</p>
+<a id="more"></a>
+<h1 id="1-创建私有库"><a href="#1-创建私有库" class="headerlink" title="1. 创建私有库"></a>1. 创建私有库</h1><p>使用<code>pod lib create 私有库名字</code></p>
+<p><img src="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190402111551.png" alt></p>
+<p>创建完之后会自动打开工程</p>
+<h1 id="2-资源文件引用的方式"><a href="#2-资源文件引用的方式" class="headerlink" title="2.资源文件引用的方式"></a>2.资源文件引用的方式</h1><p> <code>CocoaPods</code> 两种资源文件引用的方式——<code>resource_bundles</code> &amp; <code>resources</code></p>
+<h2 id="2-1-resources"><a href="#2-1-resources" class="headerlink" title="2.1 resources"></a>2.1 resources</h2><p>在 <code>.podspec</code> 利用 <code>resources</code> 属性可以指定 pod 要使用的资源文件。这些资源文件在 build 时会被<strong>直接拷贝到 client target 的 <code>mainBundle</code> 里</strong>。这样就实现了把图片、音频、NIB等资源打包进最终应用程序的目的。</p>
+<p>但是，这就带来了一个问题，那就是 client target 的资源和各种 pod 所带来的资源都在同一 bundle 的同一层目录下，很容易产生命名冲突。</p>
+<p>例如，我的 app 里有张按钮图片叫 “button.png”，而你的 pod 里也有张图片叫 “button.png”，拷贝资源时，我很担心 pod 里的文件会不会把我 app 里的同名文件给覆盖掉？即使没覆盖掉，程序运行时到底用哪张？很显然，我们不希望上述事情发生。</p>
+<h2 id="2-2-resource-bundles"><a href="#2-2-resource-bundles" class="headerlink" title="2.2 resource_bundles"></a>2.2 resource_bundles</h2><p><code>resource_bundles</code> 允许定义当前 Pod 库的资源包的<strong>名称和文件</strong>。用 hash 的形式来声明，key 是 bundle 的名称，value 是需要包括的文件的通配 patterns。</p>
+<p>为了解决上述问题，CocoaPods 在 0.23.0 加入了一个新属性 <code>resource_bundles</code>。示例用法如下：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">spec.resource_bundles = &#123;</span><br><span class="line">  <span class="string">'MyLibrary'</span> =&gt; [<span class="string">'Resources/*.png'</span>],</span><br><span class="line">  <span class="string">'OtherResources'</span> =&gt; [<span class="string">'OtherResources/*.png'</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可见， <code>resources</code> 和 <code>resource_bundles</code> 的差别是在于后者用字典替换了数组。相较之前所有资源都平铺开来的做法，新属性显式地做了 bundle 层面的分组。有组织、有纪律！CocoaPods 官方显然更推荐 <code>resource_bundles</code>。原因有二：</p>
+<ol>
+<li>如前所述，用 <code>resources</code> 属性容易引起资源的命名冲突。诚然， <code>resource_bundles</code> 也有极小的可能在 bundle 名上起冲突，可那也比前者好处理。</li>
+<li>用 <code>resources</code> 属性指定的资源直接被拷贝到 client target（事实上 CocoaPods 会先运行脚本对 NIB，Asset Catalog，Core Data Model 等进行编译）</li>
+</ol>
+<h2 id="2-3-Assets-xcassets"><a href="#2-3-Assets-xcassets" class="headerlink" title="2.3 Assets.xcassets"></a>2.3 Assets.xcassets</h2><p>Assets.xcassets是用来存放图像资源文件的。常常利用<code>Assets.xcassets</code>来管理项目中用到的<code>icon</code>和各种图片素材, 但其除了提供为不同设备和<code>Size Classes</code>添加不同的图片这种基础使用方式,这个也不做过多解释，我们的目标就是将<code>Pod</code>里面的素材打包生成这样东西</p>
+<h1 id="3-Pod私有库素材管理"><a href="#3-Pod私有库素材管理" class="headerlink" title="3.Pod私有库素材管理"></a>3.Pod私有库素材管理</h1><p>调查得到上面结果，我们目标与技术选择也很明白了，选择<code>resource_bundles</code> + <code>Assets.xcassets</code> 方式管理 <code>Pod</code> 里面的素材就ok了</p>
+<p>做这个之前，我们还是测试下使用 <code>resources</code> + <code>Assets.xcassets</code> 会有什么坑吧</p>
+<h2 id="3-1-resources-Assets-xcassets-方式"><a href="#3-1-resources-Assets-xcassets-方式" class="headerlink" title="3.1  resources + Assets.xcassets 方式"></a>3.1  resources + Assets.xcassets 方式</h2><p>首先在刚创建的私有库 <code>.podspec</code> 中配置一下</p>
+<p><img src="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190402152100.png" alt></p>
+<p>素材路径这里不用 <code>cocoapod</code> 默认的 <code>resource_bundles</code>,改为<code>resource</code>形式读取素材，素材路径为 <code>pod</code>私有库下<code>Assets</code>文件夹里面所有的 <code>*.xcassets</code>文件。此时我们在 <code>Assets</code> 中创建2个 <code>xcassets</code>测试下读取情况</p>
+<p><img src="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190402143218.png" alt> </p>
+<p><img src="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190402143314.png" alt></p>
+<p>分别再每个<code>module</code>中创建各自的 <code>xcassets</code>,名字与文件夹名字一样.</p>
+<p>创建完之后再 <code>Example</code>文件夹中运行<code>pod install</code>更新下文件结构</p>
+<p><img src="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190402144138.png" alt></p>
+<p>完成后我们手动<code>add file</code>导入刚刚创建的2个 <code>*.xcassets</code> 并向里面添加图片测试(图片名字先不要一样测试)</p>
+<p>我们在 <code>submodule1.xcassets</code> 中添加了两个素材 <code>loading@2x</code> 与 <code>loading@3x</code> ;  <code>submodule2.xcassets</code> 中添加2个素材  <code>arrow@2x</code>、<code>arrow@3x</code>, install 一下</p>
+<p><img src="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190402151957.png" alt></p>
+<p>可见，素材 <code>.xcassets</code> 已经导入成功且里面也有相应素材.然后读取相应素材</p>
+<p><img src="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190402155314.png" alt></p>
+<p>这种使用 <code>resource</code>方法处理 <code>pod</code> 文件需要用以下方法读取图片</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//当然这个图片也可以用 submodule2 里面的图片名字，仅做测试 </span><br><span class="line">NSBundle *bundle = [NSBundle bundleForClass:[self class]];</span><br><span class="line"> UIImage *image = [UIImage imageNamed:@&quot;loading&quot; inBundle:bundle compatibleWithTraitCollection:nil];</span><br><span class="line"> self.imageView.image = image;</span><br></pre></td></tr></table></figure>
+<p>为什么需要这种方法读取呢</p>
+<p>由于 iOS 8 Dynamic Frameworks 特性的引入，CocoaPods 能帮你打包 framework 了。<a href="http://blog.cocoapods.org/CocoaPods-0.36/" target="_blank" rel="noopener">0.36 版的 release note</a>很详细地说明了加入 framework 特性所带来的变化。一个显著区别就是当你的 pod 库以 framework 形式被使用时，你的资源不是被拷贝到 mainBundle 下，而是被放到 pod 的最终产物—— <code>framework</code>里。此时，你必须保证自己在访问这个 framework 的 bundle，而不是 client target 的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[NSBundle bundleForClass:&lt;#ClassFromPodspec#&gt;]</span><br></pre></td></tr></table></figure>
+<p>到此，我们成功的使用 <code>resource</code> 方法继承了 <code>Pod</code>中的素材，现在我们来测试下如果 <code>*.xcassets</code> 中如果有重复名字图片会怎么样</p>
+<h3 id="3-1-1-resource中-xcassets-中存在相同素材名字"><a href="#3-1-1-resource中-xcassets-中存在相同素材名字" class="headerlink" title="3.1.1 resource中 *.xcassets 中存在相同素材名字"></a>3.1.1 resource中 *.xcassets 中存在相同素材名字</h3><p>首先我们将重复名字的 <code>loading</code> 素材放进去 <code>submodule2.xcassets</code>中,因为 <code>submodules2.xcassets</code> 中的素材名字叫 <code>arrow</code>,如下图</p>
+<p><img src="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190402160002.png" alt></p>
+<p>install 一下，即会出现以下错误，重复 <code>image sets</code>,但是 Demo 中显示的图片还是原来的(<code>submodule1.xcassets</code> 的loading素材) <code>loading</code>素材，</p>
+<p><img src="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190402160214.png" alt></p>
+<p>此时我们会想是否编译顺序会影响素材读取,同理，我们重新添加一份素材名为<code>arrow</code>的素材放到 <code>submodule1.xassets</code>中，且在Demo中读取 <code>arrow</code>,不添加之前读取<code>arrow</code>是显示一个箭头素材的，这次看看添加一个同名的素材到<code>submodule1.xassets</code>中会出现什么情况</p>
+<p><img src="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190402160611.png" alt></p>
+<p>install 一下，同理提示错误</p>
+<p><img src="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190402160641.png" alt></p>
+<p>此时显示的素材为 <code>submodule1.xcassets</code> 中的 <code>arrow</code> 素材了.</p>
+<h3 id="3-1-2-resource中-xcassets-中与项目本身的-xcasset-存在相同素材名字"><a href="#3-1-2-resource中-xcassets-中与项目本身的-xcasset-存在相同素材名字" class="headerlink" title="3.1.2 resource中 .xcassets 中与项目本身的  .xcasset 存在相同素材名字"></a>3.1.2 resource中 <em>.xcassets 中与项目本身的  </em>.xcasset 存在相同素材名字</h3><p>然后我们试验下第二个问题，如果 <code>Pod</code>中的    <code>*.xcasset</code> 与项目自己的 <code>*.xcasset</code> 中素材重复名字会怎么样</p>
+<p>此时我们先删除 <code>submodule1.xcasset</code> 中 <code>arrow</code> 素材，将其添加到 项目本身的 <code>*.xcasset</code> 中</p>
+<p><img src="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190402162001.png" alt></p>
+<p>经过测试，并不会有影响，因为在 <code>Pod</code> 中读取的是 <code>Pod Bundle</code> 中的素材，与App自身的 <code>Asset</code>是不会有影响的</p>
+<p>由此我们得出使用 <code>resource</code> 的结论，<strong>如果 <code>Pod Bundle</code>中存在相同名字的素材，根据编译顺序不同，读取的图片不同。</strong> </p>
+<h2 id="3-2-resource-bundles"><a href="#3-2-resource-bundles" class="headerlink" title="3.2  resource_bundles"></a>3.2  resource_bundles</h2><p>准备工作如之前步骤一样，<code>.podspec</code>中可以写成如下:</p>
+<p><img src="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190402164007.png" alt></p>
+<p>此时改成了使用 <code>s.resource_budnles</code>，install 完项目结构如下:</p>
+<p><img src="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190402164117.png" alt></p>
+<p>同理在不同的 <code>*.xcassets</code>中放入不同素材,读取</p>
+<p><img src="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190402164259.png" alt></p>
+<p>此处读取图片需要硬编码方式读取, 加上了 <code>bundle</code>的路径,这样也是能正常加载出来的</p>
+<p>此时我们也来测试下重复素材会怎么样,测试方法也是如上.</p>
+<p><img src="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190402164619.png" alt></p>
+<p>此时也会出现重复素材问题,为什么呢?</p>
+<p>因为这个这个方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">s.resource_bundles = &#123;</span><br><span class="line">  &apos;Pod-Resource&apos; =&gt; [&apos;Pod-Resource/Assets/**/*.xcassets&apos;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>将Assets里面的所有素材最后都打包到 <code>bundle</code>里面，遇到重复的名字的素材也会有上面问题，所以我们稍微改下上面的写法，改成:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">s.resource_bundles = &#123;</span><br><span class="line">#不同文件夹不同bundle打包</span><br><span class="line">    &apos;Pod-Resource1&apos; =&gt; [&apos;Pod-Resource/Assets/submodule1/*.xcassets&apos;],</span><br><span class="line">    &apos;Pod-Resource2&apos; =&gt; [&apos;Pod-Resource/Assets/submodule2/*.xcassets&apos;],</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>install完出现2个bundle</p>
+<p><img src="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190402164930.png" alt></p>
+<p>那么我们的做法其实就在读取图片时候，把硬编码改成相应的bundle即可</p>
+<p><img src="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190402165130.png" alt></p>
+<p>这个就能避免重复名字素材名字问题，当然这个硬编码也是其中一个不方便的缺点了</p>
+<h1 id="4-利用特性对项目的扩展"><a href="#4-利用特性对项目的扩展" class="headerlink" title="4 利用特性对项目的扩展"></a>4 利用特性对项目的扩展</h1><p>上面研究了这么多，功能只局限于当前 <code>pod</code> 的素材管理，那么我们回到项目改动上做一些扩展.</p>
+<p>项目来说需要将这个pod，嵌入到不同app里面，不同app素材用一套，是不是听起来做法有点熟悉，</p>
+<p>是的我们可以根据不同项目，将这个  <code>s.resource_bundles</code> 重写,例如:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">//Bundle这个Key名字写死，方便在硬编码时候用相同的</span><br><span class="line">s.subspec &apos;aApp&apos; do |aApp|</span><br><span class="line">    aApp.resource_bundles = &#123;</span><br><span class="line">    &apos;Bundle&apos; =&gt; [&apos;aApp素材路径&apos;]</span><br><span class="line">    &#125;</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">s.subspec &apos;bApp&apos; do |bApp|</span><br><span class="line">    bApp.resource_bundles = &#123;</span><br><span class="line">    &apos;Bundle&apos; =&gt; [&apos;bApp素材路径&apos;]</span><br><span class="line">    &#125;</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<p>如图，我们可以利用 <code>cocoapod</code>中的 <code>Ruby</code>脚本命令重写这个私有库对于不同 <code>App</code> 使用的不同素材.、</p>
+<p>在硬编码中读取 <code>Bundle</code> 的路径即可</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>在这次调研中研究了 私有库 cocoapod一些使用与素材管理，包优化素材策略</p>
+<p><strong>resource_bundles 优点：</strong></p>
+<ol>
+<li>可以使用 <code>.xcassets</code> 指定资源文件</li>
+<li>可以避免每个库和主工程之间的同名资源冲突</li>
+</ol>
+<p><strong>resource_bundles 缺点：</strong></p>
+<ol>
+<li>获取图片时可能需要使用硬编码的形式来获取：<code>[[NSBundle bundleForClass:[self class]].resourcePath stringByAppendingPathComponent:@&quot;/SubModule_Use_Bundle.bundle&quot;]</code></li>
+</ol>
+<p><strong>resources 优点：</strong></p>
+<ol>
+<li>可以使用 <code>.xcassets</code> 指定资源文件</li>
+</ol>
+<p><strong>resources 缺点：</strong></p>
+<ol>
+<li>会导致每个库和主工程之间的同名资源冲突</li>
+<li>不需要用硬编码方式获取图片：<code>[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];</code></li>
+</ol>
+<p>So，一般来说使用 <code>resource_bundles</code> 会更好，不过关于硬编码，还可以再找找别的方式去避免。</p>
+<p>最后为了不同App素材可以根据 <code>Ruby</code> 脚本写下 <code>Bundle</code>路径读取不同素材</p>
+<p>最后上  <a href="https://github.com/swlfigo/someDemo/tree/master/Pod-Resource" target="_blank" rel="noopener">Demo</a></p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a href="http://zhoulingyu.com/2018/02/02/pod-resource-reference/" target="_blank" rel="noopener">1.关于 Pod 库的资源引用 resource_bundles or resources</a></p>
+<p><a href="http://blog.xianqu.org/2015/08/pod-resources/" target="_blank" rel="noopener">2.给 Pod 添加资源文件</a></p>
+<p><a href="https://vongloo.me/2018/03/17/Pod-Resource/" target="_blank" rel="noopener">3.Pod 中资源引入方式对比</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/25/RACCommand/" rel="next" title="RACCommand粗解">
+                <i class="fa fa-chevron-left"></i> RACCommand粗解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/25/Multipeer connectivity Framework/" rel="prev" title="MultipeerConnectivity框架，近场通信的基本使用">
+                MultipeerConnectivity框架，近场通信的基本使用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-07-25-032947.jpg" alt="Sylar">
+          <p class="site-author-name" itemprop="name">Sylar</p>
+           
+              <p class="site-description motion-element" itemprop="description">一个不会iOS的搬砖工</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/swlfigo || github" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/swlfigo/Study/wiki || paper-plane" target="_blank" title="更多学习笔记">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                    
+                      更多学习笔记
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-创建私有库"><span class="nav-number">1.</span> <span class="nav-text">1. 创建私有库</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-资源文件引用的方式"><span class="nav-number">2.</span> <span class="nav-text">2.资源文件引用的方式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-resources"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 resources</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-resource-bundles"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 resource_bundles</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-Assets-xcassets"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 Assets.xcassets</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-Pod私有库素材管理"><span class="nav-number">3.</span> <span class="nav-text">3.Pod私有库素材管理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-resources-Assets-xcassets-方式"><span class="nav-number">3.1.</span> <span class="nav-text">3.1  resources + Assets.xcassets 方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-1-resource中-xcassets-中存在相同素材名字"><span class="nav-number">3.1.1.</span> <span class="nav-text">3.1.1 resource中 *.xcassets 中存在相同素材名字</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-2-resource中-xcassets-中与项目本身的-xcasset-存在相同素材名字"><span class="nav-number">3.1.2.</span> <span class="nav-text">3.1.2 resource中 .xcassets 中与项目本身的  .xcasset 存在相同素材名字</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-resource-bundles"><span class="nav-number">3.2.</span> <span class="nav-text">3.2  resource_bundles</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-利用特性对项目的扩展"><span class="nav-number">4.</span> <span class="nav-text">4 利用特性对项目的扩展</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Reference"><span class="nav-number">6.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sylar</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
