@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>Cocoapod中静态库与动态库 - Nevermore</title><meta description="最近在做一个需求时候，对 Cocoapod 有了一次新的理解，故做下笔记记录一下知识点.."><meta property="og:type" content="blog"><meta property="og:title" content="Cocoapod中静态库与动态库"><meta property="og:url" content="https://swlfigo.github.io/posts/6823/"><meta property="og:site_name" content="Nevermore"><meta property="og:description" content="最近在做一个需求时候，对 Cocoapod 有了一次新的理解，故做下笔记记录一下知识点.."><meta property="og:locale" content="en_US"><meta property="og:image" content="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190424155341.png"><meta property="og:image" content="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190428184441.png"><meta property="og:image" content="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190428184545.png"><meta property="article:published_time" content="2019-04-28T10:49:01.000Z"><meta property="article:modified_time" content="2021-04-12T10:15:44.837Z"><meta property="article:author" content="Sylar"><meta property="article:tag" content="iOS"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190424155341.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://swlfigo.github.io/posts/6823/"},"headline":"Nevermore","image":["https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190424155341.png","https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190428184441.png","https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190428184545.png"],"datePublished":"2019-04-28T10:49:01.000Z","dateModified":"2021-04-12T10:15:44.837Z","author":{"@type":"Person","name":"Sylar"},"description":"最近在做一个需求时候，对 Cocoapod 有了一次新的理解，故做下笔记记录一下知识点.."}</script><link rel="canonical" href="https://swlfigo.github.io/posts/6823/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css"><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script><meta name="generator" content="Hexo 5.1.1"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="Nevermore" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/swlfigo"><i class="fab fa-github"></i></a><a class="navbar-item search" title="Search" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta size-small is-uppercase level is-mobile"><div class="level-left"><span class="level-item">Posted&nbsp;<time dateTime="2019-04-28T10:49:01.000Z" title="2019-04-28T10:49:01.000Z">2019-04-28</time></span><span class="level-item">Updated&nbsp;<time dateTime="2021-04-12T10:15:44.837Z" title="2021-04-12T10:15:44.837Z">2021-04-12</time></span><span class="level-item"><a class="link-muted" href="/categories/iOS/">iOS</a></span><span class="level-item">31 minutes read (About 4707 words)</span></div></div><h1 class="title is-3 is-size-4-mobile">Cocoapod中静态库与动态库</h1><div class="content"><p>最近在做一个需求时候，对 <code>Cocoapod</code> 有了一次新的理解，故做下笔记记录一下知识点..</p>
+<a id="more"></a>
+
+<blockquote>
+<p>CocoaPods 是开发 OS X 和 iOS 应用程序的一个第三方库的依赖管理工具。利用 CocoaPods，可以定义自己的依赖关系 (称作 <code>pods</code>)，并且随着时间的变化，以及在整个开发环境中对第三方库的版本管理非常方便。</p>
+<p>CocoaPods 背后的理念主要体现在两个方面。首先，在工程中引入第三方代码会涉及到许多内容。在配置 build phases 和 linker flags 过程中，会引起许多人为因素的错误。CocoaPods 简化了这一切，它能够自动配置编译选项。</p>
+</blockquote>
+<p>以上是 <code>Cocoapod</code> 的一些介绍,所以可以理解成使用第三方库的工具</p>
+<p><code>iOS</code>中的<code>cocoapods</code>, 像 <code>node</code>中的 <code>npm+grunt</code>. <code>Android</code> 的 <code>gradle</code> </p>
+<p>以下代码是普通的项目中 <code>cocopod</code> 配置写法:</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#公共Pod仓库的索引,通过这个仓库里面的索引找到所有第三方库的github地址</span><br><span class="line">source <span class="string">&#x27;https://github.com/CocoaPods/Specs.git&#x27;</span></span><br><span class="line"></span><br><span class="line">platform :ios, <span class="string">&#x27;8.0&#x27;</span></span><br><span class="line"></span><br><span class="line">target <span class="string">&#x27;项目Target名字&#x27;</span> <span class="keyword">do</span></span><br><span class="line">    pod <span class="string">&#x27;MJExtension&#x27;</span></span><br><span class="line">		<span class="meta"># blablabla 一些第三方库依赖</span></span><br><span class="line"></span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+
+
+<p>通过在项目根目录下生成 <code>Podfile</code> 并运行 <code>pod install</code> 能为项目自动引入第三方依赖，方便快捷.</p>
+<blockquote>
+<p>再大的项目最初都是从 Xcode 提供的一个非常简单的工程模板慢慢演化来的。在项目的演化过程中，为了实现新的功能，不断有新的类被创建，新的代码被添加。不过除了自己添加代码，我们也经常会直接把第三方的开源代码导入到项目中，从而避免重复造轮子，节约开发时间。</p>
+</blockquote>
+<p>所以使用 Cocoapods 的好处有如下几个:</p>
+<ol>
+<li>避免直接导入文件的原始方式，方便后续代码升级</li>
+<li>简化、自动化集成流程，避免不必要的配置</li>
+<li>自动处理库的依赖关系</li>
+<li>简化开发者发布代码流程</li>
+</ol>
+<p>以上就是简单的对 <code>Cocoapod</code> 使用入门,下面就开始动态库与静态库研究</p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在 iOS 8 之前，iOS 平台不支持使用动态 Framework，开发者可以使用的 Framework 只有苹果自家的 UIKit.Framework，Foundation.Framework 等。这种限制可能是出于安全的考虑。换一个角度讲，因为 iOS 应用都是运行在沙盒当中，不同的程序之间不能共享代码，同时动态下载代码又是被苹果明令禁止的，没办法发挥出动态库的优势，实际上动态库也就没有存在的必要了。</p>
+<p>由于上面的限制，开发者想要在 iOS 平台共享代码，唯一的选择就是打包成静态库 .a 文件，同时附上头文件（例如微信的SDK）。但是这样的打包方式不够方便，使用时也比较麻烦，大家还是希望共享代码都能能像 Framework 一样，直接扔到工程里就可以用</p>
+<p>iOS 8/Xcode 6 推出之后，iOS 平台添加了动态库的支持，同时 Xcode 6 也原生自带了 Framework 支持（动态和静态都可以）.为什么 iOS 8 要添加动态库的支持？唯一的理由大概就是 Extension 的出现。Extension 和 App 是两个分开的可执行文件，同时需要共享代码，这种情况下动态库的支持就是必不可少的了。但是这种动态 Framework 和系统的 UIKit.Framework 还是有很大区别。系统的 Framework 不需要拷贝到目标程序中，我们自己做出来的 Framework 哪怕是动态的，最后也还是要拷贝到 App 中（App 和 Extension 的 Bundle 是共享的），因此苹果又把这种 Framework 称为 Embedded Framework（可植入性Framework）。</p>
+<p>划一下重点<code> Embedded Framework</code></p>
+<p>iOS 出现了<code>APP Extension</code>，<code>swift</code>编程语言也诞生了，由于 iOS 主 APP 需要和 Extension 共享代码，Swift 语言的机制也只能有动态库，于是提出了一个概念<code>Embedded Framework</code>，这种动态库允许<code>APP</code> 和 <code>APP Extension</code>共享代码，但是这份动态库的生命被限定在一个 APP 进程内。简单点可以理解为 <strong>被阉割的动态库</strong></p>
+<h1 id="动态库静态库"><a href="#动态库静态库" class="headerlink" title="动态库静态库"></a>动态库静态库</h1><p>静态库和动态库都是以二进制提供代码复用的代码库</p>
+<ul>
+<li><strong>动态库形式</strong>：.dylib和 .framework</li>
+<li><strong>静态库形式</strong>：.a 和 .framework</li>
+</ul>
+<h2 id="静态库和动态库的区别"><a href="#静态库和动态库的区别" class="headerlink" title="静态库和动态库的区别"></a>静态库和动态库的区别</h2><p><strong>静态库</strong>：链接时会被完整的复制到可执行文件中，所以如果两个程序都用了某个静态库，那么每个二进制可执行文件里面其实都含有这份静态库的代码</p>
+<p><strong>动态库</strong>： 链接时不复制，在程序启动后用 dyld 加载，然后再决议符号，所以理论上动态库只用存在一份，好多个程序都可以动态链接到这个动态库上面，达到了节省内存(不是磁盘是内存中只有一份动态库)，还有另外一个好处，由于动态库并不绑定到可执行程序上，所以我们想升级这个动态库就很容易，windows 和 linux 上面一般插件和模块机制都是这样实现的。</p>
+<p><img src="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190424155341.png"></p>
+<p>上图中的绿框表示app的可执行文件。</p>
+<p>在 iOS 平台上规定不允许存在动态库，并且所有的 IPA 都需要经过苹果爸爸的私钥加密后才能用，基本你用了动态库也会因为签名不对无法加载,所以 iOS8 之后就出现了上面的 <code>阉割版动态库 Embedded Framework</code></p>
+<p><code>.a</code>是一个纯二进制文件,<strong>不能包含其他的资源文件</strong>，<code>.framework</code>中除了有二进制文件之外还有资源文件。</p>
+<p><code>.a</code>文件不能直接使用，至少要有<code>.h</code>文件配合，<code>.framework</code>文件可以直接使用。</p>
+<p><code>.a</code> +<code> .h</code> + <code>sourceFile</code> =<code> .framework</code></p>
+<h1 id="静态库和动态库的加载"><a href="#静态库和动态库的加载" class="headerlink" title="静态库和动态库的加载"></a>静态库和动态库的加载</h1><p>编译: 将我们的源代码文件编译为目标文件</p>
+<p>链接: 将我们的各种目标文件加上一些第三方库，和系统库链接为可执行文件。</p>
+<p>由于某个目标文件的符号(可以理解为变量，函数等)可能来自其他目标文件，其实链接这一步最主要的操作就是 决议符号的地址。</p>
+<ul>
+<li>若符号来⾃静态库(本质就是.o 的集合包)或 .o，将其纳⼊链接产物，并确定符号地址</li>
+<li>若符号来⾃动态库，打个标记，等启动的时候再说—交给 dyld 去加载和链接符号</li>
+</ul>
+<p>于是链接加装载就有了不同的情况</p>
+<ol>
+<li>Load 装载：将库⽂件载⼊内存<ul>
+<li>Static Loading：启动时</li>
+<li>Dynamic Loading：启动后（使⽤时）</li>
+</ul>
+</li>
+<li>Link 链接：决议符号地址<ul>
+<li>Static Linking：构建（链接）时</li>
+<li>Dynamic Linking：运⾏时（启动时或使⽤时）</li>
+</ul>
+</li>
+</ol>
+<p>组合起来就是 2 * 2 = 4 了</p>
+<ol>
+<li>Static Loading + Static Linking</li>
+<li>Static Loading + Dynamic Linking</li>
+<li>Dynamic Loading + Dynamic Linking</li>
+<li><del>Dynamic Loading + Static Linking</del></li>
+</ol>
+<p>第一种是纯静态库相关了</p>
+<p>第二种就是静态加载(启动时)，动态链接 ，链接时，动态库参与链接，但是这时候只是给符号打了标记告诉我这个符号来自与动态库，程序启动时，iOS 或者 Mac OS 操作系统的 dyld 自动 load + link。既然全部都是自动的。那么符号的调用方完全不知道你到底是源码还是静态库，动态库 。</p>
+<p>第三种收到调用 dlopen + performSelector，由于不能上架，通常用于线下开发( 著名的 <code>Injection</code>)</p>
+<h1 id="动静态库对比"><a href="#动静态库对比" class="headerlink" title="动静态库对比"></a>动静态库对比</h1><p>Apple 官方推荐每个 App 使用 Dynamic Framework 的数量是 <a target="_blank" rel="noopener" href="https://developer.apple.com/videos/play/wwdc2016/406/">6 个</a>，这是有原因的。因为在 App 启动的时候，dyld 会load 这些动态库，这会造成启动时间的增加；而且动态库数量过多，还会在 iOS 9 的设备上造成 dyld 的 <a target="_blank" rel="noopener" href="https://github.com/artsy/eigen/issues/1246">crash</a>。</p>
+<p>但是，并不是全部达成静态库就很好，因为打成静态库，会导致包增大，所以需要根据项目来选择静态库还是动态库。目前来说，如果引入了 <code>swift</code> 库的话，基本 <code>cocoapod</code> 都打成了动态库, 不然无法编译，但是好像也有办法解决，比较麻烦，我的理解来说，当然一些简单功能实现，没必要使用第三方库.(维护是个问题，另外，使用第三方库，很多糅杂的类与方法不需要使用，导致以后启动速度变慢)，最好就是简单的功能，参考源码自己写一套。第一可以提高自己对源码，框架设计的理解，第二自己写的东西知道流程方便维护。当然一些经历了长时间迭代的框架库直接使用就行了(如 <code>AFNetworking</code> , <code>SD</code>等,没必要重复造轮子).</p>
+<p>当然还有一些特殊情况下是需要使用动态库的,如:</p>
+<p><code>iOS9</code> 以下对 <code>__text</code> 段 60M 的限制使用了动态库方案</p>
+<h2 id="自动化动静态库依赖历史"><a href="#自动化动静态库依赖历史" class="headerlink" title="自动化动静态库依赖历史"></a>自动化动静态库依赖历史</h2><h3 id="早期的项目"><a href="#早期的项目" class="headerlink" title="早期的项目"></a>早期的项目</h3><p>iOS开发早期未形成工程化的时候，是不存在所谓依赖管理的概念的，早期 iOS 开发如果想要使用第三方库，是非常繁琐的一件事情。</p>
+<ol>
+<li>将第三方库源代码复制到工程目录，或者使用 <code>git submodule</code> 将其作为项目的一个模块</li>
+<li>设置工程文件，添加第三方库依赖的系统库</li>
+<li>对于某些第三方库，可能需要设置一些编译选项（ etc. <code>-fno-objc-arc</code>）</li>
+<li>最后就是管理第三方库代码的更新</li>
+</ol>
+<p>iOS 开发终究还是很传统的 Unix 开发，直接把第三方库源代码抽离出来，打包成静态库就行了（PS：在 iOS 8 之前苹果只允许使用静态库，而 iOS 8 后就可以打包动态库了，当然，实际上是一样的。）。这样的话就不需要担心过多的源代码导入的繁琐，也不需要担心第三方库究竟需不需要编译选项，而且第三方库更新只需要更新静态库就行了</p>
+<h3 id="进化中的项目配置"><a href="#进化中的项目配置" class="headerlink" title="进化中的项目配置"></a>进化中的项目配置</h3><p>封装成静态库或动态库看起来确实美好了，方便快捷，这也是 Unix 下的解决方案。但是只要仔细一想，问题一大堆。</p>
+<ol>
+<li>某些第三方库很可能直接依赖另一项第三方库，依赖如果使用手工解决将会是很大的工作。</li>
+<li><strong>动态库不能用于 iOS 7 及以下版本</strong></li>
+<li>工程依旧需要设置依赖的系统库</li>
+<li>仍然需要手工更新第三方库版本</li>
+</ol>
+<p>对于 Unix 环境来说，动态库可以存放在系统默认搜索路径下，这样所有的应用都可以共享同一个内存副本，而且升级动态库的时候可以一起升级，不需要到各处寻找。但是 iOS 的动态库实际上是缩水的，因为苹果将动态库限制在了沙盒内部，其他 App 完全不能访问此动态库。这就限制了动态库的优点。还有一点原因就是指令集架构的不同，iOS 模拟器使用的是 x86 架构指令集，而真机则是 ARM64 等指令集，如果想要方便使用，最好需要打包通用架构的静态库，但是这是很繁琐的工作。<br>由于以上原因，手工封装静态库或者动态库实际上在项目小的时候是可以的，但是项目规模一旦扩大就会导致效率低下。</p>
+<h3 id="自动化依赖时代"><a href="#自动化依赖时代" class="headerlink" title="自动化依赖时代"></a>自动化依赖时代</h3><p>为了能够自动化流水作业，就引出了依赖包管理的概念，也就是 Cocoapods。Cocoapods 本质上还是上面所说的封装动态库静态库，但是它解决的最大问题就是依赖管理。开发者不需要从 Github 的地方辛苦的寻找代码，只需要一条命令，就能下载整合第三方库。</p>
+<p>至于为什么可以自动化依赖，这里不做更多叙述可以阅读文章 :  <a target="_blank" rel="noopener" href="https://juejin.im/entry/59dd94b06fb9a0451463030b">Cocoapods原理总结 </a></p>
+<p>上面说了一下历史进程，下面说下一些坑</p>
+<h2 id="静态库的坑"><a href="#静态库的坑" class="headerlink" title="静态库的坑"></a>静态库的坑</h2><p>在使用 <code>静态库</code> 打包组件或者第三方库时候,有时候会遇到相同名字的函数，会在调用相同方法时候，有时候会出现崩溃,因为，在 link 静态库时候，linker 会把它需要的东西复制到可执行文件中，在 Static Library 中的函数符号出现在了最后的 binary 中（T 代表全局代码段符号），但由于这两个函数的名字都是 <code>test</code>，最终只有一个函数实现被合并进去了（有点像 <code>Category</code>方法覆盖）。具体可以阅读下方 [1] 的链接</p>
+<h2 id="Cocoapod使用动静态库"><a href="#Cocoapod使用动静态库" class="headerlink" title="Cocoapod使用动静态库"></a>Cocoapod使用动静态库</h2><p>在 <code>podfile</code> 中使用 添加 <code>use_frameworks!    </code> 即可将所有第三方库打包成动态库,不添加的话就是打包成静态库(<strong>注:暂时来说如果使用了第三方swift库，一定需要打成静态库!</strong>),如果你的第三方库里面包含了静态库，(如什么百度地图，微信等那些,比较难解决了)</p>
+<p>暂时了解到(2019.04.28), 有几种操作:</p>
+<ol>
+<li>在 <code>cocoapod1.5.0</code> 版本之后，不使用  <code>use_frameworks!    </code>,使用 <code>use_modular_headers!</code>打成静态库. 然后其他 <code>oc</code> 库后面需要添加 <code>:modular_headers =&gt; false</code> , 如 : <code>pod &#39;YYKit&#39;,:modular_headers =&gt; false</code></li>
+<li>将静态库重新包一层动态库来使用, <strong>先挖个坑</strong>，迟点看有没有时间做个 <code>Demo</code>，原理如下</li>
+</ol>
+<h2 id="静态库和动态库依赖关系"><a href="#静态库和动态库依赖关系" class="headerlink" title="静态库和动态库依赖关系"></a>静态库和动态库依赖关系</h2><p>第一种静态库互相依赖，这种情况非常常见，制作静态库的时候<strong>只需要有被依赖的静态库头文件在就能编译出来</strong>。但是这就意味者你要收到告诉使用者你的依赖关系。</p>
+<p>第二种动态库依赖动态库，<strong>两个动态库是相互隔离的具有隔离性</strong>。在制作的静态库的时候需要被依赖动态库参与链接，最终具体的符号决议交给dyld来做。</p>
+<p>第三种，静态库依赖动态库，也很常见，静态库制作的时候也需要动态库参与链接，但是符号的决议交给dyld来做。</p>
+<p>第四种，动态库依赖静态库，这种情况就有点特殊。首先我们设想动态库编译的时候需要静态库参与编译，但是静态库交由dyld来做符号决议，这和我们前面说的就矛盾了啊。<strong>静态库本质是一堆.o 的打包体，首先并不是二进制可执行文件，再者你无法保证主程序把静态库参与链接共同生成二进制可执行文件。</strong></p>
+<p>利用动态库解决相关问题</p>
+<h3 id="处理多个动态库依赖一个静态库问题"><a href="#处理多个动态库依赖一个静态库问题" class="headerlink" title="处理多个动态库依赖一个静态库问题"></a>处理多个动态库依赖一个静态库问题</h3><p>通过前面我们知道可执文件（主程序或者动态库）在构建的链接阶段，<strong>遇到静态库，吸附进来；遇到动态库，打标记，彼此保持独立。</strong></p>
+<p>正因为动态库是保持独立的，那么我们可以自定义一个动态库把依赖的静态库吸附进来。<strong>对外整体呈现的是动态库特性。其他的组件依赖我们自定义的动态库，由于隔离性的存在，不会出现问题。</strong></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>通过上面的研究与资料收集，动静态区别可以归纳成下面表格</p>
+<p>动态库和静态库的区别如下</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>动态库</th>
+<th>静态库</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>命名空间</td>
+<td>有单独的命名空间,不同库同名文件不会冲突 使用import&lt;XXX/xxx.h&gt;的方式引入</td>
+<td>没有单独命名空间,同名文件冲突 引入方式import”xxx.h”</td>
+</tr>
+<tr>
+<td>加载时机</td>
+<td>在启动时加载,加载时间较长</td>
+<td>构建时加载</td>
+</tr>
+<tr>
+<td>依赖关系</td>
+<td>可以依赖动态库,不能依赖静态库</td>
+<td>可以依赖动态库和静态库</td>
+</tr>
+<tr>
+<td>是否能使用swift</td>
+<td>可以包含swift文件</td>
+<td>在cocoapods1.4.0之后,可以使用use_framework!的方式包含swift文件 framework支持static_framework</td>
+</tr>
+</tbody></table>
+<p>根据不同项目合理选用技术是必要的，在我看来，由于项目中必定存在第三方，其实少量第三方使用动态库，对启动速度影响并不是太大的，可以放心使用动态库。由于swift不支持静态库，未来也会出现更多第三方swift库，与其将swift库静态化，还不如将静态库动态化(静态库上套多一层 .framework)来实现组件化</p>
+<p>另外可以通过 <code>file</code>这个命令判断库是静态库还是动态库</p>
+<p><img src="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190428184441.png"></p>
+<p>是 .framework 里面的可执行文件才能执行这个</p>
+<p><img src="https://sylarimage.oss-cn-shenzhen.aliyuncs.com/20190428184545.png"></p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a target="_blank" rel="noopener" href="https://zhaoxinyu.me/2018-04-14-what-happends-if-two-frameworks-defines-same-c-functions/">1.两个 Framework 中如果定义了相同名字的 C 函数会发生什么？</a></p>
+<p><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000005041357">2.理解Cocoapods</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/4e0fd0214152">3.iOS动态库、静态库及使用场景、方式</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.im/post/5a323c035188257dd239abc2">4.iOS 动态库和静态库简介</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhaoxinyu.me/2018-04-28-cocoapods-1-5/">5.升级 CocoaPods 1.5，使用 Swift Static Framework</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.valiantcat.cn/index.php/2017/04/24/45.html">*6.组件化-动态化实践</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/3d0ae289dee0">7.cocoapods的静态库和动态库</a></p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>Cocoapod中静态库与动态库</p><p><a href="https://swlfigo.github.io/posts/6823/">https://swlfigo.github.io/posts/6823/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>Author</h6><p>Sylar</p></div></div><div class="level-item is-narrow"><div><h6>Posted on</h6><p>2019-04-28</p></div></div><div class="level-item is-narrow"><div><h6>Updated on</h6><p>2021-04-12</p></div></div><div class="level-item is-narrow"><div><h6>Licensed under</h6><p><a class="icon" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a><a class="icon" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a><a class="icon" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags size-small mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/iOS/">iOS</a></div><div class="sharethis-inline-share-buttons"></div><script src="//platform-api.sharethis.com/js/sharethis.js#property=5e09772c1fb40b0012b7b886&amp;product=inline-share-buttons&amp;cms=sop" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">Like this article? Support the author with</h3><div class="buttons is-centered"><a class="button is-success donate"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>Wechat</span><span class="qrcode"><img src="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-12-30-032948.png" alt="Wechat"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/posts/db98/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">ipa 在线下载安装方法（itms-services）</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/posts/68fd/"><span class="level-item">GCD学习</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">Comments</h3><div class="content" id="valine-thread"></div><script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js"></script><script>new Valine({
+            el: '#valine-thread' ,
+            appId: "qwfDlFFyjoqLxsvp6wMSrQrN-gzGzoHsz",
+            appKey: "RTXYfbUeLWuXXJe9cjRX7fJC",
+            placeholder: "Type something slowly...",
+            avatar: "mm",
+            
+            meta: ["nick","mail","link"],
+            pageSize: 10,
+            lang: "en",
+            
+            highlight: true,
+            
+            
+            
+            
+            
+            requiredFields: [],
+        });</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar" src="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-07-25-032947.jpg" alt="Sylar"></figure><p class="title is-size-4 is-block line-height-inherit">Sylar</p><p class="is-size-6 is-block">一个不会iOS的搬砖工</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>GuangZhou,China</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">Posts</p><a href="/archives"><p class="title">30</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">Categories</p><a href="/categories"><p class="title">6</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">Tags</p><a href="/tags"><p class="title">6</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/swlfigo" target="_blank" rel="noopener">Follow</a></div><div class="level is-mobile"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/swlfigo"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Instagram" href="https://www.instagram.com/sylar.su/"><i class="fab fa-instagram"></i></a></div></div></div><!--!--><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">Links</h3><ul class="menu-list"><li><a class="level is-mobile is-mobile" href="http://roadmap.isylar.com/" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">iOS-RoadMap</span></span><span class="level-right"><span class="level-item tag">roadmap.isylar.com</span></span></a></li><li><a class="level is-mobile is-mobile" href="http://tech.isylar.com/" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Tech-Tips</span></span><span class="level-right"><span class="level-item tag">tech.isylar.com</span></span></a></li></ul></div></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">Categories</h3><ul class="menu-list"><li><a class="level is-mobile is-marginless" href="/categories/Hackintosh/"><span class="level-start"><span class="level-item">Hackintosh</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/Hexo/"><span class="level-start"><span class="level-item">Hexo</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/Metal/"><span class="level-start"><span class="level-item">Metal</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/Note/"><span class="level-start"><span class="level-item">Note</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/iOS/"><span class="level-start"><span class="level-item">iOS</span></span><span class="level-end"><span class="level-item tag">20</span></span></a><ul class="mr-0"><li><a class="level is-mobile is-marginless" href="/categories/iOS/ReactiveCocoa/"><span class="level-start"><span class="level-item">ReactiveCocoa</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li></ul></div></div></div><div class="card widget"><div class="card-content"><h3 class="menu-label">Recents</h3><article class="media"><div class="media-content size-small"><p><time dateTime="2021-04-12T10:09:02.000Z">2021-04-12</time></p><p class="title is-6"><a class="link-muted" href="/posts/undefined/">hackintoshEthernetProblem</a></p><p class="is-uppercase"></p></div></article><article class="media"><a class="media-left" href="/posts/2178376574/"><p class="image is-64x64"><img class="fill" src="/gallery/gcd-in-swift-thumbnail.jpeg" alt="gcd-in-swift"></p></a><div class="media-content size-small"><p><time dateTime="2020-09-21T09:15:48.000Z">2020-09-21</time></p><p class="title is-6"><a class="link-muted" href="/posts/2178376574/">gcd-in-swift</a></p><p class="is-uppercase"></p></div></article><article class="media"><a class="media-left" href="/posts/4106057131/"><p class="image is-64x64"><img class="fill" src="https://images.unsplash.com/photo-1581878811201-7d951612a47d?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=2134&amp;q=80" alt="bitcode"></p></a><div class="media-content size-small"><p><time dateTime="2020-02-16T11:31:55.000Z">2020-02-16</time></p><p class="title is-6"><a class="link-muted" href="/posts/4106057131/">bitcode</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/iOS/">iOS</a></p></div></article><article class="media"><a class="media-left" href="/posts/2261601169/"><p class="image is-64x64"><img class="fill" src="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2020-02-05-135324.jpg" alt="iOS LaunchScreen 适配与缓存踩坑"></p></a><div class="media-content size-small"><p><time dateTime="2020-02-05T13:54:30.000Z">2020-02-05</time></p><p class="title is-6"><a class="link-muted" href="/posts/2261601169/">iOS LaunchScreen 适配与缓存踩坑</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/iOS/">iOS</a></p></div></article><article class="media"><a class="media-left" href="/posts/3684286012/"><p class="image is-64x64"><img class="fill" src="http://sylarimage.oss-cn-shenzhen.aliyuncs.com/2019-12-30-092847.jpg" alt="iOS-NSDate"></p></a><div class="media-content size-small"><p><time dateTime="2019-11-19T06:39:15.000Z">2019-11-19</time></p><p class="title is-6"><a class="link-muted" href="/posts/3684286012/">iOS-NSDate</a></p><p class="is-uppercase"></p></div></article></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">Archives</h3><ul class="menu-list"><li><a class="level is-mobile is-marginless" href="/archives/2021/04/"><span class="level-start"><span class="level-item">April 2021</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2020/09/"><span class="level-start"><span class="level-item">September 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2020/02/"><span class="level-start"><span class="level-item">February 2020</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2019/11/"><span class="level-start"><span class="level-item">November 2019</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2019/10/"><span class="level-start"><span class="level-item">October 2019</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2019/09/"><span class="level-start"><span class="level-item">September 2019</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2019/04/"><span class="level-start"><span class="level-item">April 2019</span></span><span class="level-end"><span class="level-item tag">21</span></span></a></li></ul></div></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">Tags</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/Hackintosh/"><span class="tag">Hackintosh</span><span class="tag is-grey-lightest">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Hexo/"><span class="tag">Hexo</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Metal/"><span class="tag">Metal</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Note/"><span class="tag">Note</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/ReactiveCocoa/"><span class="tag">ReactiveCocoa</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/iOS/"><span class="tag">iOS</span><span class="tag is-grey-lightest">20</span></a></div></div></div></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">Subscribe for updates</h3><form action="https://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow" onsubmit="window.open(&#039;https://feedburner.google.com/fb/a/mailverify?uri=&#039;,&#039;popupwindow&#039;,&#039;scrollbars=yes,width=550,height=520&#039;);return true"><input type="hidden" value="" name="uri"><input type="hidden" name="loc" value="en_US"><div class="field has-addons"><div class="control has-icons-left is-expanded"><input class="input" name="email" type="email" placeholder="Email"><span class="icon is-small is-left"><i class="fas fa-envelope"></i></span></div><div class="control"><input class="button is-primary" type="submit" value="Subscribe"></div></div></form></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="Nevermore" height="28"></a><p class="size-small"><span>&copy; 2021 Sylar</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Follow me on GitHub" href="https://github.com/swlfigo"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" async></script><script>moment.locale("en");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="Back to top" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="Type something..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"Type something...","untitled":"(Untitled)","posts":"Posts","pages":"Pages","categories":"Categories","tags":"Tags"});
+        });</script><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"live2d-widget-model-wanko"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":true}});</script></body></html>
